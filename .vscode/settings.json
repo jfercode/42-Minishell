@@ -4,6 +4,8 @@
 		"unistd.h": "c",
 		"readline.h": "c",
 		"history.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"stat.h": "c",
+		"stdlib.h": "c"
 	}
 }

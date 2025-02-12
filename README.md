@@ -1,5 +1,35 @@
 # 42-Minishell
 
+## Index
+[Funciones](#funciones)
+
+- [Gestión de memoria](#1-gestión-de-memoria-️)
+
+- [Salida estandar](#2-salida-estándar-️)
+
+- [Manejo de archivos](#3-manejo-de-archivos-)
+
+- [Manejo de errores](#4-manejo-de-errores-️)
+
+- [Gestión de procesos](#5-gestión-de-procesos-)
+
+- [Señales](#6-señales-)
+
+- [Manejo de entrade de usuario](#7-manejo-de-entrada-de-usuario-)
+
+- [Directorios](#8-directorios-)
+
+- [Información de archivos](#9-información-de-archivos-️)
+
+- [Duplicación de descriptores de archivo](#10-duplicación-de-descriptores-de-archivo-)
+
+- [Terminal y TTY](#11-terminal-y-tty-)
+
+- [Variables de entorno](#12-variables-de-entorno-)
+
+<!-- - [Configuracion de la terminal](#13-configuración-de-la-terminal-termcapterminfo-️) -->
+
+
 ## Funciones
 
 ### 1. Gestión de memoria 🗂️ 
@@ -26,7 +56,7 @@ int main()
 ### 2. Salida Estándar 🖨️ 
 **`write`**(int fd, const void *buf, size_t count): Escribe `count` bytes desde `buf` hacia el descriptor de archivo `fd`.
 
-```sh
+```c
 #include <unistd.h>
 
 int main() 
@@ -48,12 +78,10 @@ int main()
 }
 ```
 
-
-
-### 4. Manejo de Archivos 🔐
+### 3. Manejo de Archivos 🔐
 **`access(const char *pathname, int mode)`**: Verifica permisos de acceso a un archivo (lectura, escritura, ejecución).
 
-```sh
+```c
 #include <unistd.h>
 #include <stdio.h>
 
@@ -149,7 +177,7 @@ int	main(void)
 }
 ```
 
-### 5. Manejo de Errores ⚠️
+### 4. Manejo de Errores ⚠️
 **`strerror(int errnum)`**: Devuelve una cadena descriptiva del error asociado con 
 `errnum`.
 
@@ -186,7 +214,7 @@ int main(void)
 }
 ```
 
-### 6. Gestión de procesos 👥
+### 5. Gestión de procesos 👥
 **`fork()`**: Crea un nuevo proceso `(hijo)` duplicando el proceso actual.
 ```c
 #include <unistd.h>
@@ -234,7 +262,7 @@ int	main(void)
 ```
 
 **`execve(const char *pathname, char *const argv[], char *const envp[])`**: Reemplaza el proceso actual con uno nuevo.
-```sh
+```c
 #include <unistd.h>
 #include <stdio.h>
 
@@ -263,7 +291,7 @@ int	main(void)
 }
 ```
 
-### 7. Señales 🚦
+### 6. Señales 🚦
 
 **`signal(int signum, void (*handler)(int))`**: Establece un manejador para una señal específica.
 
@@ -323,7 +351,7 @@ int	main(void)
 ```
 
 **`kill(pid_t pid, int sig)`**: Envía una señal sig a un proceso pid.
-```sh
+```c
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h> 
@@ -357,9 +385,9 @@ int main()
 }
 ```
 
-### 8. Manejo de entrada de usuario 📚
+### 7. Manejo de entrada de usuario 📚
 
-- **`readline(const char *prompt)`**: Lee una línea desde la entrada estándar con una interfaz interactiva (permite edición de línea, historial, etc.).
+**`readline(const char *prompt)`**: Lee una línea desde la entrada estándar con una interfaz interactiva (permite edición de línea, historial, etc.).
 
 ```c
 #include <unistd.h> 
@@ -367,8 +395,7 @@ int main()
 
 int main(void) 
 {
-	char	*line;#include <stdio.h>
-
+	char	*line;
 	line = readline("Input line> ");
 	if (!line)
 	{
@@ -380,7 +407,7 @@ int main(void)
 }
 ```
 
-- **`add_history(const char *line)`**: Añade la línea leída al historial de comandos.
+**`add_history(const char *line)`**: Añade la línea leída al historial de comandos.
 
 ```c
 #include <unistd.h> 
@@ -408,7 +435,7 @@ int main(void)
 }
 ```
 
-- **`rl_clear_history()`**: Limpia el historial de comandos almacenado en la sesión actual.
+**`rl_clear_history()`**: Limpia el historial de comandos almacenado en la sesión actual.
 
 ```c
 #include <unistd.h> 
@@ -437,9 +464,11 @@ int main(void)
 }
 ```
 
-- **`rl_on_new_line()`**: Informa a readline que se ha iniciado una nueva línea.
-- **`rl_replace_line(const char *text, int clear_undo)`**: Reemplaza el contenido actual de la línea por `text`.
-- **`rl_redisplay()`**: Vuelve a mostrar la línea actual en el terminal.
+**`rl_on_new_line()`**: Informa a readline que se ha iniciado una nueva línea.
+
+**`rl_replace_line(const char *text, int clear_undo)`**: Reemplaza el contenido actual de la línea por `text`.
+
+**`rl_redisplay()`**: Vuelve a mostrar la línea actual en el terminal.
 
 ```c
 #include <stdio.h>
@@ -470,63 +499,143 @@ int	main(void)
 }
 ```
 
-### 9. Directorios 📁
-- **`getcwd(char *buf, size_t size)`**: Obtiene el directorio de trabajo actual.
+### 8. Directorios 📁
+**`getcwd(char *buf, size_t size)`**: Obtiene el directorio de trabajo actual.
 
 ```c
 #include <unistd.h>
 #include <stdio.h>
 
-int main() 
+int	main(void)
 {
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)))
-        printf("Actual directory: %s\n", cwd);
-    return 0;
+	char	cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)))
+		printf("Actual directory: %s\n", cwd);
+	else
+		perror("Error: failed getcwd");
+	return (0);
 }
 ```
-- **`chdir(const char *path)`**: Cambia el directorio de trabajo actual.
-opendir(const char *name): Abre un directorio y devuelve un puntero al mismo.
-- **`readdir(DIR *dirp)`**: Lee la siguiente entrada de un directorio abierto.
-- **`closedir(DIR *dirp)`**: Cierra un directorio abierto.
+**`chdir(const char *path)`**: Cambia el directorio de trabajo actual.
+
 ```c
 #include <unistd.h>
 #include <stdio.h>
-
-int main() 
+int	main(void)
 {
-    chdir("..");
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
-    printf("New actual directory: %s\n", cwd);
-    return 0;
+	char	cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)))
+		printf("Actual directory: %s\n", cwd);
+	else
+		perror("Error: failed getcwd");
+		
+	chdir("/home/");
+	printf("New directory: %s\n", getcwd(cwd, sizeof(cwd)));
+	return (0);
 }
 ```
 
-### 10. Información de Archivos 🗃️
-- **`stat(const char *path, struct stat *buf)`**: Obtiene información del archivo.
-- **`lstat(const char *path, struct stat *buf)`**: Igual que `stat`, pero sigue enlaces simbólicos.
-- **`fstat(int fd, struct stat *buf)`**: Obtiene información del archivo usando su descriptor de archivo.
+**`opendir(const char *name)`**: Abre un directorio y devuelve un puntero al mismo.
+
+**`readdir(DIR *dirp)`**: Lee la siguiente entrada de un directorio abierto.
+
+**`closedir(DIR *dirp)`**: Cierra un directorio abierto.
+
 ```c
-#include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <dirent.h>
 
-int main() 
+int	main(void)
 {
-    struct stat info;
-    if (stat("File.txt", &info) == 0)
-        printf("Size: %ld bytes\n", info.st_size);
-    else
-        perror("stat");
-    return 0;
+	DIR				*dir;
+	struct dirent	*ent;
+	
+	dir = opendir(".");
+	if (!dir)
+	{
+		perror("Error: failed opendir");
+		return(EXIT_FAILURE);
+	}
+	while (1)
+	{
+		ent = readdir(dir);
+		if (!ent)
+			break ;
+		printf("%s\n", ent->d_name);
+	}
+	closedir(dir);
+	return (0);
 }
 ```
 
+### 9. Información de Archivos 🗃️
 
+**`stat(const char *path, struct stat *buf)`**: Obtiene información del archivo.
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/stat.h>  
+
+int	main(void)
+{
+	struct stat info;
+
+	if (stat("file.txt", &info) == 0)
+		printf("Size: %ld bytes\n", info.st_size);
+	else
+		perror("Error stat failed");
+	return (0);
+}
+```
+
+**`lstat(const char *path, struct stat *buf)`**: Igual que `stat`, pero sigue enlaces simbólicos.
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/stat.h>  
+
+int	main(void)
+{
+	struct stat info;
+
+	if (lstat("file.txt", &info) == 0)
+		printf("Size: %ld bytes\n", info.st_size);
+	else
+		perror("Error stat failed");
+	return (0);
+}
+```
+**`fstat(int fd, struct stat *buf)`**: Obtiene información del archivo usando su descriptor de archivo.
+
+```c
+#include <stdio.h>
+#include <fcntl.h> 
+#include <unistd.h>
+#include <sys/stat.h>  
+
+int	main(void)
+{
+	int			fd;
+	struct stat info;
+	
+	fd = open("file.txt", O_RDONLY);
+	if (fstat(0, &info) == 0)
+		printf("Size: %ld bytes\n", info.st_size);
+	else
+		perror("Error stat failed");
+	close(fd);
+	return (0);
+}
+```
 
 ### 10. Duplicación de Descriptores de Archivo 🔗
-- **`dup(int oldfd)`**: Duplica un descriptor de archivo.
-- **`dup2(int oldfd, int newfd)`**: Duplica `oldfd` en `newfd`, cerrando `newfd` si está abierto.
+
+**`dup(int oldfd)`**: Duplica un descriptor de archivo.
+
 ```c
 #include <unistd.h>
 #include <fcntl.h>
@@ -534,27 +643,140 @@ int main()
 
 int main() 
 {
-    int fd = open("out.txt", O_WRONLY | O_CREAT, 0644);
-    dup2(fd, STDOUT_FILENO);
-    printf("Text redirected to 'out.txt'\n");
-    close(fd);
-    return 0;
+	int fd_original;
+
+	fd_original = open("original_file.txt", O_WRONLY | O_CREAT, 0644);
+	printf("Duplicated fd\n");
+	close(fd_original);
+	return 0;
+}
+```
+
+**`dup2(int oldfd, int newfd)`**: Duplica `oldfd` en `newfd`, cerrando `newfd` si está abierto.
+
+```c
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+int main() 
+{
+	int fd_new;
+	int fd_original;
+
+	fd_original = open("original_file.txt", O_WRONLY | O_CREAT, 0644);
+	fd_new = open("new_file.txt", O_WRONLY | O_CREAT, 0644);
+	printf("Duplicated fd\n");
+	if (!dup2(fd_new, fd_original))
+		perror("Error: failed dup2");
+	close(fd_original);
+	close(fd_new);
+	return (0);
 }
 ```
 
 ### 11. Terminal y TTY 📞
-- **`isatty(int fd)`**: Verifica si un descriptor de archivo es un terminal.
-- **`ttyname(int fd)`**: Devuelve el nombre del terminal asociado al descriptor `fd`.
-- **`ttyslot()`**: Devuelve el número de terminal de la sesión actual.
-ioctl(int fd, unsigned long request, ...): Controla dispositivos I/O.
+
+**`isatty(int fd)`**: Verifica si un descriptor de archivo es un terminal.
+
+```c
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+int	main(void)
+{
+	if (isatty(STDIN_FILENO))
+		printf("STDIN is a terminal.\n");
+	else
+		printf("STDIN is not a terminal.\n");
+	return (0);
+}
+```
+
+**`ttyname(int fd)`**: Devuelve el nombre del terminal asociado al descriptor `fd`.
+
+```c
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+int	main(void)
+{
+	if (isatty(STDIN_FILENO))
+		printf("%s is a terminal.\n", ttyname(STDIN_FILENO));
+	else
+		printf("STDIN is not a terminal.\n");
+	return (0);
+}
+```
+
+**`ttyslot()`**: Devuelve el número de terminal de la sesión actual.
+
+```c
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+int	main(void)
+{
+	printf("%d is a terminal.\n", ttyslot());
+	return (0);
+}
+```
+
+**`ioctl(int fd, unsigned long request, ...):`** Controla dispositivos I/O.
+
+```c
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+
+int	main(void)
+{
+	struct winsize	w;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1)
+	{
+		perror("Error: failed ioctl");
+		return(1);
+	}
+	printf("Size of terminal: %d rows, %d colums\n", w.ws_row, w.ws_col);
+	return (0);
+}
+```
 
 ### 12. Variables de Entorno 🌍
-- **`getenv(const char *name)`**: Obtiene el valor de una variable de entorno.
 
+**`getenv(const char *name)`**: Obtiene el valor de una variable de entorno.
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int	main(void)
+{
+	char	*path;
+
+	path = getenv("HOME");
+	if (path!= NULL)
+		printf("System HOME: %s\n", path);
+	else
+		printf("Variable HOME not defined\n");
+	return(0);
+}
+```
+<!-- 
 ### 13. Configuración de la Terminal (termcap/terminfo) 🎛️
-- **`tcsetattr(int fd, int optional_actions, const struct termios *termios_p)`**: Configura los atributos de la terminal.
-- **`tcgetattr(int fd, struct termios *termios_p)`**: Obtiene los atributos de la terminal.
-- **`tgetent(char *bp, const char *name)`**: Inicializa la base de datos de capacidades de la terminal.
-- **`tgetflag(char *id)`**, **`tgetnum(char *id)`**, **`tgetstr(char *id, char **area)`**: Obtienen diferentes tipos de capacidades de la terminal.
-- **`tgoto(const char *cap, int col, int row)`**: Calcula la secuencia de control para moverse en la terminal.
-- **`tputs(const char *str, int affcnt, int (*putc)(int))`**: Imprime cadenas de control en la terminal.
+
+**`tcgetattr(int fd, struct termios *termios_p)`**: Obtiene los atributos de la terminal.
+
+**`tcsetattr(int fd, int optional_actions, const struct termios *termios_p)`**: Configura los atributos de la terminal.
+
+**`tgetent(char *bp, const char *name)`**: Inicializa la base de datos de capacidades de la terminal.
+
+**`tgetflag(char *id)`**, **`tgetnum(char *id)`**, **`tgetstr(char *id, char **area)`**: Obtienen diferentes tipos de capacidades de la terminal.
+
+**`tgoto(const char *cap, int col, int row)`**: Calcula la secuencia de control para moverse en la terminal.
+
+**`tputs(const char *str, int affcnt, int (*putc)(int))`**: Imprime cadenas de control en la terminal. -->
