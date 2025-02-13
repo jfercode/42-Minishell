@@ -2,7 +2,7 @@
 
 ## Index
 [Funciones](#funciones)
-
+.
 - [Gestión de memoria](#1-gestión-de-memoria-️)
 
 - [Salida estandar](#2-salida-estándar-️)
@@ -15,7 +15,7 @@
 
 - [Señales](#6-señales-)
 
-- [Manejo de entrade de usuario](#7-manejo-de-entrada-de-usuario-)
+- [Manejo de entrada de usuario](#7-manejo-de-entrada-de-usuario-)
 
 - [Directorios](#8-directorios-)
 
@@ -385,7 +385,7 @@ int main()
 }
 ```
 
-### 7. Manejo de entrada de usuario 📚
+### 7. Manejo de entrada de usuario 📚./
 
 **`readline(const char *prompt)`**: Lee una línea desde la entrada estándar con una interfaz interactiva (permite edición de línea, historial, etc.).
 
@@ -417,7 +417,7 @@ int main(void)
 
 int main(void) 
 {
-	char	*input
+	char	*input;
 
 	input = readline("History> ");
 	if (input) 
@@ -430,7 +430,7 @@ int main(void)
 		write(stderr, "Error: failed to read the line.\n", 34);
 		exit (EXIT_FAILURE);
 	}
-	free(line);
+	free(input);
 	return (0);
 }
 ```
