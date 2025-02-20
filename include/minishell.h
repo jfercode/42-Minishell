@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/13 15:37:18 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:51:10 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,26 @@
 
 extern bool	g_running;
 
+/* NODE TYPE ENUM*/
+typedef enum e_type
+{
+	ARG,
+	FILE_NAME,
+	CMD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+}	t_type;
+
+/* ABSTRACT SYNTAX TREE STRUCT*/
+typedef struct s_ast
+{
+	t_type			type;
+	char			**node;
+	struct s_ast	*left;
+	struct s_sat	*rigth;
+}	t_ast;
+
 /*SIGNALS BEHAVIOUR*/
 void	ft_handle_sigint(int sig);
 void	ft_handle_sigterm(int sig);
@@ -45,5 +65,13 @@ void	ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*ERROR HANDLING*/
 void	ft_error_exit(const char *error_msg);
+
+/* TOKENIZATION */
+t_ast	*create_ast(char **line);
+t_ast	*create_node(t_type node_type, char **args,
+			t_ast *left, t_ast *right);
+
+/* PARSE INPUT */
+int	parsing_line(char *line);
 
 #endif /*MINISHELL_H*/

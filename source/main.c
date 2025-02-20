@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/13 16:08:38 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:59:33 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,30 @@ int	main(void)
 {
 	char	*line;
 
-	while (g_running)
+	// while (g_running)
+	// {
+	// 	line = readline(GREEN"Gigachell> "RST);
+	// 	if (!line)
+	// 	{
+	// 		printf("Leaving Gigachell...\n");
+	// 		break;
+	// 	}
+	// 	else if (*line)
+	// 		add_history(line);
+	// 	free (line);	
+	// }
+	// rl_clear_history();
+	
+	line = readline("");
+	char **matrix = ft_split(line, ' ');
+	int	i = 0;
+	while (matrix[i])
 	{
-		line = readline(GREEN"Gigachell> "RST);
-		if (!line)
-		{
-			printf("Leaving Gigachell...\n");
-			break;
-		}
-		else if (*line)
-			add_history(line);
-		free (line);	
+		printf("%s\n", matrix[i]);
+		free(matrix[i]);
+		i++;
 	}
-	rl_clear_history();
+	free(matrix);
+	free(line);
 	return (0);
 }

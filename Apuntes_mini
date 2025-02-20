@@ -1,44 +1,88 @@
-/*
-REPL
--> READ
--> EVAL
--> PRINT / EXEC
--> LOOP
+#
+# REPL
+# -> READ
+# -> EVAL
+# -> PRINT / EXEC
+# -> LOOP
 
-1- Line -> Contar palabras -> Matriz
-2- Analisis
-	2.1 cmd (PROGRAMAS DE BASH)
-		|-> token (-)
-		--> argumentos
-	2.2 cmd built in
-		|-> echo con -n
-		|-> cd
-		|-> pwd
-		|-> export
-	2.2 ./ 
-		|-> ./ programa ¿COMO EJECUTAR?
-		--> directorios
-	2.3  caracteres especiales
-		|-> comillas - Cerradas
-		|	|-> simples ('')
-		|	|-> dobles ("") excepto $
-		--> redirecciones
-		|	|-> <	redirigir input
-		|	|-> >	redirigir out
-		|	|-> <<	debe recibir un delimitador, después leer del input de la fuente actual
-		|	|		hasta que una línea que contenga solo el delimitador aparezca. Sin embargo,
-		|	|		no necesita actualizar el historial.
-		|	--> >>	modo append
-		-> $
-		|	|-> Variables de entorno
-		|	--> $ + ?
-		--> pipes
+# 1- Line -> Contar palabras -> Matriz
+# 2- Analisis
+# 	2.1 cmd (PROGRAMAS DE BASH)
+# 		|-> token (-)
+# 		--> argumentos
+# 	2.2 cmd built in
+# 		|-> echo con -n
+# 		|-> cd
+# 		|-> pwd
+# 		|-> export
+# 	2.2 ./ 
+# 		|-> ./ programa ¿COMO EJECUTAR?
+# 		--> directorios
+# 	2.3  caracteres especiales
+# 		|-> comillas - Cerradas
+# 		|	|-> simples ('')
+# 		|	|-> dobles ("") excepto $
+# 		--> redirecciones
+# 		|	|-> <	redirigir input
+# 		|	|-> >	redirigir out
+# 		|	|-> <<	debe recibir un delimitador, después leer del input de la fuente actual
+# 		|	|		hasta que una línea que contenga solo el delimitador aparezca. Sin embargo,
+# 		|	|		no necesita actualizar el historial.
+# 		|	--> >>	modo append
+# 		-> $
+# 		|	|-> Variables de entorno
+# 		|	--> $ + ?
+# 		--> pipes
 
-3-	Parseo en la matriz asignar que es cada cosa
+# EJEMPLO DE PARSEO Y TOKENIZACIÓN
+
+# AST
+# 			 	[ROOT]						|->		[&&, ||, ;, |, <, >, >>, <<, CMD, FILE, ARGUMENT]  
+#                 │  						|->				              │  							
+#        ┌────────┴────────┐  				|->				     ┌────────┴────────┐  					
+#        │                 │  				|->				     │                 │  					
+#    [Logical Op]      [Sequence (;)]  		|->				 [&&, ||]			  [;]
+#        │                 │  				|->				     │                 │  					
+#    ┌───┴───┐         ┌───┴───┐  			|->				 ┌───┴───┐         ┌───┴───┐  				
+#    [Pipe (|)]    [Redirections (>, <)]  	|->					[|]			 [<, >, <<, >>]
+#        │                 │  				|->				     │                 │  					
+#    ┌───┴───┐         ┌───┴───┐  			|->				 ┌───┴───┐         ┌───┴───┐  				
+#    [Command]      [File / Argument]  		|->				[CMD]  [CMD]	[FILE]	[ARGUMENT]
+
+
+# line = ls -l | grep txt > out.txt && echo "done"
+
+# 						(&&)
+# 						/	\
+# 					  (|)	echo "done"
+# 					  / \
+# 				(ls -l)	(grep txt)
+
+# 3-	Parseo en la matriz asignar que es cada cosa
 	
-4-	EXECUCIÓN
+# 4-	EXECUCIÓN
 
-5-	LOOPEAR
+# 5-	LOOPEAR
 		
-Historial -> GUARDAR EN UN ARCHIVO Y RELEER CUANDO SE RE EJECUTE
- */
+# Historial -> GUARDAR EN UN ARCHIVO Y RELEER CUANDO SE RE EJECUTE
+
+
+# line = ls -l | grep txt > out.txt
+# 
+#  	-> left (|)
+#	|		|  -> left ls -l
+#	|		|  ->	right grep txt		
+# >	|		
+#	|		
+# 	-> right out.txt
+# 	
+# line = ls -l > out.txt
+# 
+#	  |-> left ls -l
+#	> |
+#	  |-> right out.txt
+
+# line = echo "done hello world"
+
+#	echo 
+# */
