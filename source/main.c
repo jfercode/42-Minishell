@@ -6,14 +6,14 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/20 19:07:14 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:55:14 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 bool		g_running = true;
-void		error(char *line);
+char		**split_line(char *line);
 
 static void	ft_start_gigachell(void)
 {
@@ -25,6 +25,7 @@ static void	ft_start_gigachell(void)
 // LINE IS GOING TO BE OUR TEXT TO TOKENIZE
 int	main(void)
 {
+	char	**matrix;
 	char	*line;
 
 	while (g_running)
@@ -37,119 +38,62 @@ int	main(void)
 		}
 		else if (*line)
 			add_history(line);
-		error(line);
-		free(line);
+		if(syntax_error(line))
+			return (1);
+		matrix = split_line(line);
+		for (int i = 0; matrix[i]; i++)
+			printf("matrix[%d]: %s\n", i, matrix[i]);
+		//free(line);
 	}
 	rl_clear_history();
 	return (0);
 }
 
-// typedef struct s_lst
-// {
-// 	char	*type;
-// 	char	*value;
-// 	t_lst	*next;
-// }	t_lst;
+char **split_line(char *line) 
+{
+    char **matrix = NULL;
+    int count = 0;
+    int i = 0;
 
-// void error(char *line)
-// {
-// 	t_lst *list;
-// 	list = malloc(sizeof(t_list));
-// 	char **matrix = ft_split(line, ' ');
-// 	int i = 0;
-// 	while(matrix[i])
-// 	{
-// 		list->value = matrix[i];
-// 		list->next = NULL;
-
-
-// 		i++;
-// 		list = list->next;
-// 	}
-// }
-
-// else
-// {
-// 	while (end + 1 > start)
-// 	{
-// 		matrix[start] = ft_strjoin(matrix[start], " ");
-// 		matrix[start] = ft_strjoin(matrix[start], matrix[start + 1]);
-// 		matrix[start + 1] = matrix[start + 1 + j];
-// 		end--;
-// 		j++;
-// 	}
-// 	i = 0;
-// 	while (matrix[i])
-// 	{
-// 		matrix[start + 1] = matrix[start + 1 + i];
-// 		i++;
-// 	}
-// }
-
-// void	error(char *line)
-// {
-// 	char	**matrix;
-// 	char	**matwo;
-// 	int		i;
-// 	int		quote;
-// 	int		start;
-// 	int		end;
-// 	int		j;
-
-// 	matrix = ft_split(line, ' ');
-// 	i = 0;
-// 	quote = 0;
-// 	start = 0;
-// 	end = 0;
-// 	while (matrix[i])
-// 	{
-// 		if (matrix[i][0] == '"' || matrix[i][0] == "'")
-// 		{
-// 			quote++;
-// 			start = i;
-// 		}
-// 		if (matrix[i][ft_strlen(matrix[i]) - 1] == '"' \
-// 			|| matrix[i][ft_strlen(matrix[i]) - 1] == "'")
-// 		{
-// 			quote++;
-// 			end = i;
-// 		}
-// 		i++;
-// 	}
-// 	matwo = malloc(i + 1);
-// 	j = 0;
-// 	if (quote % 2 != 0)
-// 	{
-// 		printf(":/");
-// 		exit(1);
-// 	}
-// 	else
-// 	{
-// 		i = 0;
-// 		j = 0;
-// 		while (matrix[j])
-// 		{
-// 			printf("i: %d, j: %d\n", i, j);
-// 			if (i == start)
-// 			{
-// 				while (start < end) // could be an ft_strint
-// 				{
-// 					//ambas asignaciones fallan, crean segfault
-// 					matwo[i] = ft_strjoin(matrix[j], ' ');
-// 					matwo[i] = ft_strjoin(matwo[i], matrix[j]);
-// 					start++;
-// 					j++;
-// 				}
-// 			}
-// 			matwo[i] = matrix[j];
-// 			i++;
-// 			j++;
-// 		}
-// 	}
-// 	i = 0;
-// 	while (matwo[i])
-// 	{
-// 		printf("line %d: %s\n", i, matwo[i]);
-// 		i++;
-// 	}
-// }
+    while (line[i])
+    {
+        if (line[i] == ' ')
+            count++;
+        i++;
+    }
+    matrix = malloc(count + sizeof(char));
+    i = 0;
+    count = 0;
+    while (line[i])
+    {
+        while (line[i] == ' ')
+            line++;
+        if (line[i] == '\0') 
+            break;
+        char quote = 0;
+        if (line[i] == '"' || line[i] == '\'') 
+            quote = line[i]; // guardar el tipo de comilla y avanzar
+        int start = i++; 
+        if (quote) // avanza hasta sigueinte comilla
+        {
+            while(line[i] != quote && line[i])
+                i++;
+			i++;
+        }
+        else
+        {
+            while(line[i] != ' ' && line[i])
+                i++;
+        }
+        int length = i - start;
+        if (quote && line[i] == quote)  
+            i++; // Saltar la comilla de cierre
+        matrix[count] = ft_substr(line, start, length);
+        matrix[count][length] = '\0';
+        count++;
+        while (line[i] == ' ')
+            i++; // Saltar espacios después de la palabra
+    }
+    matrix[count] = NULL;
+    return matrix;
+}
