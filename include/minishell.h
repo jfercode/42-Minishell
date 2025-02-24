@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/21 16:45:12 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:40:35 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,28 @@
 # define BLUE "\033[1;34m"
 # define GREEN "\033[1;32m"
 
-extern bool	g_running;
+extern bool		g_running;
 
 /*SIGNALS BEHAVIOUR*/
-void		ft_handle_sigint(int sig);
-void		ft_handle_sigterm(int sig);
-void		ft_handle_sigquit(int sig);
-void		ft_signal(int signo, void *handler, bool use_siginfo);
+void			ft_handle_sigint(int sig);
+void			ft_handle_sigterm(int sig);
+void			ft_handle_sigquit(int sig);
+void			ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*ERROR HANDLING*/
-void		ft_error_exit(const char *error_msg);
-int			syntax_error(char *line);
-int			open_quotes(char *line);
-int			invalid_redir(char *line);
-int			invalid_op(const char *line);
+void			ft_error_exit(const char *error_msg);
+
+int				syntax_error(char *line);
+int				open_quotes(char *line);
+int				invalid_redir(char *line);
+int				invalid_op(char *line);
+int				special_chars(char *line);
+
+/*MATRIX HANDLING*/
+char			get_quote(char ch);
+unsigned int	count_words(char *line);
+int				read_until(char *line, int i, char quote);
+int				omit_spaces(char *line, int i);
+char			**split_line(char *line);
 
 #endif /*MINISHELL_H*/

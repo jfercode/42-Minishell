@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/02/21 17:04:17 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:35:14 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,16 @@
 int	syntax_error(char *line)
 {
 	if (open_quotes(line))
-	{
-		printf("Error: unclosed quote\n");
-		return (1);
-	}
+		printf("syntax error: unclosed quote\n");
 	if (invalid_redir(line))
-	{
 		printf("syntax error near unexpected token\n");
-		return (1);
-	}
 	if (invalid_op(line))
-	{
-		printf("Error: invalid operation\n");
-		return (1);
-	}
+		printf("syntax error near unexpected token\n");
+	if (special_chars(line))
+		printf("syntax error: special characters not suported\n");
 	return (0);
 }
+
 
 int	open_quotes(char *line)
 {
@@ -62,21 +56,12 @@ int	open_quotes(char *line)
 int	invalid_redir(char *line)
 {
 	char	ch;
-	int		single_quotes;
-	int		double_quotes;
 	int		i;
 
 	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
 	while (line[i])
 	{
-		if (line[i] == 34)
-			double_quotes++;
-		else if (line[i] == 39)
-			single_quotes++;
-		if ((!(single_quotes % 2) && !(double_quotes % 2)) && (line[i] == '>'
-				|| line[i] == '<'))
+		if (line[i] == '>' || line[i] == '<')
 		{
 			ch = line[i];
 			i++;
@@ -95,26 +80,18 @@ int	invalid_redir(char *line)
 	return (0);
 }
 
-int	invalid_op(const char *line)
+int	invalid_op(char *line)
 {
 	int next_cmd;
-	int single_quotes;
-	int double_quotes;
 	int i;
 
 	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
 	next_cmd = 0;
 	if (line[i] == '|' || line[i] == '&')
 		return (1);
 	while (line[i])
 	{
-		if (line[i] == 34)
-			double_quotes++;
-		else if (line[i] == 39)
-			single_quotes++;
-		if (line[i] == '|' && !(single_quotes % 2) && !(double_quotes % 2))
+		if (line[i] == '|')
 		{
 			if (next_cmd)
 				return (1);
@@ -127,4 +104,14 @@ int	invalid_op(const char *line)
 	if (next_cmd)
 		return (1);
 	return (0);
+}
+
+// no interpretar caracteres especiales no especificados (\, ;, :, _, ?, ¿ , ´;)
+// no interpretar metacaracteres entre comillas * + ? $ ^ . () | \ {} [
+// so like, what does this mean? just leave them as chars? simple as?
+// si se debe interpretar $ excepto dentro de comilllas simples
+
+int	special_chars(char *line)
+{
+	
 }
