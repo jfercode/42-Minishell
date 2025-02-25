@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/25 17:05:56 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:49:12 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct s_ast
 	char			**args;
 	struct	s_ast	*left;
 	struct	s_ast	*right;
-	struct	s_ast	*root;
 }					t_ast;
 
 /*SIGNALS BEHAVIOUR*/

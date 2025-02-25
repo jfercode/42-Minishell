@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/25 17:16:23 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:30:24 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,15 @@ t_ast	*create_ast(char **tokens)
 	i = 0;
 	while (tokens[i])
 	{
+
 		type = get_token_type(tokens[i]);
 		if (type == NODE_CMD)
-		{
-			new_node = create_node(&tokens[i], i);
-			// if (!root)
-			// 	root = new_node;
-			// else if (current && current->type != NODE_CMD)
-			// 	current->right = new_node;
-			// current = new_node;
-		}
+			new_node = create_node(tokens, &i);
 		else if (type == NODE_PIPE)
-		{
-			new_node = create_node(&tokens[i], &i);
-			// new_node->left = root;
-			// root = new_node;
-			// current = new_node;
-		}
+			new_node = create_node(tokens, &i);
 		else if (type == NODE_REDIR_OUT || type == NODE_REDIR_APPEND)
-		{
-			new_node = create_node(&tokens[i], &i);
-			// if (current)
-			// 	current->right = new_node;
-			// i++;
-		}
-		i++;
+			new_node = create_node(tokens, &i);
+		print_node(new_node);
 	}
 	return (root);
 }
@@ -90,28 +74,30 @@ t_ast	*create_node(char **args, int *indx)
 {
 	t_ast	*node;
 	int		i;
+	int		j;
 
-	i = &indx;
+	i = *indx;
+	j = 0;
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
-	node->type = get_token_type(args[0]);
-	while (args[i] && get_token_type(args[i]) != NODE_CMD)
-		i++;
-	node->args = malloc(sizeof(char *) * (i + 1));
+	node->type = get_token_type(args[i]);
+	if (node->type == NODE_CMD)
+		while (args[i] && get_token_type(args[i]) == NODE_CMD)
+			i++;
+	else
+		i = *indx + 1;
+	node->args = malloc(sizeof(char *) * (i - *indx + 1));
 	if (!node->args)
+		return (free(node), NULL);
+	while (*indx < i)
 	{
-		free(node);
-		return (NULL);
+		node->args[j] = ft_strdup(args[(*indx)]);
+		(*indx)++;
+		j++;
 	}
-	while (args[*indx])
-	{
-		node->args[*indx] = ft_strdup(args[*indx]);
-		*indx++;
-	}
-	node->args[i] = NULL;
+	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
-	node->root = NULL;
 	return (node);
 }
