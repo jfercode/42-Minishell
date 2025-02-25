@@ -78,6 +78,9 @@
 # 	
 # line = ls -l > out.txt
 # 
+
+# ("ls", "-l", ">", "out.txt")
+
 #	  |-> left ls -l
 #	> |
 #	  |-> right out.txt

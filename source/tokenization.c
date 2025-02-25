@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/20 18:56:40 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:16:23 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,45 +27,91 @@
 
 */
 
-static t_type	get_token_type(char	*token)
+t_node_type	get_token_type(char	*token)
 {
 	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
-		return (PIPE);
+		return (NODE_PIPE);
+	else if (ft_strncmp(token, "<<", ft_strlen(token) == 0))
+		return (NODE_HEREDOC);
 	else if (ft_strncmp(token, "<", ft_strlen(token)) == 0)
-		return (REDIR_IN);
+		return (NODE_REDIR_IN);
 	else if (ft_strncmp(token, ">", ft_strlen(token)) == 0)
-		return (REDIR_OUT);
-	else if (ft_strncmp(token, "<", ft_strlen(token)) == 0)
-		return (REDIR_IN);
-	else return (CMD);	
+		return (NODE_REDIR_OUT);
+	else if (ft_strncmp(token, ">>", ft_strlen(token)) == 0)
+		return (NODE_REDIR_APPEND);
+	else
+		return (NODE_CMD);
 }
-
-/*	To do: NECESITO MOVERME EN LA LISTA ENLAZADA PARA 
-ASIGNAR LOS VALORES DEL AST */
-t_ast	*create_ast(char **tokenizated_line)
+// 1º Creación Nodo
+// 2º Sincronización / validación root
+// 3º Enganchar left / right
+t_ast	*create_ast(char **tokens)
 {
-	t_ast	*current;
-	t_ast	*left;
+	t_ast		*root;
+	t_ast		*new_node;
+	t_ast		*current;
+	t_node_type	type;
+	int			i;
 
-	current = *tokenizated_line;
-	left = NULL;
-	while (current)
+	root = NULL;
+	i = 0;
+	while (tokens[i])
 	{
-		// CREACIÓN DE NODOS Y RAMAS DEL AST
+		type = get_token_type(tokens[i]);
+		if (type == NODE_CMD)
+		{
+			new_node = create_node(&tokens[i], i);
+			// if (!root)
+			// 	root = new_node;
+			// else if (current && current->type != NODE_CMD)
+			// 	current->right = new_node;
+			// current = new_node;
+		}
+		else if (type == NODE_PIPE)
+		{
+			new_node = create_node(&tokens[i], &i);
+			// new_node->left = root;
+			// root = new_node;
+			// current = new_node;
+		}
+		else if (type == NODE_REDIR_OUT || type == NODE_REDIR_APPEND)
+		{
+			new_node = create_node(&tokens[i], &i);
+			// if (current)
+			// 	current->right = new_node;
+			// i++;
+		}
+		i++;
 	}
+	return (root);
 }
 
-t_ast	*create_node(t_type node_type, char **args,
-			t_ast *left, t_ast *right)
+t_ast	*create_node(char **args, int *indx)
 {
 	t_ast	*node;
-	
+	int		i;
+
+	i = &indx;
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
-	node->type = get_token_type(args);
-	node->node = args;
-	node->left = left;
-	node->rigth = right;
+	node->type = get_token_type(args[0]);
+	while (args[i] && get_token_type(args[i]) != NODE_CMD)
+		i++;
+	node->args = malloc(sizeof(char *) * (i + 1));
+	if (!node->args)
+	{
+		free(node);
+		return (NULL);
+	}
+	while (args[*indx])
+	{
+		node->args[*indx] = ft_strdup(args[*indx]);
+		*indx++;
+	}
+	node->args[i] = NULL;
+	node->right = NULL;
+	node->left = NULL;
+	node->root = NULL;
 	return (node);
 }

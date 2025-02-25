@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/20 17:59:33 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:47:25 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,43 @@ static void	ft_start_gigachell()
 	ft_signal(SIGQUIT, SIG_IGN, false);
 }
 
-// LINE IS GOING TO BE OUR TEXT TO TOKENIZE
-int	main(void)
-{
-	char	*line;
+// // LINE IS GOING TO BE OUR TEXT TO TOKENIZE
+// int	main(void)
+// {
+// 	char	*line;
 
-	// while (g_running)
-	// {
-	// 	line = readline(GREEN"Gigachell> "RST);
-	// 	if (!line)
-	// 	{
-	// 		printf("Leaving Gigachell...\n");
-	// 		break;
-	// 	}
-	// 	else if (*line)
-	// 		add_history(line);
-	// 	free (line);	
-	// }
-	// rl_clear_history();
+// 	// while (g_running)
+// 	// {
+// 	// 	line = readline(GREEN"Gigachell> "RST);
+// 	// 	if (!line)
+// 	// 	{
+// 	// 		printf("Leaving Gigachell...\n");
+// 	// 		break;
+// 	// 	}
+// 	// 	else if (*line)
+// 	// 		add_history(line);
+// 	// 	free (line);	
+// 	// }
+// 	// rl_clear_history();
 	
-	line = readline("");
-	char **matrix = ft_split(line, ' ');
-	int	i = 0;
-	while (matrix[i])
-	{
-		printf("%s\n", matrix[i]);
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-	free(line);
-	return (0);
+// 	// line = readline("");
+// 	// char **matrix = ft_split(line, ' ');
+// 	// int	i = 0;
+// 	// while (matrix[i])
+// 	// {
+// 	// 	printf("%s\n", matrix[i]);
+// 	// 	free(matrix[i]);
+// 	// 	i++;
+// 	// }
+// 	// free(matrix);
+// 	return (0);
+// }
+
+int main(void) 
+{
+	char *tokens[] = {"echo", "hello", "|", "grep", "h", ">", "output.txt", NULL};
+
+	t_ast *ast = create_ast(tokens);
+	print_node(ast->root);
+	return (EXIT_SUCCESS);
 }

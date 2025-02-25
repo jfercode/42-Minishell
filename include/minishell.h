@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/20 18:51:10 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:05:56 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,24 @@ extern bool	g_running;
 /* NODE TYPE ENUM*/
 typedef enum e_type
 {
-	ARG,
-	FILE_NAME,
-	CMD,
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-}	t_type;
+	NODE_CMD,
+	NODE_PIPE,
+	NODE_HEREDOC,
+	NODE_REDIR_IN,
+	NODE_REDIR_OUT,
+	NODE_REDIR_APPEND,
+	// NODE_LOGICAL_OP
+}	t_node_type;
 
 /* ABSTRACT SYNTAX TREE STRUCT*/
 typedef struct s_ast
 {
-	t_type			type;
-	char			**node;
-	struct s_ast	*left;
-	struct s_sat	*rigth;
-}	t_ast;
+	t_node_type		type;
+	char			**args;
+	struct	s_ast	*left;
+	struct	s_ast	*right;
+	struct	s_ast	*root;
+}					t_ast;
 
 /*SIGNALS BEHAVIOUR*/
 void	ft_handle_sigint(int sig);
@@ -68,10 +70,14 @@ void	ft_error_exit(const char *error_msg);
 
 /* TOKENIZATION */
 t_ast	*create_ast(char **line);
-t_ast	*create_node(t_type node_type, char **args,
-			t_ast *left, t_ast *right);
+t_ast	*create_node(char **args, int *indx);
+
+t_node_type	get_token_type(char	*token);
 
 /* PARSE INPUT */
-int	parsing_line(char *line);
+int		parsing_line(char *line);
+
+/*	UTILS	*/
+void	print_node(t_ast *node);
 
 #endif /*MINISHELL_H*/
