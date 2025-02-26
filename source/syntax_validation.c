@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/02/25 18:58:04 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:39:07 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	syntax_error(char *line)
 		printf("syntax error near unexpected token\n");
 	if (special_chars(line))
 		printf("syntax error: special characters not suported\n");
-	printf("syntax alright\n");
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/24 18:40:35 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:30:31 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int				invalid_op(char *line);
 int				special_chars(char *line);
 
 /*MATRIX HANDLING*/
-char			get_quote(char ch);
-unsigned int	count_words(char *line);
 int				read_until(char *line, int i, char quote);
 int				omit_spaces(char *line, int i);
-char			**split_line(char *line);
+char			**split_line(char **matrix, char *line);
+char			**create_matrix(char *line);
+char			**handle_meta(char **matrix);
 
 #endif /*MINISHELL_H*/
