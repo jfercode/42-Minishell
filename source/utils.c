@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/25 16:30:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:58:57 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,43 @@ void	print_node(t_ast *node)
 			i++;
 		}
 	}
+}
+
+void	print_ast(t_ast *root, int level)
+{
+	int				i;
+	t_ast			*current;
+
+	current = root;
+	i = 0;
+	while (i < level)
+	{
+		printf("\t");
+		i++;
+	}
+	print_node(current);
+	printf("\n");
+	if (current->left)
+	{
+		i = 0;
+		while (i < level)
+		{
+			printf("\t");
+			i++;
+		}
+		printf(BLUE"Left:\n"RST);
+		print_ast(current->left, level + 1);
+	}
+	else if (current->right)
+	{
+		i = 0;
+		while (i < level)
+		{
+			printf("\t");
+			i++;
+		}
+		printf(BLUE"Left:\n"RST);
+		print_ast(current->right, level + 1);
+	}
+
 }

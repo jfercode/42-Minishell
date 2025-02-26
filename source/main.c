@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/25 19:31:53 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:59:36 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ int main(void)
 	char *tokens[] = {"echo", "hello",  "world fuck", "|", "grep", "h", ">", "output.txt", NULL};
 
 	t_ast *ast = create_ast(tokens);
+	print_ast (ast->root, 0);
 	return (EXIT_SUCCESS);
 }

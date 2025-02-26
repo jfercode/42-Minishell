@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/25 19:30:24 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:59:43 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,28 @@ t_ast	*create_ast(char **tokens)
 	t_ast		*root;
 	t_ast		*new_node;
 	t_ast		*current;
-	t_node_type	type;
 	int			i;
 
 	root = NULL;
+	current = NULL;
 	i = 0;
 	while (tokens[i])
 	{
-
-		type = get_token_type(tokens[i]);
-		if (type == NODE_CMD)
+		if (get_token_type(tokens[i]) == NODE_CMD)
+		{
 			new_node = create_node(tokens, &i);
-		else if (type == NODE_PIPE)
+			if (!root)
+				root = new_node;
+			else if (current && current->type != NODE_CMD)
+				current->right = new_node;
+		}
+		else
+		{
 			new_node = create_node(tokens, &i);
-		else if (type == NODE_REDIR_OUT || type == NODE_REDIR_APPEND)
-			new_node = create_node(tokens, &i);
-		print_node(new_node);
+			new_node->left = root;
+			root = new_node;
+		}
+		current = new_node;
 	}
 	return (root);
 }
