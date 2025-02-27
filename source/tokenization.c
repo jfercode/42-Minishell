@@ -6,32 +6,26 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/26 18:59:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:50:54 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/* TO DO TOkenization with scheme: 
-		 	[ROOT]					
-                │  					
-       ┌────────┴────────┐  			
-       │                 │  			
-   [Logical Op]      [Sequence (;)]  	
-       │                 │  			
-   ┌───┴───┐         ┌───┴───┐  		
-   [Pipe (|)]    [Redirections (>, <)]
-       │                 │  			
-   ┌───┴───┐         ┌───┴───┐  		
-   [Command]      [File / Argument]  	
-
-*/
-
+/**
+ * @brief Determines the type of node based on the given token.
+ *
+ * This function compares the provided token with predefined symbols
+ * and returns the corresponding node type.
+ *
+ * @param token A null-terminated string representing a token.
+ * @return The corresponding node type as a t_node_type enumeration.
+ */
 t_node_type	get_token_type(char	*token)
 {
 	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
 		return (NODE_PIPE);
-	else if (ft_strncmp(token, "<<", ft_strlen(token) == 0))
+	else if (ft_strncmp(token, "<<", ft_strlen(token)) == 0)
 		return (NODE_HEREDOC);
 	else if (ft_strncmp(token, "<", ft_strlen(token)) == 0)
 		return (NODE_REDIR_IN);
@@ -42,9 +36,18 @@ t_node_type	get_token_type(char	*token)
 	else
 		return (NODE_CMD);
 }
-// 1º Creación Nodo
-// 2º Sincronización / validación root
-// 3º Enganchar left / right
+
+/**
+ * @brief Creates an Abstract Syntax Tree (AST) from a list of tokens.
+ *
+ * This function iterates through the given tokens and constructs an AST
+ * by linking nodes based on their token types. Command nodes are added
+ * as leaves, while operator nodes (such as pipes or redirections) are
+ * placed as intermediate nodes.
+ *
+ * @param tokens A null-terminated array of strings representing tokens.
+ * @return A pointer to the root of the constructed AST.
+ */
 t_ast	*create_ast(char **tokens)
 {
 	t_ast		*root;
@@ -57,25 +60,33 @@ t_ast	*create_ast(char **tokens)
 	i = 0;
 	while (tokens[i])
 	{
-		if (get_token_type(tokens[i]) == NODE_CMD)
+		new_node = create_node(tokens, &i);
+		if (new_node->type == NODE_CMD)
 		{
-			new_node = create_node(tokens, &i);
-			if (!root)
-				root = new_node;
-			else if (current && current->type != NODE_CMD)
+			if (current && current->type != NODE_CMD)
 				current->right = new_node;
 		}
 		else
-		{
-			new_node = create_node(tokens, &i);
 			new_node->left = root;
+		if (!root || new_node->type != NODE_CMD)
 			root = new_node;
-		}
 		current = new_node;
 	}
 	return (root);
 }
 
+/**
+ * @brief Creates a new AST node from the given arguments.
+ *
+ * This function allocates memory for a new AST node and determines its type
+ * based on the provided tokens. If the node is a command, it collects all
+ * consecutive command tokens. Otherwise, it handles a single operator token.
+ *
+ * @param args A null-terminated array of strings representing tokens.
+ * @param indx A pointer to the current index in the token array, updated as 
+ * tokens are processed.
+ * @return A pointer to the newly created AST node, or NULL if allocation fails.
+ */
 t_ast	*create_node(char **args, int *indx)
 {
 	t_ast	*node;
@@ -97,11 +108,7 @@ t_ast	*create_node(char **args, int *indx)
 	if (!node->args)
 		return (free(node), NULL);
 	while (*indx < i)
-	{
-		node->args[j] = ft_strdup(args[(*indx)]);
-		(*indx)++;
-		j++;
-	}
+		node->args[j++] = ft_strdup(args[(*indx)++]);
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;

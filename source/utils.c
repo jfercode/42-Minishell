@@ -6,12 +6,20 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/26 18:58:57 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:53:57 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/**
+ * @brief Prints information about a given AST node.
+ *
+ * This function prints the type of the node and its associated tokens.
+ * It uses color-coded output for readability.
+ *
+ * @param node Pointer to the AST node to print.
+ */
 void	print_node(t_ast *node)
 {
 	int	i;
@@ -41,6 +49,15 @@ void	print_node(t_ast *node)
 	}
 }
 
+/**
+ * @brief Recursively prints the structure of an AST.
+ *
+ * This function traverses the AST and prints each node along with its
+ * left and right children. It helps visualize the tree structure.
+ *
+ * @param root Pointer to the root of the AST.
+ * @param level Current depth level in the AST (used for indentation).
+ */
 void	print_ast(t_ast *root, int level)
 {
 	int				i;

@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/26 18:59:36 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:54:00 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,32 @@ static void	ft_start_gigachell()
 	ft_signal(SIGQUIT, SIG_IGN, false);
 }
 
-// // LINE IS GOING TO BE OUR TEXT TO TOKENIZE
+// LINE IS GOING TO BE OUR TEXT TO TOKENIZE
 // int	main(void)
 // {
 // 	char	*line;
 
-// 	// while (g_running)
-// 	// {
-// 	// 	line = readline(GREEN"Gigachell> "RST);
-// 	// 	if (!line)
-// 	// 	{
-// 	// 		printf("Leaving Gigachell...\n");
-// 	// 		break;
-// 	// 	}
-// 	// 	else if (*line)
-// 	// 		add_history(line);
-// 	// 	free (line);	
-// 	// }
-// 	// rl_clear_history();
-	
-// 	// line = readline("");
-// 	// char **matrix = ft_split(line, ' ');
-// 	// int	i = 0;
-// 	// while (matrix[i])
-// 	// {
-// 	// 	printf("%s\n", matrix[i]);
-// 	// 	free(matrix[i]);
-// 	// 	i++;
-// 	// }
-// 	// free(matrix);
-// 	return (0);
+// 	while (g_running)
+// 	{
+// 		line = readline(GREEN"Gigachell> "RST);
+// 		if (!line)
+// 		{
+// 			printf("Leaving Gigachell...\n");
+// 			break;
+// 		}
+// 		else if (*line)
+// 			add_history(line);
+// 		free (line);	
+// 	}
+// 	rl_clear_history();
+// 	return (EXIT_SUCCESS);
 // }
 
-int main(void) 
-{
-	char *tokens[] = {"echo", "hello",  "world fuck", "|", "grep", "h", ">", "output.txt", NULL};
-
-	t_ast *ast = create_ast(tokens);
-	print_ast (ast, 0);
-	return (EXIT_SUCCESS);
-}
+// // -> MAIN TO TEST TOKENIZATION
+// int	main (void)
+// {	
+// 	char *tokens[] = {"echo", "hello",  "world fuck", "|", "grep", "h", ">", "output.txt", NULL};
+// 	t_ast *ast = create_ast(tokens);
+// 	print_ast (ast, 0);
+// 	return(EXIT_SUCCESS);
+// }

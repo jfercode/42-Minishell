@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/26 18:59:15 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:20:47 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,30 @@ typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
-	struct	s_ast	*left;
-	struct	s_ast	*right;
+	struct s_ast	*left;
+	struct s_ast	*right;
 }					t_ast;
 
 /*SIGNALS BEHAVIOUR*/
-void	ft_handle_sigint(int sig);
-void	ft_handle_sigterm(int sig);
-void	ft_handle_sigquit(int sig);
-void	ft_signal(int signo, void *handler, bool use_siginfo);
+void		ft_handle_sigint(int sig);
+void		ft_handle_sigterm(int sig);
+void		ft_handle_sigquit(int sig);
+void		ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*ERROR HANDLING*/
-void	ft_error_exit(const char *error_msg);
+void		ft_error_exit(const char *error_msg);
 
 /* TOKENIZATION */
-t_ast	*create_ast(char **line);
-t_ast	*create_node(char **args, int *indx);
+t_ast		*create_ast(char **line);
+t_ast		*create_node(char **args, int *indx);
 
 t_node_type	get_token_type(char	*token);
 
 /* PARSE INPUT */
-int		parsing_line(char *line);
+int			parsing_line(char *line);
 
 /*	UTILS	*/
-void	print_node(t_ast *node);
-void	print_ast(t_ast *root, int level);
-
+void		print_node(t_ast *node);
+void		print_ast(t_ast *root, int level);
 
 #endif /*MINISHELL_H*/

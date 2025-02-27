@@ -6,15 +6,8 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:38:54 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/13 14:54:18 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:21:52 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_readline()
-{
-	char	*buff;
-	size_t	bufsize;
-
-}
