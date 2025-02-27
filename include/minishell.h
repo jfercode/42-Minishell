@@ -56,7 +56,6 @@ typedef struct s_ast
 	char			**args;
 	struct	s_ast	*left;
 	struct	s_ast	*right;
-	struct	s_ast	*root;
 }					t_ast;
 
 /*SIGNALS BEHAVIOUR*/

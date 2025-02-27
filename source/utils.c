@@ -48,34 +48,15 @@ void	print_ast(t_ast *root, int level)
 
 	current = root;
 	i = 0;
-	while (i < level)
-	{
-		printf("\t");
-		i++;
-	}
 	print_node(current);
-	printf("\n");
 	if (current->left)
 	{
-		i = 0;
-		while (i < level)
-		{
-			printf("\t");
-			i++;
-		}
-		printf(BLUE"Left:\n"RST);
+		printf(BLUE"left:\n"RST);
 		print_ast(current->left, level + 1);
 	}
-	else if (current->right)
+	if (current->right)
 	{
-		i = 0;
-		while (i < level)
-		{
-			printf("\t");
-			i++;
-		}
-		printf(BLUE"Left:\n"RST);
+		printf(BLUE"right:\n"RST);
 		print_ast(current->right, level + 1);
 	}
-
 }

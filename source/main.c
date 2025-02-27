@@ -58,6 +58,6 @@ int main(void)
 	char *tokens[] = {"echo", "hello",  "world fuck", "|", "grep", "h", ">", "output.txt", NULL};
 
 	t_ast *ast = create_ast(tokens);
-	print_ast (ast->root, 0);
+	print_ast (ast, 0);
 	return (EXIT_SUCCESS);
 }
