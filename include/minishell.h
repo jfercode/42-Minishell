@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/27 16:20:47 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:00:29 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ void		ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*ERROR HANDLING*/
 void		ft_error_exit(const char *error_msg);
+
+/*HEREDOC HANDLING*/
+int			ft_handle_here_doc(char *delimiter);
 
 /* TOKENIZATION */
 t_ast		*create_ast(char **line);

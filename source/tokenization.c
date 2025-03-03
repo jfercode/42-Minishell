@@ -6,12 +6,13 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/27 16:50:54 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:14:19 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+// TO DO: Handle heredoc
 /**
  * @brief Determines the type of node based on the given token.
  *
@@ -25,10 +26,10 @@ t_node_type	get_token_type(char	*token)
 {
 	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
 		return (NODE_PIPE);
-	else if (ft_strncmp(token, "<<", ft_strlen(token)) == 0)
-		return (NODE_HEREDOC);
 	else if (ft_strncmp(token, "<", ft_strlen(token)) == 0)
 		return (NODE_REDIR_IN);
+	else if (ft_strncmp(token, "<<", ft_strlen(token)) == 0)
+		return (NODE_HEREDOC);
 	else if (ft_strncmp(token, ">", ft_strlen(token)) == 0)
 		return (NODE_REDIR_OUT);
 	else if (ft_strncmp(token, ">>", ft_strlen(token)) == 0)
@@ -75,12 +76,14 @@ t_ast	*create_ast(char **tokens)
 	return (root);
 }
 
+// TO DO: Coger el Token de heredoc como argumento del nodo
+
 /**
  * @brief Creates a new AST node from the given arguments.
  *
  * This function allocates memory for a new AST node and determines its type
  * based on the provided tokens. If the node is a command, it collects all
- * consecutive command tokens. Otherwise, it handles a single operator token.
+ * consecutive command tokens. Ot1herwise, it handles a single operator token.
  *
  * @param args A null-terminated array of strings representing tokens.
  * @param indx A pointer to the current index in the token array, updated as 

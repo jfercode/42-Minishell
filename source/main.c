@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/27 16:54:00 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:06:40 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,40 @@ static void	ft_start_gigachell()
 // {
 // 	char	*line;
 
+// 	ft_start_gigachell();
 // 	while (g_running)
 // 	{
 // 		line = readline(GREEN"Gigachell> "RST);
 // 		if (!line)
-// 		{
-// 			printf("Leaving Gigachell...\n");
 // 			break;
-// 		}
 // 		else if (*line)
 // 			add_history(line);
-// 		free (line);	
+// 		free (line);
 // 	}
+// 	printf("Leaving Gigachell...\n");
 // 	rl_clear_history();
 // 	return (EXIT_SUCCESS);
 // }
 
+/*
+	
+	pruebas a realizar:
+	1-	cat << EOF > file.txt | Here doc + redireccion > CORRECTO
+
+	2-	cat << EOF | wc -l 
+
+	3-	grep "hello" < file.txt << EOF
+
+	4-	cat file.txt | grep "hello" | wc -l > result.txt
+
+	5-	echo "Start" >> log.txt && cat << EOF >> log.txt
+
+*/
 // // -> MAIN TO TEST TOKENIZATION
-// int	main (void)
-// {	
-// 	char *tokens[] = {"echo", "hello",  "world fuck", "|", "grep", "h", ">", "output.txt", NULL};
-// 	t_ast *ast = create_ast(tokens);
-// 	print_ast (ast, 0);
-// 	return(EXIT_SUCCESS);
-// }
+int	main (void)
+{	
+	char *tokens[] = {"grep", "hello", "<", "file.txt", "<<", "EOF", NULL};
+	t_ast *ast = create_ast(tokens);
+	print_ast (ast, 0);
+	return(EXIT_SUCCESS);
+}

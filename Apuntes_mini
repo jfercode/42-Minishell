@@ -64,28 +64,5 @@
 
 # 5-	LOOPEAR
 		
-# Historial -> GUARDAR EN UN ARCHIVO Y RELEER CUANDO SE RE EJECUTE
-
-
-# line = ls -l | grep txt > out.txt
-# 
-#  	-> left (|)
-#	|		|  -> left ls -l
-#	|		|  ->	right grep txt		
-# >	|		
-#	|		
-# 	-> right out.txt
-# 	
-# line = ls -l > out.txt
-# 
-
-# ("ls", "-l", ">", "out.txt")
-
-#	  |-> left ls -l
-#	> |
-#	  |-> right out.txt
-
-# line = echo "done hello world"
-
-#	echo 
+# Historial -> GUARDAR EN UN ARCHIVO Y RELEER CUANDO SE RE EJECUTE // NO HACE FALTA POR QUE ESTA ACTIVO RL_HISTORY
 # */
