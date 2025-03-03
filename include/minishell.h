@@ -46,4 +46,10 @@ void	ft_signal(int signo, void *handler, bool use_siginfo);
 /*ERROR HANDLING*/
 void	ft_error_exit(const char *error_msg);
 
+
+
+/*BUILTIN*/
+
+int ft_echo(char **args);
+
 #endif /*MINISHELL_H*/
