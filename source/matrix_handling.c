@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/02/26 18:46:41 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:35:10 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int omit_spaces(char *line, int i)
 {
     while(line[i] == ' ')
         i++;
-    // if (line[i] == '\0')
-    //     perror("No line found"); //call error
     return (i);
 }
 
@@ -63,48 +61,6 @@ char	**create_matrix(char *line)
 	matrix = split_line(matrix, line);
 	matrix = handle_meta(matrix);
 	return (matrix);
-}
-
-char	**handle_meta(char **matrix)
-{
-	char	**new_matrix;
-	int		k;
-	int		i;
-	int		j;
-	int		cont;
-
-	i = 0;
-	k = 0;
-	cont = 0;
-	 while (matrix[i])
-	 {
-		printf("cont: %d\n", cont);
-    	if ((matrix[i][0] == '|' || matrix[i][0] == '<' || matrix[i][0] == '>') && ft_strlen(matrix[i]) != 1)
-			cont += 2;
-		else
-			cont++;
-        i++;
-    }
-	printf("break 1");
-	new_matrix = malloc((cont + 1) * sizeof(char *));
-	if (!new_matrix)
-		return (NULL);
-	printf("break 2");
-	i = 0;
-	while (matrix[i])
-	{
-		printf("Z");
-		if ((matrix[i][0] == '|' || matrix[i][0] == '<' || matrix[i][0] == '>') && ft_strlen(matrix[i]) != 1)
-		{
-			new_matrix[k++] = matrix[i][0];
-			new_matrix[k++] = ft_strdup(matrix[i]);
-		}
-		else
-			new_matrix[k++] = ft_strdup(matrix[i]);
-		i++;
-	}
-    new_matrix[k] = NULL;
-    return (new_matrix);
 }
 
 char	**split_line(char **matrix, char *line)
