@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/26 18:30:31 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:44:41 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,53 @@
 # define BLUE "\033[1;34m"
 # define GREEN "\033[1;32m"
 
-extern bool		g_running;
+extern bool	g_running;
+
+/* NODE TYPE ENUM*/
+typedef enum e_type
+{
+	NODE_CMD,
+	NODE_PIPE,
+	NODE_HEREDOC,
+	NODE_REDIR_IN,
+	NODE_REDIR_OUT,
+	NODE_REDIR_APPEND,
+	// NODE_LOGICAL_OP
+}	t_node_type;
+
+/* ABSTRACT SYNTAX TREE STRUCT*/
+typedef struct s_ast
+{
+	t_node_type		type;
+	char			**args;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}					t_ast;
 
 /*SIGNALS BEHAVIOUR*/
-void			ft_handle_sigint(int sig);
-void			ft_handle_sigterm(int sig);
-void			ft_handle_sigquit(int sig);
-void			ft_signal(int signo, void *handler, bool use_siginfo);
+void		ft_handle_sigint(int sig);
+void		ft_handle_sigterm(int sig);
+void		ft_handle_sigquit(int sig);
+void		ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*ERROR HANDLING*/
+void		ft_error_exit(const char *error_msg);
+
+/*HEREDOC HANDLING*/
+int			ft_handle_here_doc(char *delimiter);
+
+/* TOKENIZATION */
+t_ast		*create_ast(char **line);
+t_ast		*create_node(char **args, int *indx);
+
+t_node_type	get_token_type(char	*token);
+
+/* PARSE INPUT */
+int			parsing_line(char *line);
+
+/*	UTILS	*/
+void		print_node(t_ast *node);
+void		print_ast(t_ast *root, int level);
 void			ft_error_exit(const char *error_msg);
 
 int				syntax_error(char *line);

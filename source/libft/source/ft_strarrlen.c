@@ -1,13 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   user_input.c                                       :+:      :+:    :+:   */
+/*   ft_strarrlen.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 14:38:54 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/27 16:21:52 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/02/25 16:37:36 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/02/25 16:39:13 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/libft.h"
+
+size_t	ft_strarrlen(char **args)
+{
+	size_t	len;
+
+	len = 0;
+	while (args && args[len])
+		len++;
+	return (len);
+}

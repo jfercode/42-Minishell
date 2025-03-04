@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/26 18:32:39 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:38:47 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,19 @@ static void	ft_start_gigachell(void)
 // LINE IS GOING TO BE OUR TEXT TO TOKENIZE
 int	main(void)
 {
-	char	**matrix;
 	char	*line;
 
 	while (g_running)
 	{
-		line = readline(GREEN "Gigachell> " RST);
+		line = readline(GREEN"Gigachell> "RST);
 		if (!line)
 		{
 			printf("Leaving Gigachell...\n");
-			break ;
+			break;
 		}
 		else if (*line)
 			add_history(line);
-		if (syntax_error(line))
-			return (1);
-		matrix = create_matrix(line);
-		for (int i = 0; matrix[i]; i++)
-			printf("matrix[%d]: %s\n", i, matrix[i]);
-		free(line);
+		free (line);	
 	}
 	rl_clear_history();
 	return (0);

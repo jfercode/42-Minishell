@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:03:01 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/13 14:49:36 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/03 17:36:23 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
  */
 void	ft_signal(int signo, void *handler, bool use_siginfo)
 {
-	struct sigaction	sa = {0};
+	struct sigaction	sa;
 
 	sa.sa_sigaction = handler;
 	sigemptyset(&sa.sa_mask);
@@ -38,7 +38,8 @@ void	ft_signal(int signo, void *handler, bool use_siginfo)
 
 void	ft_handle_sigint(int sig)
 {
-	(void)sig;
+	if (sig != SIGINT)
+		ft_printf(STDERR_FILENO, RED"Error: failed SIGINT\n"RST);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -47,7 +48,8 @@ void	ft_handle_sigint(int sig)
 
 void	ft_handle_sigterm(int sig)
 {
-	(void)sig;
+	if (sig != SIGTERM)
+		ft_printf(STDERR_FILENO, RED"Error: failed SIGTERM\n"RST);
 	if (!isatty(STDIN_FILENO))
 		g_running = false;
 }
