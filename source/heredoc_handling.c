@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/03 18:46:27 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:27:54 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ int	ft_handle_here_doc(char *delimiter)
 	close (tmp_fd);
 	return (EXIT_SUCCESS);
 }
-

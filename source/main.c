@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/03 19:06:40 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:46:05 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ static void	ft_start_gigachell()
 /*
 	
 	pruebas a realizar:
-	1-	cat << EOF > file.txt | Here doc + redireccion > CORRECTO
+	1-	cat << EOF > file.txt | OKEY
 
-	2-	cat << EOF | wc -l 
+	2-	cat << EOF | wc -l OKEY
 
-	3-	grep "hello" < file.txt << EOF
+	3-	grep "hello" < file.txt << EOF OKEY
 
-	4-	cat file.txt | grep "hello" | wc -l > result.txt
+	4-	cat file.txt | grep "hello" | wc -l > result.txt OKEY
 
-	5-	echo "Start" >> log.txt && cat << EOF >> log.txt
+	5-	echo "Start" >> log.txt && cat << EOF >> log.txt   ¿LOGICAL OP?
 
 */
 // // -> MAIN TO TEST TOKENIZATION
 int	main (void)
 {	
-	char *tokens[] = {"grep", "hello", "<", "file.txt", "<<", "EOF", NULL};
+	char *tokens[] = {"<", "test2", "grep", "<", "test", "t", NULL};
 	t_ast *ast = create_ast(tokens);
 	print_ast (ast, 0);
 	return(EXIT_SUCCESS);

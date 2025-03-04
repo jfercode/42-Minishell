@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/03 19:14:19 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:19:43 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_ast	*create_ast(char **tokens)
 	while (tokens[i])
 	{
 		new_node = create_node(tokens, &i);
+		if (!new_node)
+			return (free_ast(root), NULL);
 		if (new_node->type == NODE_CMD)
 		{
 			if (current && current->type != NODE_CMD)
@@ -76,8 +78,7 @@ t_ast	*create_ast(char **tokens)
 	return (root);
 }
 
-// TO DO: Coger el Token de heredoc como argumento del nodo
-
+// TO DO: Coger el Token de heredoc como argumento del nodo 
 /**
  * @brief Creates a new AST node from the given arguments.
  *
@@ -109,11 +110,52 @@ t_ast	*create_node(char **args, int *indx)
 		i = *indx + 1;
 	node->args = malloc(sizeof(char *) * (i - *indx + 1));
 	if (!node->args)
-		return (free(node), NULL);
+		return (free_node(node), NULL);
 	while (*indx < i)
 		node->args[j++] = ft_strdup(args[(*indx)++]);
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
 	return (node);
+}
+
+/**
+ * @brief Frees the memory allocated for a single AST node.
+ *
+ * This function releases the memory associated with a given AST node, 
+ * including its arguments array and the node itself.
+ *
+ * @param node A pointer to the AST node to be freed.
+ */
+void	free_node(t_ast *node)
+{
+	int	i;
+
+	i = 0;
+	if (!node)
+		return ;
+	if (node->args)
+	{
+		while (node->args[i])
+			free(node->args[i++]);
+		free (node->args);
+	}
+	free(node);
+}
+
+/**
+ * @brief Recursively frees the memory allocated for an AST.
+ *
+ * This function traverses the AST in post-order and releases the memory
+ * associated with each node, including its left and right children.
+ *
+ * @param root A pointer to the root node of the AST to be freed.
+ */
+void	free_ast(t_ast *root)
+{
+	if (!root)
+		return ;
+	free_ast(root->left);
+	free_ast(root->right);
+	free_node(root);
 }

@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/03 18:00:29 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:19:27 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_ast
 	char			**args;
 	struct s_ast	*left;
 	struct s_ast	*right;
+	int				fd_in; // CAN BE STD_IN or a file 
+	int				fd_out; // CAN BE STD_OUT or a file
 }					t_ast;
 
 /*SIGNALS BEHAVIOUR*/
@@ -71,6 +73,9 @@ void		ft_error_exit(const char *error_msg);
 int			ft_handle_here_doc(char *delimiter);
 
 /* TOKENIZATION */
+void		free_ast(t_ast *root);
+void		free_node(t_ast *node);
+
 t_ast		*create_ast(char **line);
 t_ast		*create_node(char **args, int *indx);
 
