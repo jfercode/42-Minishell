@@ -6,14 +6,14 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/04 18:35:25 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:02:55 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // lo que dice bash en caso de error de direcciones es "syntax error near unexpected token"
-// pero en los otros dos casos literalmente se vuelve un heardoc, 
+// pero en los otros dos casos literalmente se vuelve un heardoc,
 // esperando a que completes el comando
 // asi que no dan un error,
 // habría que salir directament o llamar a heredoc/crear nueva línea
@@ -26,11 +26,10 @@ int	syntax_error(char *line)
 		printf("syntax error near unexpected token\n");
 	if (invalid_op(line))
 		printf("syntax error near unexpected token\n");
-	if (special_chars(line))
-		printf("syntax error: special characters not suported\n");
+	// if (special_chars(line))
+	// 	printf("syntax error: special characters not suported\n");
 	return (0);
 }
-
 
 int	open_quotes(char *line)
 {
@@ -82,8 +81,8 @@ int	invalid_redir(char *line)
 
 int	invalid_op(char *line)
 {
-	int next_cmd;
-	int i;
+	int	next_cmd;
+	int	i;
 
 	i = 0;
 	next_cmd = 0;
@@ -110,8 +109,3 @@ int	invalid_op(char *line)
 // no interpretar metacaracteres entre comillas * + ? $ ^ . () | \ {} [
 // so like, what does this mean? just leave them as chars? simple as?
 // si se debe interpretar $ excepto dentro de comilllas simples
-
-int	special_chars(char *line)
-{
-	
-}

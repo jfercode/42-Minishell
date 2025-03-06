@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/04 18:44:41 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:01:07 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int				syntax_error(char *line);
 int				open_quotes(char *line);
 int				invalid_redir(char *line);
 int				invalid_op(char *line);
-int				special_chars(char *line);
+//int				special_chars(char *line);
 
 /*MATRIX HANDLING*/
 int				read_until(char *line, int i, char quote);

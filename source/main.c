@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/04 18:38:47 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:00:39 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,22 @@ int	main(void)
 	{
 		line = readline(GREEN"Gigachell> "RST);
 		if (!line)
-		{
-			printf("Leaving Gigachell...\n");
 			break;
-		}
 		else if (*line)
+		{
 			add_history(line);
+			syntax_error(line);
+			char	**mtx = create_matrix(line);
+			for (int i = 0; mtx[i]; i++)
+				printf("matrix[%d]: %s\n", i, mtx[i]);
+			t_ast *ast = create_ast(mtx);
+			if(!ast)
+				// ERROR
+			print_ast(ast, 0);
+		}	
 		free (line);	
 	}
+	printf("Leaving Gigachell...\n");
 	rl_clear_history();
-	return (0);
+	return (EXIT_SUCCESS);
 }
