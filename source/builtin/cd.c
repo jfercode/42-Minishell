@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,38 +12,17 @@
 
 #include "../include/minishell.h"
 
-static int check_arg(int ar,char *str)
+
+//Cambia la ubicacion actual usando la funcion chdir, en caso de error imprime un mensaje de error
+//Retorna 0 si todo fue correcto, 1 si hubo un error
+int cd(char *path)
 {
-    return(ft_strncmp("-n", str, ft_strlen(str)));
-}
-
-
-//Funcion que replica el funcionamiento de echo
-//Imprime en pantalla los argumentos que recibe
-//Si recibe -n no imprime salto de linea
-//Retorna el numero de bytes escritos
-int ft_echo(int ar, char **args)
-{
-    int i = 1;
-    int n_line = 1;
-    int bytes_printed = 0;
-
-    if (ar > 1 && check_arg(ar, args[1]) == 0)
+    if (chdir(path) == -1)
     {
-        n_line = 0;
-        i++;
+        ft_putstr_fd("minishell: cd: ", 2);
+        ft_putstr_fd(path, 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
+        return (1);
     }
-    while (i < ar)
-    {
-        bytes_printed += write(1, args[i], ft_strlen(args[i]));
-        if (i < ar - 1)
-            bytes_printed += write(1, " ", 1);
-        i++;
-    }
-    if (n_line)
-        bytes_printed += write(1, "\n", 1);
-
-    return bytes_printed;
+    return (0);
 }
-
-    
