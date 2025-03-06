@@ -51,10 +51,9 @@
 
 
 # line = ls -l | grep txt > out.txt && echo "done"
-
-# 						(&&)
-# 						/	\
-# 					  (|)	echo "done"
+# 						(|)
+# 						/ 		
+# 					  (|)
 # 					  / \
 # 				(ls -l)	(grep txt)
 

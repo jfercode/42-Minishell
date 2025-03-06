@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/04 19:19:27 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:00:53 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
+	char			*filename;
 	struct s_ast	*left;
 	struct s_ast	*right;
-	int				fd_in; // CAN BE STD_IN or a file 
-	int				fd_out; // CAN BE STD_OUT or a file
 }					t_ast;
 
 /*SIGNALS BEHAVIOUR*/
