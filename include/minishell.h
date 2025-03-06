@@ -87,4 +87,15 @@ int			parsing_line(char *line);
 void		print_node(t_ast *node);
 void		print_ast(t_ast *root, int level);
 
+
+/*BUILTINS*/
+
+int cd(char *path);
+int ft_echo(int ar, char **args);
+void ft_env();
+void ft_exit();
+void ft_export(char **args);
+int pwd();
+void ft_unset(const char *var);
+
 #endif /*MINISHELL_H*/
