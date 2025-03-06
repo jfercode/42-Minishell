@@ -42,9 +42,9 @@ int set_env_var(const char *var)
     while (environ[env_count] != NULL)
     {
         char *existing_var = environ[env_count];
-        if (strncmp(existing_var, var, equal_sign - var) == 0 && existing_var[equal_sign - var] == '=')
+        if (ft_strncmp(existing_var, var, equal_sign - var) == 0 && existing_var[equal_sign - var] == '=')
         {
-            environ[env_count] = strdup(var);
+            environ[env_count] = ft_strdup(var);
             return 0;
         }
         env_count++;
@@ -53,7 +53,7 @@ int set_env_var(const char *var)
     char **new_environ = malloc((env_count + 2) * sizeof(char *));
     if (!new_environ)
     {
-        perror("malloc");
+        ft_error_exit("malloc");
         return 1;
     }
 
@@ -63,7 +63,7 @@ int set_env_var(const char *var)
         new_environ[i] = environ[i];
         i++;
     }
-    new_environ[i] = strdup(var);
+    new_environ[i] = ft_strdup(var);
     new_environ[i + 1] = NULL;
     environ = new_environ;
 

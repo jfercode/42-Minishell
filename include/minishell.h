@@ -35,6 +35,10 @@
 # define BLUE	"\033[1;34m"
 # define GREEN	"\033[1;32m"
 
+
+/*BUILTIN STRUC*/
+
+
 extern bool	g_running;
 
 /* NODE TYPE ENUM*/
