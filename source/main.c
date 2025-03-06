@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/04 17:46:05 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:37:11 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static void	ft_start_gigachell()
 // 	return (EXIT_SUCCESS);
 // }
 
-/*
-	
+/*	
 	pruebas a realizar:
 	1-	cat << EOF > file.txt | OKEY
 
@@ -58,7 +57,7 @@ static void	ft_start_gigachell()
 // // -> MAIN TO TEST TOKENIZATION
 int	main (void)
 {	
-	char *tokens[] = {"<", "test2", "grep", "<", "test", "t", NULL};
+	char *tokens[] = {"grep", "<<", "test", "t", "|", "cat", "<<", "hola", NULL};
 	t_ast *ast = create_ast(tokens);
 	print_ast (ast, 0);
 	return(EXIT_SUCCESS);

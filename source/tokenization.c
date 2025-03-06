@@ -3,39 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/04 19:19:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:57:12 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// TO DO: Handle heredoc
-/**
- * @brief Determines the type of node based on the given token.
- *
- * This function compares the provided token with predefined symbols
- * and returns the corresponding node type.
- *
- * @param token A null-terminated string representing a token.
- * @return The corresponding node type as a t_node_type enumeration.
- */
-t_node_type	get_token_type(char	*token)
+void	read_ast(t_ast *root)
 {
-	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
-		return (NODE_PIPE);
-	else if (ft_strncmp(token, "<", ft_strlen(token)) == 0)
-		return (NODE_REDIR_IN);
-	else if (ft_strncmp(token, "<<", ft_strlen(token)) == 0)
-		return (NODE_HEREDOC);
-	else if (ft_strncmp(token, ">", ft_strlen(token)) == 0)
-		return (NODE_REDIR_OUT);
-	else if (ft_strncmp(token, ">>", ft_strlen(token)) == 0)
-		return (NODE_REDIR_APPEND);
+	
+}
+
+/**
+ * @brief Creates a new AST node from the given arguments.
+ *
+ * This function allocates memory for a new AST node and determines its type
+ * based on the provided tokens. If the node is a command, it collects all
+ * consecutive command tokens. Ot1herwise, it handles a single operator token.
+ *
+ * @param args A null-terminated array of strings representing tokens.
+ * @param indx A pointer to the current index in the token array, updated as 
+ * tokens are processed.
+ * @return A pointer to the newly created AST node, or NULL if allocation fails.
+ */
+t_ast	*create_node(char **args, int *indx)
+{
+	t_ast	*node;
+	int		i;
+	int		j;
+
+	i = *indx;
+	j = 0;
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->type = get_token_type(args[i]);
+	if (node->type == NODE_CMD) // TO DO smart vinculation for this kind of node (jump into args ignoring redirections)
+		while (args[i] && get_token_type(args[i]) == NODE_CMD)
+			i++;
+	else if (node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_IN ||
+			node->type == NODE_HEREDOC || node->type == NODE_REDIR_APPEND)
+		i = *indx + 2;
 	else
-		return (NODE_CMD);
+		i = *indx + 1;
+	node->args = malloc(sizeof(char *) * (i - *indx + 1));
+	if (!node->args)
+		return (free_node(node), NULL);
+	while (*indx < i)
+		node->args[j++] = ft_strdup(args[(*indx)++]);
+	node->args[j] = NULL;
+	node->right = NULL;
+	node->left = NULL;
+	return (node);
 }
 
 /**
@@ -76,86 +98,4 @@ t_ast	*create_ast(char **tokens)
 		current = new_node;
 	}
 	return (root);
-}
-
-// TO DO: Coger el Token de heredoc como argumento del nodo 
-/**
- * @brief Creates a new AST node from the given arguments.
- *
- * This function allocates memory for a new AST node and determines its type
- * based on the provided tokens. If the node is a command, it collects all
- * consecutive command tokens. Ot1herwise, it handles a single operator token.
- *
- * @param args A null-terminated array of strings representing tokens.
- * @param indx A pointer to the current index in the token array, updated as 
- * tokens are processed.
- * @return A pointer to the newly created AST node, or NULL if allocation fails.
- */
-t_ast	*create_node(char **args, int *indx)
-{
-	t_ast	*node;
-	int		i;
-	int		j;
-
-	i = *indx;
-	j = 0;
-	node = malloc(sizeof(t_ast));
-	if (!node)
-		return (NULL);
-	node->type = get_token_type(args[i]);
-	if (node->type == NODE_CMD)
-		while (args[i] && get_token_type(args[i]) == NODE_CMD)
-			i++;
-	else
-		i = *indx + 1;
-	node->args = malloc(sizeof(char *) * (i - *indx + 1));
-	if (!node->args)
-		return (free_node(node), NULL);
-	while (*indx < i)
-		node->args[j++] = ft_strdup(args[(*indx)++]);
-	node->args[j] = NULL;
-	node->right = NULL;
-	node->left = NULL;
-	return (node);
-}
-
-/**
- * @brief Frees the memory allocated for a single AST node.
- *
- * This function releases the memory associated with a given AST node, 
- * including its arguments array and the node itself.
- *
- * @param node A pointer to the AST node to be freed.
- */
-void	free_node(t_ast *node)
-{
-	int	i;
-
-	i = 0;
-	if (!node)
-		return ;
-	if (node->args)
-	{
-		while (node->args[i])
-			free(node->args[i++]);
-		free (node->args);
-	}
-	free(node);
-}
-
-/**
- * @brief Recursively frees the memory allocated for an AST.
- *
- * This function traverses the AST in post-order and releases the memory
- * associated with each node, including its left and right children.
- *
- * @param root A pointer to the root node of the AST to be freed.
- */
-void	free_ast(t_ast *root)
-{
-	if (!root)
-		return ;
-	free_ast(root->left);
-	free_ast(root->right);
-	free_node(root);
 }
