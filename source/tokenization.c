@@ -6,77 +6,11 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/03 19:14:19 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:11:02 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-// TO DO: Handle heredoc
-/**
- * @brief Determines the type of node based on the given token.
- *
- * This function compares the provided token with predefined symbols
- * and returns the corresponding node type.
- *
- * @param token A null-terminated string representing a token.
- * @return The corresponding node type as a t_node_type enumeration.
- */
-t_node_type	get_token_type(char	*token)
-{
-	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
-		return (NODE_PIPE);
-	else if (ft_strncmp(token, "<", ft_strlen(token)) == 0)
-		return (NODE_REDIR_IN);
-	else if (ft_strncmp(token, "<<", ft_strlen(token)) == 0)
-		return (NODE_HEREDOC);
-	else if (ft_strncmp(token, ">", ft_strlen(token)) == 0)
-		return (NODE_REDIR_OUT);
-	else if (ft_strncmp(token, ">>", ft_strlen(token)) == 0)
-		return (NODE_REDIR_APPEND);
-	else
-		return (NODE_CMD);
-}
-
-/**
- * @brief Creates an Abstract Syntax Tree (AST) from a list of tokens.
- *
- * This function iterates through the given tokens and constructs an AST
- * by linking nodes based on their token types. Command nodes are added
- * as leaves, while operator nodes (such as pipes or redirections) are
- * placed as intermediate nodes.
- *
- * @param tokens A null-terminated array of strings representing tokens.
- * @return A pointer to the root of the constructed AST.
- */
-t_ast	*create_ast(char **tokens)
-{
-	t_ast		*root;
-	t_ast		*new_node;
-	t_ast		*current;
-	int			i;
-
-	root = NULL;
-	current = NULL;
-	i = 0;
-	while (tokens[i])
-	{
-		new_node = create_node(tokens, &i);
-		if (new_node->type == NODE_CMD)
-		{
-			if (current && current->type != NODE_CMD)
-				current->right = new_node;
-		}
-		else
-			new_node->left = root;
-		if (!root || new_node->type != NODE_CMD)
-			root = new_node;
-		current = new_node;
-	}
-	return (root);
-}
-
-// TO DO: Coger el Token de heredoc como argumento del nodo
 
 /**
  * @brief Creates a new AST node from the given arguments.
@@ -105,15 +39,58 @@ t_ast	*create_node(char **args, int *indx)
 	if (node->type == NODE_CMD)
 		while (args[i] && get_token_type(args[i]) == NODE_CMD)
 			i++;
+	else if (node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_IN ||
+			node->type == NODE_HEREDOC || node->type == NODE_REDIR_APPEND)
+		i = *indx + 2;
 	else
 		i = *indx + 1;
 	node->args = malloc(sizeof(char *) * (i - *indx + 1));
 	if (!node->args)
-		return (free(node), NULL);
+		return (free_node(node), NULL);
 	while (*indx < i)
 		node->args[j++] = ft_strdup(args[(*indx)++]);
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
 	return (node);
+}
+
+/**
+ * @brief Creates an Abstract Syntax Tree (AST) from a list of tokens.
+ *
+ * This function iterates through the given tokens and constructs an AST
+ * by linking nodes based on their token types. Command nodes are added
+ * as leaves, while operator nodes (such as pipes or redirections) are
+ * placed as intermediate nodes.
+ *
+ * @param tokens A null-terminated array of strings representing tokens.
+ * @return A pointer to the root of the constructed AST.
+ */
+t_ast	*create_ast(char **tokens)
+{
+	t_ast		*root;
+	t_ast		*new_node;
+	t_ast		*current;
+	int			i;
+
+	root = NULL;
+	current = NULL;
+	i = 0;
+	while (tokens[i])
+	{
+		new_node = create_node(tokens, &i);
+		if (!new_node)
+			return (free_ast(root), NULL);
+		if (new_node->type == NODE_CMD)
+		{
+			if (current && current->type != NODE_CMD)
+				current->right = new_node;
+		}
+		else
+			new_node->left = root;
+		if (!root || new_node->type != NODE_CMD)
+			root = new_node;
+		current = new_node;
+	}
+	return (root);
 }

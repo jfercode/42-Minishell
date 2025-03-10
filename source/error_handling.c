@@ -26,3 +26,4 @@ void	ft_error_exit(const char *error_msg)
 	printf(RED"%s"RST, error_msg);
 	exit(EXIT_FAILURE);
 }
+

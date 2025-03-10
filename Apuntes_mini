@@ -1,52 +1,93 @@
-/*
-REPL
--> READ
--> EVAL
--> PRINT / EXEC
--> LOOP
 
--> Visitar esta web con informacion https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
+# REPL
+# -> READ
+# -> EVAL
+# -> PRINT / EXEC
+# -> LOOP
 
--> Teoria Shell  https://www.reddit.com/r/explainlikeimfive/comments/1vu6g7/eli5_shell_computing/?rdt=36525
+#	src
+#	|> tokeniza
+# 	|> parse
+# 	|> builtins
+# 	|> exect
+#	|> signals
 
-1- Line -> Contar palabras -> Matriz
+# 1- Line -> Contar palabras -> Matriz
+# 2- Analisis
+# 	2.1 cmd (PROGRAMAS DE BASH)
+# 		|-> token (-)
+# 		--> argumentos
+# 	2.2 cmd built in
+# 		|-> echo con -n
+# 		|-> cd
+# 		|-> pwd
+# 		|-> export
+# 	2.2 ./ 
+# 		|-> ./ programa ¿COMO EJECUTAR?
+# 		--> directorios
+# 	2.3  caracteres especiales
+# 		|-> comillas - Cerradas
+# 		|	|-> simples ('')
+# 		|	|-> dobles ("") excepto $
+# 		--> redirecciones
+# 		|	|-> <	redirigir input
+# 		|	|-> >	redirigir out
+# 		|	|-> <<	debe recibir un delimitador, después leer del input de la fuente actual
+# 		|	|		hasta que una línea que contenga solo el delimitador aparezca. Sin embargo,
+# 		|	|		no necesita actualizar el historial.
+# 		|	--> >>	modo append
+# 		-> $
+# 		|	|-> Variables de entorno
+# 		|	--> $ + ?
+# 		--> pipes
 
-Tokenización
-|
-|	2- Analisis
-|		2.1 cmd (PROGRAMAS DE BASH)
-|			|-> token (-)
-|			--> argumentos
-|		2.2 cmd built in
-|			|-> echo con -n
-|			|-> cd
-|			|-> pwd
-|			|-> export
-|		2.2 ./ 
-|			|-> ./ programa ¿COMO EJECUTAR?
-|			--> directorios
-|		2.3  caracteres especiales
-|			|-> comillas - Cerradas
-|			|	|-> simples ('')
-|			|	|-> dobles ("") excepto $
-|			--> redirecciones
-|			|	|-> <	redirigir input
-|			|	|-> >	redirigir out
-|			|	|-> <<	debe recibir un delimitador, después leer del input de la fuente actual
-|			|	|		hasta que una línea que contenga solo el delimitador aparezca. Sin embargo,
-|			|	|		no necesita actualizar el historial.
-|			|	--> >>	modo append
-|			-> $
-|			|	|-> Variables de entorno
-|			|	--> $ + ?
-|			--> pipes
-|	
-|	3-	Parseo en la matriz asignar que es cada cosa
-__
+# EJEMPLO DE PARSEO Y TOKENIZACIÓN
 
-4-	EJECUCIÓN
+# AST
+# 			 	[ROOT]						|->		[&&, ||, ;, |, <, >, >>, <<, CMD, FILE, ARGUMENT]  
+#                 │  						|->				              │  							
+#        ┌────────┴────────┐  				|->				     ┌────────┴────────┐  					
+#        │                 │  				|->				     │                 │  					
+#    [Logical Op]      [Sequence (;)]  		|->				 [&&, ||]			  [;]
+#        │                 │  				|->				     │                 │  					
+#    ┌───┴───┐         ┌───┴───┐  			|->				 ┌───┴───┐         ┌───┴───┐  				
+#    [Pipe (|)]    [Redirections (>, <)]  	|->					[|]			 [<, >, <<, >>]
+#        │                 │  				|->				     │                 │  					
+#    ┌───┴───┐         ┌───┴───┐  			|->				 ┌───┴───┐         ┌───┴───┐  				
+#    [Command]      [File / Argument]  		|->				[CMD]  [CMD]	[FILE]	[ARGUMENT]
+
+
+# line = ls -l | grep txt > out.txt && echo "done"
+# 						(>)
+# 						/ 		
+# 					  (|)
+# 					  / \
+# 				(ls -l)	(grep txt)
+
+# 3-	Parseo en la matriz asignar que es cada cosa
+	
+# 4-	EXECUCIÓN
 
 # 5-	LOOPEAR
 		
 # Historial -> GUARDAR EN UN ARCHIVO Y RELEER CUANDO SE RE EJECUTE // NO HACE FALTA POR QUE ESTA ACTIVO RL_HISTORY
 # */
+
+
+# Readline -> Line -> Parseo -> Tokenizacion -> Determinar Infile & Outfile -> Ejecución -> Loopeamos
+
+#	define	"A CONFIRMAR" 
+# 	en tokenización me queda si la redirección está entre medias de comando que el comando se quede con 
+#	el/los argumentos que necesite. (1º que cuente cuantos son los argumentos + cmd 
+#	y 2º que la matriz se chupe los que necesita).
+#	endif	/*A CONFIRMAR*/
+
+#	define	"TO DO Nodo redirecciones"
+# 	Determinar infile y outfile hay que irse moviendo de manera que si hay un nodo in / heredoc sustituir si hay otro sino STDIN
+# 	y para outfile entiendo que si no existe archivo se crea y se recorrerá el AST hasta encontrar la última 
+#	redir out (creo que siempre será la primera que salga ¿?.
+#	endif	/*TO DO Nodo redirecciones*/
+#
+#	define	"MOVIMIENTO EN AST"
+#	Como COÑO Me muevo en el AST para redirecciones y para ejecuciones de nodos (cmds o pipes o lo que coño sea)
+#	endif	/*MOVIMIENTO EN AST*/

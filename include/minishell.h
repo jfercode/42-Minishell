@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/10 17:05:00 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:18:44 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,16 @@ typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
+	char			*filename;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
+
+typedef struct s_executor
+{
+	int		fd_infile;
+	int		fd_outfile;
+};
 
 /*SIGNALS BEHAVIOUR*/
 void		ft_handle_sigint(int sig);
@@ -71,6 +78,9 @@ void		ft_error_exit(const char *error_msg);
 int			ft_handle_here_doc(char *delimiter);
 
 /* TOKENIZATION */
+void		free_ast(t_ast *root);
+void		free_node(t_ast *node);
+
 t_ast		*create_ast(char **line);
 t_ast		*create_node(char **args, int *indx);
 

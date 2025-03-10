@@ -15,7 +15,6 @@ LIBFT_LIB	=	source/libft/build/libft.a
 
 # Source Files -> TO DO: Replace wildcard with correct directories
 SRC_FILES 	=	$(wildcard $(SRC_DIR)/*.c)
-TOTAL_FILES	=	$(words $(SRC_FILES))
 OBJS 		=	$(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Color macros
