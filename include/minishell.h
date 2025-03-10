@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/06 16:01:07 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:05:00 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,11 @@ void		print_node(t_ast *node);
 void		print_ast(t_ast *root, int level);
 void			ft_error_exit(const char *error_msg);
 
+/*  PARSING  */
 int				syntax_error(char *line);
 int				open_quotes(char *line);
 int				invalid_redir(char *line);
 int				invalid_op(char *line);
-//int				special_chars(char *line);
-
-/*MATRIX HANDLING*/
-int				read_until(char *line, int i, char quote);
-int				omit_spaces(char *line, int i);
 char			**split_line(char **matrix, char *line);
 char			**create_matrix(char *line);
 char			**handle_meta(char **matrix);
