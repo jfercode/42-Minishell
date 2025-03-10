@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/06 18:57:12 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:11:02 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	read_ast(t_ast *root)
-{
-	
-}
 
 /**
  * @brief Creates a new AST node from the given arguments.
@@ -41,7 +36,7 @@ t_ast	*create_node(char **args, int *indx)
 	if (!node)
 		return (NULL);
 	node->type = get_token_type(args[i]);
-	if (node->type == NODE_CMD) // TO DO smart vinculation for this kind of node (jump into args ignoring redirections)
+	if (node->type == NODE_CMD)
 		while (args[i] && get_token_type(args[i]) == NODE_CMD)
 			i++;
 	else if (node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_IN ||

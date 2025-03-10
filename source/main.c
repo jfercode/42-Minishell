@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/06 18:37:11 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:24:11 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ static void	ft_start_gigachell()
 	5-	echo "Start" >> log.txt && cat << EOF >> log.txt   ¿LOGICAL OP?
 
 */
-// // -> MAIN TO TEST TOKENIZATION
+// // // -> MAIN TO TEST TOKENIZATION
 int	main (void)
 {	
-	char *tokens[] = {"grep", "<<", "test", "t", "|", "cat", "<<", "hola", NULL};
+	char *tokens[] = {"cat", "<", "input.txt", "|", "grep", "error", "|", "wc -l", NULL };
+
 	t_ast *ast = create_ast(tokens);
-	print_ast (ast, 0);
+	print_ast(ast, 0);
+	free_ast(ast);
 	return(EXIT_SUCCESS);
 }
