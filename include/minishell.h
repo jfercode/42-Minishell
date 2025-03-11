@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/10 17:18:44 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:47:53 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_executor
 {
 	int		fd_infile;
 	int		fd_outfile;
-};
+}				t_executor;
 
 /*SIGNALS BEHAVIOUR*/
 void		ft_handle_sigint(int sig);
@@ -99,6 +99,7 @@ int				syntax_error(char *line);
 int				open_quotes(char *line);
 int				invalid_redir(char *line);
 int				invalid_op(char *line);
+int				invalid_env(char *line);
 char			**split_line(char **matrix, char *line);
 char			**create_matrix(char *line);
 char			**handle_meta(char **matrix);

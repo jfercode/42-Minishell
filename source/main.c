@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/10 17:17:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:01:30 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,34 @@ static void	ft_start_gigachell(void)
 }
 
 // LINE IS GOING TO BE OUR TEXT TO TOKENIZE
-// int	main(void)
-// {
-// 	char	*line;
+int	main(void)
+{
+	char	*line;
 
-// 	ft_start_gigachell();
-// while (g_running)
-// 	{
-// 		line = readline(GREEN"Gigachell> "RST);
-// 		if (!line)
-// 			break;
-// 		else if (*line)
-// 		{
-// 			add_history(line);
-// 			syntax_error(line);
-// 			char	**mtx = create_matrix(line);
-// 			for (int i = 0; mtx[i]; i++)
-// 				printf("matrix[%d]: %s\n", i, mtx[i]);
-// 			t_ast *ast = create_ast(mtx);
-// 			if(!ast)
-// 				// ERROR
-// 			print_ast(ast, 0);
-// 		}	
-// 		free (line);	
-// 	}
-// 	printf("Leaving Gigachell...\n");
-// 	rl_clear_history();
-// 	return (EXIT_SUCCESS);
-// }
+	ft_start_gigachell();
+	while (g_running)
+	{
+		line = readline(GREEN"Gigachell> "RST);
+		if (!line)
+			break;
+		else if (*line)
+		{
+			add_history(line);
+			syntax_error(line);
+			char	**mtx = create_matrix(line);
+			// for (int i = 0; mtx[i]; i++)
+			// 	printf("matrix[%d]: %s\n", i, mtx[i]);
+			t_ast *ast = create_ast(mtx);
+			if(!ast)
+				printf("error creating AST\n");
+			print_ast(ast, 0);
+		}	
+		free (line);	
+	}
+	printf("Leaving Gigachell...\n");
+	rl_clear_history();
+	return (EXIT_SUCCESS);
+}
 
 /*
 	
@@ -66,10 +66,10 @@ static void	ft_start_gigachell(void)
 
 */
 // // -> MAIN TO TEST TOKENIZATION
-int	main (void)
-{
-	char *tokens[] = {"grep", "hello", "<", "file.txt", "<<", "EOF", NULL};
-	t_ast *ast = create_ast(tokens);
-	print_ast (ast, 0);
-	return(EXIT_SUCCESS);
-}
+// int	main (void)
+// {
+// 	char *tokens[] = {"grep", "hello", "<", "file.txt", "<<", "EOF", NULL};
+// 	t_ast *ast = create_ast(tokens);
+// 	print_ast (ast, 0);
+// 	return(EXIT_SUCCESS);
+// }

@@ -6,13 +6,13 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/10 16:02:13 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:57:35 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// lo que dice bash en caso de error de direcciones es 
+// lo que dice bash en caso de error de direcciones es
 // "syntax error near unexpected token"
 // pero en los otros dos casos literalmente se vuelve un heardoc,
 // esperando a que completes el comando
@@ -27,6 +27,8 @@ int	syntax_error(char *line)
 		printf("syntax error near unexpected token\n");
 	if (invalid_op(line))
 		printf("syntax error near unexpected token\n");
+	if (invalid_env(line))
+		printf("$: command not found\n");
 	return (0);
 }
 
@@ -104,7 +106,22 @@ int	invalid_op(char *line)
 	return (0);
 }
 
-// no interpretar caracteres especiales no especificados (\, ;, :, _, ?, ¿ , ´;)
-// no interpretar metacaracteres entre comillas * + ? $ ^ . () | \ {} [
-// so like, what does this mean? just leave them as chars? simple as?
-// si se debe interpretar $ excepto dentro de comilllas simples
+int	invalid_env(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			if (line[i - 1] != ' ' && line[i - 1] != '\"' && line[i
+				- 1] != '\0')
+				return (1);
+			if (!ft_isalnum(line[i + 1]))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
