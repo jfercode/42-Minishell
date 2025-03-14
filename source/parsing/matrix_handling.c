@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/06 16:02:49 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:18:17 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /*
 char	**create_matrix(char *line)
@@ -49,7 +49,7 @@ char	**create_matrix(char *line)
 	}
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
-		printf("malloc error\n");
+		ft_error("Error: failed matrix creation\n");
 	matrix = split_line(matrix, line);
 	matrix = handle_meta(matrix);
 	return (matrix);
@@ -92,4 +92,29 @@ char	**split_line(char **matrix, char *line)
 	}
 	matrix[count] = NULL;
 	return (matrix);
+}
+
+void	free_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		i++;
+	}
+	free(matrix);
+}
+
+void	print_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		printf(GREEN"matrix[%d]:"RST" %s\n", i, matrix[i]);
+		i++;
+	}
 }

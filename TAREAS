@@ -1,0 +1,32 @@
+
+1.	Updatear la configuración de las señales.
+	-> 	Mergear con rama Alberto
+
+2.	Mejorar tokenización.
+	->	Si una redirección está entre medias de comando que el comando se quede con 
+		el/los argumentos que necesite. (1º que cuente cuantos son los argumentos + cmd 
+		y 2º que la matriz se chupe los que necesita).
+
+3.	Revisar parseo.
+	->	Revisar que cuando se realice el parseo de un argumento cualquiera
+		(revisar redirecciones) este sea correcto de manera que obtenga una matriz dividida
+		perfecta.
+
+4.	Gestión de memoria
+	->	Preparar funciones para la gestión de memoria del proyecto de manera que se pueda llamar
+		en cualquier momento si falla lo que sea para liberar la memoria en la totalidad del 
+		proyecto.
+
+5.	Revisar la ejecución de los comandos.
+	->	Revisar que la ejecución de los comandos sea correcta y que se pueda ejecutar cualquier
+		comando que se le pase por parámetro.
+
+6.	Revisar la lógica de los pipes.
+	->	Revisar que la lógica de los pipes sea correcta de manera que la redireccion interna se
+		realice correctamente y se pueda ejecutar cualquier comando que se le pase por parámetro.
+
+7.	Revisar la lógica de las redirecciones.	
+	->	Revisar que la lógica de las redirecciones sea correcta, que se admite cualquier tipo de
+		redirección y que cierren los archivos que no se vayan a usar si alguno esta abierto.
+
+8.	Pruebas de ejecución.

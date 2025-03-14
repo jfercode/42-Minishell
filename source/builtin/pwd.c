@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 //Funcion que replica el funcionamiento de pwd
 //Imprime en pantalla el directorio actual

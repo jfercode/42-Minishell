@@ -6,11 +6,11 @@
 /*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:34:50 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/06 17:35:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:04:54 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /**
  * @brief Determines the type of node based on the given token.

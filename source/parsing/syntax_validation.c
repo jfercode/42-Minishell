@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/06 16:02:55 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:05:17 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 // lo que dice bash en caso de error de direcciones es "syntax error near unexpected token"
 // pero en los otros dos casos literalmente se vuelve un heardoc,
@@ -21,13 +21,11 @@
 int	syntax_error(char *line)
 {
 	if (open_quotes(line))
-		printf("syntax error: unclosed quote\n");
+		return (ft_error("Syntax_error: unclosed quote\n"), ERROR);
 	if (invalid_redir(line))
-		printf("syntax error near unexpected token\n");
+		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_op(line))
-		printf("syntax error near unexpected token\n");
-	// if (special_chars(line))
-	// 	printf("syntax error: special characters not suported\n");
+		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	return (0);
 }
 
@@ -64,7 +62,7 @@ int	invalid_redir(char *line)
 		{
 			ch = line[i];
 			i++;
-			if (line[i] == ch) // si son dobles sigue
+			if (line[i] == ch)
 				i++;
 			while (line[i] && line[i] == ' ')
 				i++;

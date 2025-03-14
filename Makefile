@@ -2,19 +2,31 @@
 NAME	=	build/minishell.a
 
 # Compiller and compiler flags
-CC		=	cc
-C_FLAGS	=	-Wall -Werror -Wextra 
+CC		=	clang
+C_FLAGS	=	-Wall -Werror -Wextra
 LIBS 	=	-lreadline -lncurses -ltermcap
 
-# Directories -> TO DO: Include Libft + Printf + Extras
+# Directories
 SRC_DIR		=	source
 OBJ_DIR		=	build/obj
 HEADER_DIR	=	include
 LIBFT_DIR	=	source/libft
 LIBFT_LIB	=	source/libft/build/libft.a
 
-# Source Files -> TO DO: Replace wildcard with correct directories
-SRC_FILES 	=	$(wildcard $(SRC_DIR)/*.c)
+BUILTINS		=	cd echo env exit export pwd unset
+EXECUTION		=	ast_execution error_handling heredoc_handling
+PARSING			=	matrix_handling meta_handling syntax_validation
+SIGNALS			=	signals_utils
+TOKENIZATION	=	ast_utils tokenization tokenization_utils
+
+# Source Files
+SRC_FILES 	=	$(addsuffix .c, $(addprefix source/builtin/, $(BUILTINS))) \
+	  			$(addsuffix .c, $(addprefix source/execution/, $(EXECUTION))) \
+	  			$(addsuffix .c, $(addprefix source/parsing/, $(PARSING))) \
+	  			$(addsuffix .c, $(addprefix source/signals/, $(SIGNALS))) \
+	  			$(addsuffix .c, $(addprefix source/tokenization/, $(TOKENIZATION))) \
+				source/main.c
+
 OBJS 		=	$(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Color macros
@@ -32,6 +44,9 @@ BRIGHT_RED	= \033[1;91m
 # Default rule
 all: $(NAME)
 
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
 $(NAME): $(LIBFT_LIB) $(OBJS)
 		@mkdir -p $(OBJ_DIR)
 		@echo "$(GREEN)CREATING STATIC LIBRARY $@ $(RESET)"
@@ -41,7 +56,7 @@ $(NAME): $(LIBFT_LIB) $(OBJS)
 
 # Rule to compile .c files into .o
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-		@mkdir -p $(OBJ_DIR)
+		@mkdir -p $(dir $@)
 		@echo "$(CYAN)COMPILING $<...$(RESET)"
 		$(CC) $(CFLAGS) -c $< -o $@
 
@@ -69,5 +84,9 @@ fclean:	clean
 re:		fclean all
 		@echo "$(BLUE)PROJECT REBUILD.$(RESET)"
 
+# Norminette rule
+norm:
+	norminette $(SRC_FILES) $(HEADER_DIR)/*.h
+
 # Phony rules
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re norm

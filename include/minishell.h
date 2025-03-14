@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/10 17:00:35 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:18:42 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define RED "\033[1;31m"
 # define BLUE "\033[1;34m"
 # define GREEN "\033[1;32m"
+
+# define ERROR -1
 
 extern bool	g_running;
 
@@ -63,7 +65,7 @@ typedef struct s_executor
 {
 	int		fd_infile;
 	int		fd_outfile;
-};
+}					t_executor;
 
 /*SIGNALS BEHAVIOUR*/
 void		ft_handle_sigint(int sig);
@@ -91,20 +93,26 @@ int			parsing_line(char *line);
 
 /*	UTILS	*/
 void		print_node(t_ast *node);
+void		print_matrix(char **matrix);
 void		print_ast(t_ast *root, int level);
-void			ft_error_exit(const char *error_msg);
+void		ft_error_exit(const char *error_msg);
+void		ft_error(const char *error_msg);
 
-int				syntax_error(char *line);
-int				open_quotes(char *line);
-int				invalid_redir(char *line);
-int				invalid_op(char *line);
+int			syntax_error(char *line);
+int			open_quotes(char *line);
+int			invalid_redir(char *line);
+int			invalid_op(char *line);
+
 //int				special_chars(char *line);
 
 /*MATRIX HANDLING*/
-int				read_until(char *line, int i, char quote);
-int				omit_spaces(char *line, int i);
-char			**split_line(char **matrix, char *line);
-char			**create_matrix(char *line);
-char			**handle_meta(char **matrix);
+void		free_matrix(char **matrix);
+
+int			read_until(char *line, int i, char quote);
+int			omit_spaces(char *line, int i);
+
+char		**split_line(char **matrix, char *line);
+char		**create_matrix(char *line);
+char		**handle_meta(char **matrix);
 
 #endif /*MINISHELL_H*/
