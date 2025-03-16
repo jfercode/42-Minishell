@@ -1,4 +1,3 @@
-
 1.	Updatear la configuración de las señales.
 	-> 	Mergear con rama Alberto
 
@@ -10,7 +9,11 @@
 3.	Revisar parseo.
 	->	Revisar que cuando se realice el parseo de un argumento cualquiera
 		(revisar redirecciones) este sea correcto de manera que obtenga una matriz dividida
-		perfecta.
+		perfecta. OBSERVACIÓN: En la funcion handle_meta(matrix) parece que es la que pone espacios tras
+		un meta caracter y el siguiente elemento : 
+		pruebas:
+			-> grep << in a | echo "Hello World" | grep "Hello" > out.txt
+			-> grep <<in a| echo "Hello World" |grep "Hello" >out.txt
 
 4.	Gestión de memoria
 	->	Preparar funciones para la gestión de memoria del proyecto de manera que se pueda llamar

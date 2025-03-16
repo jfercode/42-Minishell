@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/14 18:18:17 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/15 10:55:28 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ char	**create_matrix(char *line)
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
 		ft_error("Error: failed matrix creation\n");
+	ft_printf(STDOUT_FILENO, BLUE"/*****Split_line*****/\n"RST);
 	matrix = split_line(matrix, line);
+	print_matrix(matrix);
+	ft_printf(STDOUT_FILENO, BLUE"/*****Handle_meta*****/\n"RST);
 	matrix = handle_meta(matrix);
 	return (matrix);
 }
