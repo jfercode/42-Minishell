@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/04 16:27:54 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:06:34 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /**
  * @brief Removes the trailing newline character from a string.
@@ -56,13 +56,13 @@ int	ft_handle_here_doc(char *delimiter)
 
 	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp_fd == - 1)
-		return (ft_error_exit("Error opening temp heredoc file"), EXIT_FAILURE);
+		return (ft_error_exit("Error: can't opening temp heredoc file"), EXIT_FAILURE);
 	while (1)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
 		line = ft_get_next_line(STDIN_FILENO); // EN DUDA CUANDO SE IMPLEMENTE VER QUE CARAJO PILLA
 		if (!line)
-			return (ft_error_exit("Error reading heredoc"), EXIT_FAILURE);
+			return (ft_error_exit("Error: while reading heredoc"), EXIT_FAILURE);
 		line = remove_newline(line);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
 			return (free(line), close(tmp_fd), EXIT_FAILURE);
