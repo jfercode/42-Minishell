@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/14 18:05:17 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:50:34 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// lo que dice bash en caso de error de direcciones es "syntax error near unexpected token"
+// lo que dice bash en caso de error de direcciones es
+// "syntax error near unexpected token"
 // pero en los otros dos casos literalmente se vuelve un heardoc,
 // esperando a que completes el comando
 // asi que no dan un error,
@@ -25,7 +26,9 @@ int	syntax_error(char *line)
 	if (invalid_redir(line))
 		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_op(line))
-		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
+		printf("syntax error near unexpected token\n");
+	if (invalid_env(line))
+		printf("$: command not found\n");
 	return (0);
 }
 
@@ -103,7 +106,22 @@ int	invalid_op(char *line)
 	return (0);
 }
 
-// no interpretar caracteres especiales no especificados (\, ;, :, _, ?, ¿ , ´;)
-// no interpretar metacaracteres entre comillas * + ? $ ^ . () | \ {} [
-// so like, what does this mean? just leave them as chars? simple as?
-// si se debe interpretar $ excepto dentro de comilllas simples
+int	invalid_env(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			if (line[i - 1] != ' ' && line[i - 1] != '\"' && line[i
+				- 1] != '\0')
+				return (1);
+			if (!ft_isalnum(line[i + 1]))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
