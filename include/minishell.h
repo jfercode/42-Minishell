@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:47:54 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:59:35 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,9 @@ void		ft_error(const char *error_msg);
 
 int			syntax_error(char *line);
 int			open_quotes(char *line);
-int			invalid_redir(char *line);
 int			invalid_op(char *line);
+int			invalid_env(char *line);
+int			invalid_redir(char *line);
 
 //int				special_chars(char *line);
 

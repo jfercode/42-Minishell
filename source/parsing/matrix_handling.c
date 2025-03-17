@@ -6,11 +6,11 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 18:56:19 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:58:41 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 char	**clean_up_matrix(char **matrix);
 

@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 18:57:10 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:00:49 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**nm_maker(char **matrix, char **new_mx, int i, int k)
 		if (n)
 		{
 			new_mx[k++] = ft_substr(matrix[i], 0, n);
-			if (ft_strlen(matrix[i]) != 1)
+			if (ft_strlen(matrix[i]) > 2)
 				new_mx[k++] = ft_substr(matrix[i], n, ft_strlen(matrix[i]) - n);
 		}
 		else
