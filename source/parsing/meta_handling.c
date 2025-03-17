@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 18:49:35 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:57:10 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ char	**nm_maker(char **matrix, char **new_mx, int i, int k)
 		if (n)
 		{
 			new_mx[k++] = ft_substr(matrix[i], 0, n);
-			new_mx[k++] = ft_substr(matrix[i], n, ft_strlen(matrix[i]) - n);
+			if (ft_strlen(matrix[i]) != 1)
+				new_mx[k++] = ft_substr(matrix[i], n, ft_strlen(matrix[i]) - n);
 		}
 		else
 		{
@@ -50,8 +51,7 @@ char	**nm_maker(char **matrix, char **new_mx, int i, int k)
 		}
 		i++;
 	}
-	new_mx[k] = NULL;
-	return (new_mx);
+	return (new_mx[k] = NULL, new_mx);
 }
 
 char	**handle_meta(char **matrix)

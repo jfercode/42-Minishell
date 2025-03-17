@@ -6,21 +6,13 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 18:49:18 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:56:19 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
-char	**create_matrix(char *line)
-		analyze the line and create the malloc
-char	**handle_quotes(char *line, char **matrix)
-		from te line given it creates a matrix where words in quotes get put in the same spot
-char	**handle_meta(char **matrix)
-		if a matrix spot has a pipe or redirection at the start and it is not just one spot (i.e |cmd),
-			it separates them
-*/
+char	**clean_up_matrix(char **matrix);
 
 char	**create_matrix(char *line)
 {
@@ -48,6 +40,37 @@ char	**create_matrix(char *line)
 	print_matrix(matrix);
 	ft_printf(STDOUT_FILENO, BLUE"/*****Handle_meta*****/\n"RST);
 	matrix = handle_meta(matrix);
+	matrix = clean_up_matrix(matrix);
+	return (matrix);
+}
+
+//esto lo limpia, pero en el caso de env entre comillas simples luego no 
+//deberái interpretarlo, no sé como hacer eso
+char	**clean_up_matrix(char **matrix)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (matrix[i])
+	{
+		j = 0;
+		while (matrix[i][j])
+		{
+			if (matrix[i][j] == '"' || matrix[i][j] == '\'')
+			{
+				j++;
+				while (matrix[i][j] != '"' && matrix[i][j] != '\'')
+				{
+					matrix[i][j - 1] = matrix[i][j];
+					j++;
+				}
+				matrix[i][j - 1] = '\0';
+			}
+			j++;
+		}
+		i++;
+	}
 	return (matrix);
 }
 
@@ -59,12 +82,12 @@ char	*get_token(char *line, int *i, char quote)
 	start = *i;
 	if (quote)
 	{
-		(*i)++; // Skip the opening quote.
+		(*i)++;
 		while (line[*i] != quote && line[*i])
 			(*i)++;
 		token = ft_substr(line, start + 1, *i - (start + 1));
 		if (line[*i] == quote)
-			(*i)++; // Skip the closing quote.
+			(*i)++;
 	}
 	else
 	{

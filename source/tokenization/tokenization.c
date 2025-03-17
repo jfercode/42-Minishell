@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:51:57 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:57:50 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
  * consecutive command tokens. Ot1herwise, it handles a single operator token.
  *
  * @param args A null-terminated array of strings representing tokens.
- * @param indx A pointer to the current index in the token array, updated as 
+ * @param indx A pointer to the current index in the token array, updated as
  * tokens are processed.
  * @return A pointer to the newly created AST node, or NULL if allocation fails.
  */
@@ -77,10 +77,10 @@ t_ast	*create_node(char **args, int *indx)
  */
 t_ast	*create_ast(char **tokens)
 {
-	t_ast		*root;
-	t_ast		*new_node;
-	t_ast		*current;
-	int			i;
+	t_ast	*root;
+	t_ast	*new_node;
+	t_ast	*current;
+	int		i;
 
 	root = NULL;
 	current = NULL;

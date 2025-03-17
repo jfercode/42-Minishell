@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:48:08 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:55:32 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ static void	ft_exec_line(char *line)
 int	main(void)
 {
 	char	*line;
+	char	**mtx;
+	t_ast	*ast;
 
 	ft_start_gigachell();
 	while (g_running)
 	{
-		line = readline(GREEN"Gigachell> "RST);
+		line = readline(GREEN "Gigachell> " RST);
 		if (!line)
-			break;
+			break ;
 		else if (*line)
 			ft_exec_line(line);
 		free (line);

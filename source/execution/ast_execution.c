@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 17:41:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:55:47 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 		// // EXECUTE NODE_REDIR_OUT (Open / create the file and sustitude the fd_out)
 	// else if ((*ast).type == NODE_REDIR_APPEND)
 		// // EXECUTE NODE_REDIR_APPEND (Same as redir out but in append mode)
-	
 // }
 
 /**

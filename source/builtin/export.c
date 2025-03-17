@@ -12,83 +12,82 @@
 
 #include "../../include/minishell.h"
 
-extern char **environ;
+extern char	**environ;
 
-void print_env()
+void	print_env(void)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(environ[i])
-    {
-        printf("%s\n",environ[i]);
-        i++;
-    }
+	i = 0;
+	while (environ[i])
+	{
+		printf("%s\n", environ[i]);
+		i++;
+	}
 }
 
-
-int set_env_var(const char *var)
+int	set_env_var(const char *var)
 {
-    char *equal_sign = strchr(var, '=');
-    if (!equal_sign)
-    {
-        //Revisar el error
-        printf("export: '%s' is not a valid identifier\n", var);
-        ft_putstr_fd("export: '%s' is not a valid identifier\n",2);
-        return 1;
-    }
+	char	*equal_sign;
+	int		env_count;
+	char	*existing_var;
+	char	**new_environ;
+	int		i;
 
-    int env_count = 0;
-    while (environ[env_count] != NULL)
-    {
-        char *existing_var = environ[env_count];
-        if (strncmp(existing_var, var, equal_sign - var) == 0 && existing_var[equal_sign - var] == '=')
-        {
-            environ[env_count] = strdup(var);
-            return 0;
-        }
-        env_count++;
-    }
-
-    char **new_environ = malloc((env_count + 2) * sizeof(char *));
-    if (!new_environ)
-    {
-        perror("malloc");
-        return 1;
-    }
-
-    int i = 0;
-    while (environ[i] != NULL)
-    {
-        new_environ[i] = environ[i];
-        i++;
-    }
-    new_environ[i] = strdup(var);
-    new_environ[i + 1] = NULL;
-    environ = new_environ;
-
-    return 0;
+	equal_sign = strchr(var, '=');
+	if (!equal_sign)
+	{
+		// Revisar el error
+		printf("export: '%s' is not a valid identifier\n", var);
+		ft_putstr_fd("export: '%s' is not a valid identifier\n", 2);
+		return (1);
+	}
+	env_count = 0;
+	while (environ[env_count] != NULL)
+	{
+		existing_var = environ[env_count];
+		if (strncmp(existing_var, var, equal_sign - var) == 0
+			&& existing_var[equal_sign - var] == '=')
+		{
+			environ[env_count] = strdup(var);
+			return (0);
+		}
+		env_count++;
+	}
+	new_environ = malloc((env_count + 2) * sizeof(char *));
+	if (!new_environ)
+	{
+		perror("malloc");
+		return (1);
+	}
+	i = 0;
+	while (environ[i] != NULL)
+	{
+		new_environ[i] = environ[i];
+		i++;
+	}
+	new_environ[i] = strdup(var);
+	new_environ[i + 1] = NULL;
+	environ = new_environ;
+	return (0);
 }
 
-void ft_export(char **args)
+void	ft_export(char **args)
 {
-    int i;
+	int	i;
 
-    i = 1;
-    if(!args[1])
-    {
-        print_env();
-        return;
-    }
-    while(args[i] != NULL)
-    {
-        set_env_var(args[i]);
-        i++;
-    }
-
+	i = 1;
+	if (!args[1])
+	{
+		print_env();
+		return ;
+	}
+	while (args[i] != NULL)
+	{
+		set_env_var(args[i]);
+		i++;
+	}
 }
 
-
-//Replica el builtin export sin unsar strtok
-//Retorna 1 si todo fue correcto, 0 si hubo un error
-
+// Replica el builtin export sin unsar strtok
+// Retorna 1 si todo fue correcto, 0 si hubo un error

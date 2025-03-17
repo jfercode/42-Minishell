@@ -12,23 +12,24 @@
 
 #include "../../include/minishell.h"
 
-//Funcion que replica el funcionamiento de pwd
-//Imprime en pantalla el directorio actual
-//Retorna 0 si todo fue correcto, 1 si hubo un error
-int pwd()
+// Funcion que replica el funcionamiento de pwd
+// Imprime en pantalla el directorio actual
+// Retorna 0 si todo fue correcto, 1 si hubo un error
+int	pwd(void)
 {
-    char *path;
+	char	*path;
 
-    path = getcwd(NULL, 0);
-    if (path == NULL)
-    {
-        ft_putstr_fd("minishell: pwd: error retrieving current directory: getcwd: cannot access parent directories: ", 2);
-        ft_putstr_fd(strerror(errno), 2);
-        ft_putstr_fd("\n", 2);
-        return (1);
-    }
-    ft_putstr_fd(path, 1);
-    ft_putstr_fd("\n", 1);
-    free(path);
-    return (0);
+	path = getcwd(NULL, 0);
+	if (path == NULL)
+	{
+		ft_putstr_fd("minishell: pwd: error retrieving current directory: getcwd: \
+			cannot access parent directories: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		return (1);
+	}
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\n", 1);
+	free(path);
+	return (0);
 }
