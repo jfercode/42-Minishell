@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/10 16:49:58 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:19:21 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@
 		// // EXECUTE NODE_REDIR_OUT (Open / create the file and sustitude the fd_out)
 	// else if ((*ast).type == NODE_REDIR_APPEND)
 		// // EXECUTE NODE_REDIR_APPEND (Same as redir out but in append mode)
-	
 // }

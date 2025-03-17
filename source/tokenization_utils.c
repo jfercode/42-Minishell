@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:34:50 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/06 17:35:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:20:26 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param token A null-terminated string representing a token.
  * @return The corresponding node type as a t_node_type enumeration.
  */
-t_node_type	get_token_type(char	*token)
+t_node_type	get_token_type(char *token)
 {
 	if (ft_strncmp(token, "|", ft_strlen(token)) == 0)
 		return (NODE_PIPE);
@@ -40,7 +40,7 @@ t_node_type	get_token_type(char	*token)
 /**
  * @brief Frees the memory allocated for a single AST node.
  *
- * This function releases the memory associated with a given AST node, 
+ * This function releases the memory associated with a given AST node,
  * including its arguments array and the node itself.
  *
  * @param node A pointer to the AST node to be freed.
@@ -56,7 +56,7 @@ void	free_node(t_ast *node)
 	{
 		while (node->args[i])
 			free(node->args[i++]);
-		free (node->args);
+		free(node->args);
 	}
 	free(node);
 }

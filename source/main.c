@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/11 15:01:30 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:20:08 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,26 @@ static void	ft_start_gigachell(void)
 int	main(void)
 {
 	char	*line;
+	char	**mtx;
+	t_ast	*ast;
 
 	ft_start_gigachell();
 	while (g_running)
 	{
-		line = readline(GREEN"Gigachell> "RST);
+		line = readline(GREEN "Gigachell> " RST);
 		if (!line)
-			break;
+			break ;
 		else if (*line)
 		{
 			add_history(line);
 			syntax_error(line);
-			char	**mtx = create_matrix(line);
-			// for (int i = 0; mtx[i]; i++)
-			// 	printf("matrix[%d]: %s\n", i, mtx[i]);
-			t_ast *ast = create_ast(mtx);
-			if(!ast)
+			mtx = create_matrix(line);
+			ast = create_ast(mtx);
+			if (!ast)
 				printf("error creating AST\n");
 			print_ast(ast, 0);
-		}	
-		free (line);	
+		}
+		free(line);
 	}
 	printf("Leaving Gigachell...\n");
 	rl_clear_history();
@@ -52,11 +52,11 @@ int	main(void)
 }
 
 /*
-	
+
 	pruebas a realizar:
 	1-	cat << EOF > file.txt | Here doc + redireccion > CORRECTO
 
-	2-	cat << EOF | wc -l 
+	2-	cat << EOF | wc -l
 
 	3-	grep "hello" < file.txt << EOF
 

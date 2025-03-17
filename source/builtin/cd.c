@@ -12,17 +12,18 @@
 
 #include "../include/minishell.h"
 
+// Cambia la ubicacion actual usando la funcion chdir,
+//	en caso de error imprime un mensaje de error
+// Retorna 0 si todo fue correcto, 1 si hubo un error
 
-//Cambia la ubicacion actual usando la funcion chdir, en caso de error imprime un mensaje de error
-//Retorna 0 si todo fue correcto, 1 si hubo un error
-int cd(char *path)
+int	cd(char *path)
 {
-    if (chdir(path) == -1)
-    {
-        ft_putstr_fd("minishell: cd: ", 2);
-        ft_putstr_fd(path, 2);
-        ft_putstr_fd(": No such file or directory\n", 2);
-        return (1);
-    }
-    return (0);
+	if (chdir(path) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (1);
+	}
+	return (0);
 }

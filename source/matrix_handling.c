@@ -6,11 +6,13 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/10 16:46:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:18:17 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	**clean_up_matrix(char **matrix);
 
 char	**create_matrix(char *line)
 {
@@ -35,6 +37,37 @@ char	**create_matrix(char *line)
 		printf("malloc error\n");
 	matrix = split_line(matrix, line);
 	matrix = handle_meta(matrix);
+	matrix = clean_up_matrix(matrix);
+	return (matrix);
+}
+
+//esto lo limpia, pero en el caso de env entre comillas simples luego no 
+//deberái interpretarlo, no sé como hacer eso
+char	**clean_up_matrix(char **matrix)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (matrix[i])
+	{
+		j = 0;
+		while (matrix[i][j])
+		{
+			if (matrix[i][j] == '"' || matrix[i][j] == '\'')
+			{
+				j++;
+				while (matrix[i][j] != '"' && matrix[i][j] != '\'')
+				{
+					matrix[i][j - 1] = matrix[i][j];
+					j++;
+				}
+				matrix[i][j - 1] = '\0';
+			}
+			j++;
+		}
+		i++;
+	}
 	return (matrix);
 }
 
@@ -46,12 +79,12 @@ char	*get_token(char *line, int *i, char quote)
 	start = *i;
 	if (quote)
 	{
-		(*i)++; // Skip the opening quote.
+		(*i)++;
 		while (line[*i] != quote && line[*i])
 			(*i)++;
 		token = ft_substr(line, start + 1, *i - (start + 1));
 		if (line[*i] == quote)
-			(*i)++; // Skip the closing quote.
+			(*i)++;
 	}
 	else
 	{

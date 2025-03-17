@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/11 15:01:12 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:20:29 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * consecutive command tokens. Ot1herwise, it handles a single operator token.
  *
  * @param args A null-terminated array of strings representing tokens.
- * @param indx A pointer to the current index in the token array, updated as 
+ * @param indx A pointer to the current index in the token array, updated as
  * tokens are processed.
  * @return A pointer to the newly created AST node, or NULL if allocation fails.
  */
@@ -39,8 +39,8 @@ t_ast	*create_node(char **args, int *indx)
 	if (node->type == NODE_CMD)
 		while (args[i] && get_token_type(args[i]) == NODE_CMD)
 			i++;
-	else if (node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_IN ||
-			node->type == NODE_HEREDOC || node->type == NODE_REDIR_APPEND)
+	else if (node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_IN
+		|| node->type == NODE_HEREDOC || node->type == NODE_REDIR_APPEND)
 		i = *indx + 2;
 	else
 		i = *indx + 1;
@@ -68,10 +68,10 @@ t_ast	*create_node(char **args, int *indx)
  */
 t_ast	*create_ast(char **tokens)
 {
-	t_ast		*root;
-	t_ast		*new_node;
-	t_ast		*current;
-	int			i;
+	t_ast	*root;
+	t_ast	*new_node;
+	t_ast	*current;
+	int		i;
 
 	root = NULL;
 	current = NULL;
