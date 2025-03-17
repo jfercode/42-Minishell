@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/14 17:05:23 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:41:55 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,23 @@
 		// // EXECUTE NODE_REDIR_APPEND (Same as redir out but in append mode)
 	
 // }
+
+/**
+ * @brief			function that travels around the ast to count the deep of itself
+ * 
+ * @param ast_root	the ast root
+ * @return			returns a integer with the ast "deep";
+ */
+int		obtain_ast_deep(t_ast *ast_root)
+{
+	t_ast	*current;
+	int		i;
+
+	current = ast_root;
+	while (current->left)
+	{
+		current = current->left;
+		i++;
+	}
+	return (i);
+}

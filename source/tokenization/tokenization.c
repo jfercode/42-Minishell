@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/14 18:14:27 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:23:15 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,3 +103,15 @@ t_ast	*create_ast(char **tokens)
 	}
 	return (root);
 }
+
+/*
+grep << in a -> grep a << in
+
+node: 
+	here
+	in
+node: 
+	cmd
+	grep 
+gre in a
+*/
