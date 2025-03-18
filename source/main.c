@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:55:32 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:43:07 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	ft_exec_line(char *line)
 		t_ast *ast = create_ast(mtx);
 		if(!ast)
 			ft_error_exit("Error creating AST\n");
-		ft_printf(STDOUT_FILENO, "AST_DEEP: %d\n", obtain_ast_deep(ast));
 		print_ast(ast, 0); // TO DO -> DELETE PRINT_AST -> EXECUTE AST HERE
 		free_ast(ast);
 		free_matrix(mtx);
@@ -124,5 +123,20 @@ int	main(void)
 // 	// 	ft_error_exit("Error creating AST\n");
 // 	// print_ast(ast, 0);
 // 	// free_ast(ast);
+// 	return (EXIT_SUCCESS);
+// }
+
+/**
+ * HANDLE NODES MAIN test
+ */
+
+// int	main (void)
+// {
+// 	char	*mtx[] = {"<<", "in", NULL};
+// 	t_ast *test;
+	
+// 	test = create_ast(mtx);
+// 	execute_heredoc_node(test);
+// 	free(test);
 // 	return (EXIT_SUCCESS);
 // }

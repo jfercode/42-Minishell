@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:11:09 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:14:38 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
  */
 void	execute_cmd_node(t_ast *node)
 {
-	// Execute cmd simple 
+	// Execute cmd simple
+	if (node->type != NODE_CMD)
+		return ;
 }
 /**
  *	type: PIPE
@@ -31,4 +33,7 @@ void	execute_cmd_node(t_ast *node)
 void	execute_pipe_node(t_ast *node)
 {
 	// call pipe_function(x, y)
+		if (node->type != NODE_PIPE)
+			return ; 
+
 }
