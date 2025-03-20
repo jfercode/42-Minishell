@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/18 17:43:07 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:08:09 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_exec_line(char *line)
 		t_ast *ast = create_ast(mtx);
 		if(!ast)
 			ft_error_exit("Error creating AST\n");
-		print_ast(ast, 0); // TO DO -> DELETE PRINT_AST -> EXECUTE AST HERE
+		inverse_print_ast(ast); // TO DO -> DELETE PRINT_AST -> EXECUTE AST HERE
 		free_ast(ast);
 		free_matrix(mtx);
 	}

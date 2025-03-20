@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/18 17:11:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:07:57 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int			parsing_line(char *line);
 void		print_node(t_ast *node);
 void		print_matrix(char **matrix);
 void		print_ast(t_ast *root, int level);
+
 void		ft_read_fd(char *filename);
 void		ft_error_exit(const char *error_msg);
 void		ft_error(const char *error_msg);
