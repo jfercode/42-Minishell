@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:20:29 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:57:50 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
+
+static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
+{
+	int	i;
+
+	i = *indx;
+	if (type == NODE_CMD)
+	while (args[i] && get_token_type(args[i]) == NODE_CMD)
+		i++;
+	else if (type == NODE_REDIR_OUT || type == NODE_REDIR_IN ||
+		type == NODE_HEREDOC || type == NODE_REDIR_APPEND)
+		i = *indx + 2;
+	else
+		i = *indx + 1;
+	return (i);
+}
 
 /**
  * @brief Creates a new AST node from the given arguments.
@@ -36,14 +52,7 @@ t_ast	*create_node(char **args, int *indx)
 	if (!node)
 		return (NULL);
 	node->type = get_token_type(args[i]);
-	if (node->type == NODE_CMD)
-		while (args[i] && get_token_type(args[i]) == NODE_CMD)
-			i++;
-	else if (node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_IN
-		|| node->type == NODE_HEREDOC || node->type == NODE_REDIR_APPEND)
-		i = *indx + 2;
-	else
-		i = *indx + 1;
+	i = obtain_current_indx_token(indx, args, node->type);
 	node->args = malloc(sizeof(char *) * (i - *indx + 1));
 	if (!node->args)
 		return (free_node(node), NULL);
@@ -94,3 +103,15 @@ t_ast	*create_ast(char **tokens)
 	}
 	return (root);
 }
+
+/*
+grep << in a -> grep a << in
+
+node: 
+	here
+	in
+node: 
+	cmd
+	grep 
+gre in a
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/11 14:47:53 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:07:57 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../source/libft/include/libft.h"
+
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -35,9 +36,11 @@
 # define BLUE "\033[1;34m"
 # define GREEN "\033[1;32m"
 
+# define ERROR -1
+
 extern bool	g_running;
 
-/* NODE TYPE ENUM*/
+/* NODE TYPE ENUM	*/
 typedef enum e_type
 {
 	NODE_CMD,
@@ -49,32 +52,28 @@ typedef enum e_type
 	// NODE_LOGICAL_OP
 }	t_node_type;
 
-/* ABSTRACT SYNTAX TREE STRUCT*/
+/*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
-	char			*filename;
+	int				input_fd;
+	int				output_fd;
+	pid_t			pid;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
 
-typedef struct s_executor
-{
-	int		fd_infile;
-	int		fd_outfile;
-}				t_executor;
-
-/*SIGNALS BEHAVIOUR*/
+/*	SIGNALS BEHAVIOUR	*/
 void		ft_handle_sigint(int sig);
 void		ft_handle_sigterm(int sig);
 void		ft_handle_sigquit(int sig);
 void		ft_signal(int signo, void *handler, bool use_siginfo);
 
-/*ERROR HANDLING*/
+/*	ERROR HANDLING	*/
 void		ft_error_exit(const char *error_msg);
 
-/*HEREDOC HANDLING*/
+/*	HEREDOC HANDLING	*/
 int			ft_handle_here_doc(char *delimiter);
 
 /* TOKENIZATION */
@@ -86,22 +85,49 @@ t_ast		*create_node(char **args, int *indx);
 
 t_node_type	get_token_type(char	*token);
 
-/* PARSE INPUT */
+/*	EXECUTION	*/
+int		obtain_ast_deep(t_ast *ast_root);
+
+/*	NODE_EXECUTION	*/
+void	execute_cmd_node(t_ast *node);
+void	execute_pipe_node(t_ast *node);
+
+/*	NODE_REDIRECTION	*/
+void	execute_heredoc_node(t_ast *node);
+void	execute_redir_in_node(t_ast *node);
+void	execute_redir_out_node(t_ast *node);
+void	execute_redir_append_node(t_ast *node);
+
+
+/*	PARSE INPUT	*/
 int			parsing_line(char *line);
 
 /*	UTILS	*/
 void		print_node(t_ast *node);
+void		print_matrix(char **matrix);
 void		print_ast(t_ast *root, int level);
-void			ft_error_exit(const char *error_msg);
 
-/*  PARSING  */
-int				syntax_error(char *line);
-int				open_quotes(char *line);
-int				invalid_redir(char *line);
-int				invalid_op(char *line);
-int				invalid_env(char *line);
-char			**split_line(char **matrix, char *line);
-char			**create_matrix(char *line);
-char			**handle_meta(char **matrix);
+void		ft_read_fd(char *filename);
+void		ft_error_exit(const char *error_msg);
+void		ft_error(const char *error_msg);
 
-#endif /*MINISHELL_H*/
+
+int			syntax_error(char *line);
+int			open_quotes(char *line);
+int			invalid_op(char *line);
+int			invalid_env(char *line);
+int			invalid_redir(char *line);
+
+//int				special_chars(char *line);
+
+/*	MATRIX HANDLING	*/
+void		free_matrix(char **matrix);
+
+int			read_until(char *line, int i, char quote);
+int			omit_spaces(char *line, int i);
+
+char		**split_line(char **matrix, char *line);
+char		**create_matrix(char *line);
+char		**handle_meta(char **matrix);
+
+#endif /*	MINISHELL_H	*/

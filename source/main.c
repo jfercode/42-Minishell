@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:20:08 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:08:09 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,29 @@ static void	ft_start_gigachell(void)
 	ft_signal(SIGQUIT, SIG_IGN, false);
 }
 
-// LINE IS GOING TO BE OUR TEXT TO TOKENIZE
+static void	ft_exec_line(char *line)
+{
+	char	**mtx;
+
+	add_history(line);
+	if (syntax_error(line) == ERROR)
+		free(line);
+	else
+	{
+		mtx = create_matrix(line);
+		print_matrix(mtx);
+		t_ast *ast = create_ast(mtx);
+		if(!ast)
+			ft_error_exit("Error creating AST\n");
+		inverse_print_ast(ast); // TO DO -> DELETE PRINT_AST -> EXECUTE AST HERE
+		free_ast(ast);
+		free_matrix(mtx);
+	}
+}
+ 
+/**
+ * Main function of the program
+ */
 int	main(void)
 {
 	char	*line;
@@ -35,41 +57,86 @@ int	main(void)
 		if (!line)
 			break ;
 		else if (*line)
-		{
-			add_history(line);
-			syntax_error(line);
-			mtx = create_matrix(line);
-			ast = create_ast(mtx);
-			if (!ast)
-				printf("error creating AST\n");
-			print_ast(ast, 0);
-		}
-		free(line);
+			ft_exec_line(line);
+		free (line);
 	}
 	printf("Leaving Gigachell...\n");
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
 
-/*
+// static void	reorder_matrix(char **tokens)
+// {
+// 	int i = 0, j, k;
+//     while (tokens[i])
+//     {
+// 		ft_printf(1, GREEN"Reordered matrix:"RST"\n");
+// 		print_matrix(tokens);
+//         // Si encontramos un comando (CMD)
+//         if (get_token_type(tokens[i]) == NODE_CMD)
+//         {
+//             j = i + 1; // Buscar redirecciones después del comando
+//             while (tokens[j] && get_token_type(tokens[j]) != NODE_PIPE)
+//             {
+//                 // Si encontramos una redirección
+//                 if (get_token_type(tokens[j]) == NODE_REDIR_IN ||
+//                     get_token_type(tokens[j]) == NODE_REDIR_OUT ||
+//                     get_token_type(tokens[j]) == NODE_HEREDOC ||
+//                     get_token_type(tokens[j]) == NODE_REDIR_APPEND)
+//                 {
+//                     // La redirección y su argumento deben moverse al final del bloque del comando
+//                     char *redir = tokens[j];
+//                     char *file = tokens[j + 1];
 
-	pruebas a realizar:
-	1-	cat << EOF > file.txt | Here doc + redireccion > CORRECTO
+//                     // Desplazar los elementos para hacer espacio
+//                     k = j;
+//                     while (tokens[k + 2])
+//                     {
+//                         tokens[k] = tokens[k + 2];
+//                         k++;
+//                     }
+//                     tokens[k] = redir;
+//                     tokens[k + 1] = file;
+//                     tokens[k + 2] = NULL; // Asegurar fin de la matriz
+//                     j = i; // Reiniciar `j` para revisar desde la nueva posición de `i`
+//                 }
+//                 j++;
+//             }
+//         }
+//         i++;
+//     }
+// }
 
-	2-	cat << EOF | wc -l
+// /**
+//  * AST main de pruebas
+//  */
+// int	main(void)
+// {
+// 	char	*mtx[] = {"grep", "<<", "in", "a", "|", "echo" ,"Hello World" ,">" ,"out", NULL};
+// 	ft_printf(1, GREEN"Original matrix:"RST"\n");
+// 	print_matrix(mtx);
+// 	// reorder_matrix(mtx);
+// 	// ft_printf(1, GREEN"Reordered matrix:"RST"\n");
+// 	// print_matrix(mtx);
+// 	// t_ast *ast = create_ast(mtx);
+// 	// if (!ast)
+// 	// 	ft_error_exit("Error creating AST\n");
+// 	// print_ast(ast, 0);
+// 	// free_ast(ast);
+// 	return (EXIT_SUCCESS);
+// }
 
-	3-	grep "hello" < file.txt << EOF
+/**
+ * HANDLE NODES MAIN test
+ */
 
-	4-	cat file.txt | grep "hello" | wc -l > result.txt
-
-	5-	echo "Start" >> log.txt && cat << EOF >> log.txt
-
-*/
-// // -> MAIN TO TEST TOKENIZATION
 // int	main (void)
 // {
-// 	char *tokens[] = {"grep", "hello", "<", "file.txt", "<<", "EOF", NULL};
-// 	t_ast *ast = create_ast(tokens);
-// 	print_ast (ast, 0);
-// 	return(EXIT_SUCCESS);
+// 	char	*mtx[] = {"<<", "in", NULL};
+// 	t_ast *test;
+	
+// 	test = create_ast(mtx);
+// 	execute_heredoc_node(test);
+// 	free(test);
+// 	return (EXIT_SUCCESS);
 // }

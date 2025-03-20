@@ -1,13 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   user_input.c                                       :+:      :+:    :+:   */
+/*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 14:38:54 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/02/27 16:21:52 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/03/18 16:14:38 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
+
+/**
+ * 	type: CMD
+ *	token: echo
+ * 	token arg[0]: echo
+ *	token arg[1]: hello world
+ */
+void	execute_cmd_node(t_ast *node)
+{
+	// Execute cmd simple
+	if (node->type != NODE_CMD)
+		return ;
+}
+/**
+ *	type: PIPE
+ *	token: |
+ *	left: x
+ *	right: y
+ */
+void	execute_pipe_node(t_ast *node)
+{
+	// call pipe_function(x, y)
+		if (node->type != NODE_PIPE)
+			return ; 
+
+}

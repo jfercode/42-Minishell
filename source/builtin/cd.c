@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-// Cambia la ubicacion actual usando la funcion chdir,
-//	en caso de error imprime un mensaje de error
-// Retorna 0 si todo fue correcto, 1 si hubo un error
+#include "../../include/minishell.h"
 
 int	cd(char *path)
 {

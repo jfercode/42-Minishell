@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:19:38 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:07:58 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /**
  * @brief Removes the trailing newline character from a string.
@@ -56,22 +56,47 @@ int	ft_handle_here_doc(char *delimiter)
 	char	*line;
 
 	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (tmp_fd == -1)
-		return (ft_error_exit("Error opening temp heredoc file"), EXIT_FAILURE);
+	if (tmp_fd == - 1)
+		return (ft_error_exit("Error: can't opening temp heredoc file"), EXIT_FAILURE);
 	while (1)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
 		line = ft_get_next_line(STDIN_FILENO);
-			// EN DUDA CUANDO SE IMPLEMENTE VER QUE CARAJO PILLA
 		if (!line)
-			return (ft_error_exit("Error reading heredoc"), EXIT_FAILURE);
+			return (ft_error_exit("Error: while reading heredoc"), EXIT_FAILURE);
 		line = remove_newline(line);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-			return (free(line), close(tmp_fd), EXIT_FAILURE);
+			return (free(line), close(tmp_fd), EXIT_SUCCESS);
 		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1);
 		free(line);
 	}
 	close(tmp_fd);
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
+}
+
+void	ft_read_fd(char *filename)
+{
+	int		i;
+	int		tmp_fd;
+	char	*line;
+	
+	tmp_fd = open(filename, O_RDONLY, 0644);
+	if (!tmp_fd)
+		return (ft_error("Error: can't read a fd"));
+	line = ft_get_next_line(tmp_fd);
+	if (!line)
+		ft_printf(STDOUT_FILENO,"NO leyo nada\n");
+	else
+	{
+		i = 0;
+		while(line != NULL)
+		{
+			ft_printf(STDOUT_FILENO, GREEN"FD[%d]_ln[%d]: "RST"%s\n", tmp_fd, i, line);
+			i++;
+			free(line);
+			line = ft_get_next_line(tmp_fd);
+		}
+	}
+	close(tmp_fd);
 }

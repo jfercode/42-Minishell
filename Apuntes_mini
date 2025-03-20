@@ -91,3 +91,7 @@
 #	define	"MOVIMIENTO EN AST"
 #	Como COÑO Me muevo en el AST para redirecciones y para ejecuciones de nodos (cmds o pipes o lo que coño sea)
 #	endif	/*MOVIMIENTO EN AST*/
+
+# Para mi -> 
+
+# Matrix handling -> Eliminar los espacios que aparecen en la matriz (sulen aparecer detrás de un pipe o de un redir)

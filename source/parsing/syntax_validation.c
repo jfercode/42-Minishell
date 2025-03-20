@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 18:18:45 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:57:23 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 // lo que dice bash en caso de error de direcciones es
 // "syntax error near unexpected token"
@@ -22,9 +22,9 @@
 int	syntax_error(char *line)
 {
 	if (open_quotes(line))
-		printf("syntax error: unclosed quote\n");
+		return (ft_error("Syntax_error: unclosed quote\n"), ERROR);
 	if (invalid_redir(line))
-		printf("syntax error near unexpected token\n");
+		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_op(line))
 		printf("syntax error near unexpected token\n");
 	if (invalid_env(line))
