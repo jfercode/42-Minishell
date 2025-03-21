@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 18:08:09 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:02:02 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ static void	ft_start_gigachell(void)
 	ft_signal(SIGQUIT, SIG_IGN, false);
 }
 
-static void	ft_exec_line(char *line)
+static void	ft_exec_line(char *line, char **envp)
 {
 	char	**mtx;
+	t_ast 	*ast;
 
 	add_history(line);
 	if (syntax_error(line) == ERROR)
@@ -31,11 +32,10 @@ static void	ft_exec_line(char *line)
 	else
 	{
 		mtx = create_matrix(line);
-		print_matrix(mtx);
-		t_ast *ast = create_ast(mtx);
+		ast = create_ast(mtx, envp);
 		if(!ast)
 			ft_error_exit("Error creating AST\n");
-		inverse_print_ast(ast); // TO DO -> DELETE PRINT_AST -> EXECUTE AST HERE
+		execute_ast(ast);
 		free_ast(ast);
 		free_matrix(mtx);
 	}
@@ -44,20 +44,22 @@ static void	ft_exec_line(char *line)
 /**
  * Main function of the program
  */
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	char	**mtx;
 	t_ast	*ast;
 
 	ft_start_gigachell();
+	(void) argc;
+	(void) argv;
 	while (g_running)
 	{
 		line = readline(GREEN "Gigachell> " RST);
 		if (!line)
 			break ;
 		else if (*line)
-			ft_exec_line(line);
+			ft_exec_line(line, envp);
 		free (line);
 	}
 	printf("Leaving Gigachell...\n");

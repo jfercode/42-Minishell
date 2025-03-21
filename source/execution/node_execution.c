@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/21 14:47:47 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:49:14 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ void	run_command(t_ast *node)
 	}
 }
 
-void	execute_cmd_node(t_ast *node)
+/*
+*	TO DO: Redireccion de entrada y de salida
+*	
+*/
+void	execute_cmd_node(t_ast *node, int fd_in, int fd_out)
 {
 	// Execute cmd simple
 	pid_t	pid;
@@ -144,9 +148,7 @@ void	execute_pipe_node(t_ast *node)
 		if (current->left && current->left->type == NODE_CMD)
 			forking(current->left, prev_fd, fd[1]);
 		else
-		{
-			execute_pipe(current->left);
-		}
+			execute_pipe_node(current->left);
 		close(fd[1]);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);

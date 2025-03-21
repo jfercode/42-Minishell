@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 18:07:57 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:01:18 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
+	char			**envp;
 	int				input_fd;
 	int				output_fd;
 	pid_t			pid;
@@ -80,16 +81,17 @@ int			ft_handle_here_doc(char *delimiter);
 void		free_ast(t_ast *root);
 void		free_node(t_ast *node);
 
-t_ast		*create_ast(char **line);
-t_ast		*create_node(char **args, int *indx);
+t_ast		*create_ast(char **line, char **envp);
+t_ast		*create_node(char **args, char **envp, int *indx);
 
 t_node_type	get_token_type(char	*token);
 
 /*	EXECUTION	*/
+int		execute_ast(t_ast *ast);
 int		obtain_ast_deep(t_ast *ast_root);
 
 /*	NODE_EXECUTION	*/
-void	execute_cmd_node(t_ast *node);
+void	execute_cmd_node(t_ast *node, int fd_in, int fd_out);
 void	execute_pipe_node(t_ast *node);
 
 /*	NODE_REDIRECTION	*/
@@ -97,6 +99,7 @@ void	execute_heredoc_node(t_ast *node);
 void	execute_redir_in_node(t_ast *node);
 void	execute_redir_out_node(t_ast *node);
 void	execute_redir_append_node(t_ast *node);
+
 
 
 /*	PARSE INPUT	*/
