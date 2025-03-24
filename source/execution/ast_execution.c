@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 19:05:04 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:49:31 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int		execute_ast(t_ast *ast)
 	static int		fd_outfile = STDOUT_FILENO;
 
 	current = ast;
-	if (current->left != NULL)
-		current = current->left;
+	// if (current->left != NULL)
+	// 	current = current->left;
 	if (current->type == NODE_CMD)
 		execute_cmd_node(current, fd_infile, fd_outfile);
 	// else if (current->type == NODE_PIPE)

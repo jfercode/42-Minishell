@@ -2,5 +2,5 @@
 
 void	ft_exit(void)
 {
-	kill(getpid(), SIGTERM);
+	printf("EXIT");
 }

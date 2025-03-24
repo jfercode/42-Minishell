@@ -15,7 +15,7 @@
 // Funcion que replica el funcionamiento de pwd
 // Imprime en pantalla el directorio actual
 // Retorna 0 si todo fue correcto, 1 si hubo un error
-int	pwd(void)
+int	ft_pwd(void)
 {
 	char	*path;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/21 14:50:39 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:17:23 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,18 @@ void	run_command(t_ast *node)
 	path = get_path(node->args, node->envp);
 	if (!path)
 	{
-		perror("Command not found");
-		exit(EXIT_FAILURE);
+		if(ft_execve(node) == 1)
+		{
+			perror("Command not found");
+			exit(EXIT_FAILURE);
+		}
 	}
 	if (execve(path, node->args, node->envp) == -1)
 	{
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
+
 }
 
 /*

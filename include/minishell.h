@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 13:53:42 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:09:00 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ t_node_type	get_token_type(char	*token);
 int		execute_ast(t_ast *ast);
 int		obtain_ast_deep(t_ast *ast_root);
 
+
+int ft_execve(t_ast *node);
+
 /*	NODE_EXECUTION	*/
 void	execute_cmd_node(t_ast *node, int fd_in, int fd_out);
 void	execute_pipe_node(t_ast *node);
@@ -104,7 +107,15 @@ void	execute_redir_in_node(t_ast *node);
 void	execute_redir_out_node(t_ast *node);
 void	execute_redir_append_node(t_ast *node);
 
-
+/*BUILT INS*/
+void	ft_env(void);
+int	ft_cd(char *path);
+int	ft_echo(int ar, char **args);
+void	ft_env(void);
+void	ft_exit(void);
+void	ft_export(char **args);
+int	ft_pwd(void);
+void	ft_unset(const char *var);
 
 /*	PARSE INPUT	*/
 int			parsing_line(char *line);
