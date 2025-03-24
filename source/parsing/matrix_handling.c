@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/20 19:03:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:43:35 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,8 @@ char	**create_matrix(char *line)
 		ft_error("Error: failed matrix creation\n");
 	matrix = split_line(matrix, line);
 	matrix = handle_meta(matrix);
-	matrix = clean_up_matrix(matrix);
-	return (matrix);
-}
-
-//esto lo limpia, pero en el caso de env entre comillas simples luego no 
-//deberái interpretarlo, no sé como hacer eso
-char	**clean_up_matrix(char **matrix)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (matrix[i])
-	{
-		j = 0;
-		while (matrix[i][j])
-		{
-			if (matrix[i][j] == '"' || matrix[i][j] == '\'')
-			{
-				j++;
-				while (matrix[i][j] != '"' && matrix[i][j] != '\'')
-				{
-					matrix[i][j - 1] = matrix[i][j];
-					j++;
-				}
-				matrix[i][j - 1] = '\0';
-			}
-			j++;
-		}
-		i++;
-	}
+	print_matrix(matrix);
+	matrix = expand_matrix(matrix);
 	return (matrix);
 }
 
