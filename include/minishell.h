@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 15:50:16 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:28:38 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_node_type	get_token_type(char	*token);
 void	execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
+void	run_command(t_ast *node);
 void	execute_cmd_node(t_ast *node);
 void	execute_pipe_node(t_ast *node);
 t_ast	**order_cmds(t_ast *node, t_ast **cmds);
@@ -108,9 +109,7 @@ void		print_node(t_ast *node);
 void		print_matrix(char **matrix);
 void		print_ast(t_ast *root, int level);
 
-
 /*BUILTINS*/
-
 int cd(char *path);
 int ft_echo(int ar, char **args);
 void ft_env();

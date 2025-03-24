@@ -1,10 +1,12 @@
-1.	Implementacion de logica de los pipes 
+1.	En los pipes, tenemos que ver para pasar la salida de un cmd 
+	con la entrada del siguiente y despejar FD IN y FD out entre pipes
+	-> SI < IN_FILE cmd > OUT_FILE | cmd -> se redirecciona la salida al OUT_FILE y no
+	ejecuta el otro cmd?
 
 2.	Implementar la deteccion y ejecución de built ins
 
-3.	Ver error en ejecucion en la que tenemos [">", "o", "cat", "<<", "in"]
-	-	Salta error en la creacion del heredoc
+3.	Expansión de variables
 
 4.	Liberacion de memoria
 
-5.	Pruebas de ejecución.
+4.	Pruebas de ejecución.

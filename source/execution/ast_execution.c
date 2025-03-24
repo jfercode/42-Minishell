@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 15:41:50 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:22:45 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void prepare_redirecctions(t_ast *ast, int *fd_infile, int *fd_outfile)
 {
 	if (ast == NULL)
 		return ;
-	if (ast->left != NULL)
-		prepare_redirecctions(ast->left, fd_infile, fd_outfile);
 	if (ast->type == NODE_REDIR_IN)
 		execute_redir_in_node(ast, fd_infile);
 	else if (ast->type == NODE_HEREDOC)
@@ -26,19 +24,20 @@ static void prepare_redirecctions(t_ast *ast, int *fd_infile, int *fd_outfile)
 		execute_redir_out_node(ast, fd_outfile);
 	else if (ast->type == NODE_REDIR_APPEND)
 		execute_redir_append_node(ast, fd_outfile);
+	if (ast->left != NULL)
+		prepare_redirecctions(ast->left, fd_infile, fd_outfile);
 }
 
 static void	execute_cmds_and_pipes(t_ast *ast)
 {
 	if (ast == NULL)
 		return ;
-	if (ast->left != NULL)
-		execute_cmds_and_pipes(ast->left);
-	if (ast->type == NODE_CMD)
-		execute_cmd_node(ast);
-	else if (ast->type == NODE_PIPE)
+	if (ast->type == NODE_PIPE)
 		execute_pipe_node(ast);
-	// TO DO implementar los pipes
+	else if (ast->type == NODE_CMD)
+		execute_cmd_node(ast);
+	else
+		execute_cmds_and_pipes(ast->left);
 }
 
 void	execute_ast(t_ast *ast)
@@ -49,14 +48,14 @@ void	execute_ast(t_ast *ast)
 	int	original_stdout;
 
 	original_stdin = dup(STDIN_FILENO);
-    if (original_stdin == -1)
+	if (original_stdin == -1)
 		ft_error("Error saving original STDIN");
-    original_stdout = dup(STDOUT_FILENO);
-    if (original_stdout == -1)
+	original_stdout = dup(STDOUT_FILENO);
+	if (original_stdout == -1)
 		ft_error("Error saving original STDOUT");
-	
+
 	fd_infile = STDIN_FILENO;
-	fd_outfile = STDOUT_FILENO;	
+	fd_outfile = STDOUT_FILENO;
 
 	prepare_redirecctions(ast, &fd_infile, &fd_outfile);
 
@@ -66,12 +65,12 @@ void	execute_ast(t_ast *ast)
 	if (fd_outfile != STDOUT_FILENO)
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
 			ft_error_exit("Error duplicating file descriptor");
-	
+
 	execute_cmds_and_pipes(ast);
 
 	if (dup2(original_stdin, STDIN_FILENO) == -1)
 		ft_error_exit("Error duplicating file descriptor");
-	if (dup2(original_stdin, STDOUT_FILENO) == -1)
+	if (dup2(original_stdout, STDOUT_FILENO) == -1)
 		ft_error_exit("Error duplicating file descriptor");
 	
 	close(original_stdin);
