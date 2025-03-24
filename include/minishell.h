@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 15:38:53 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:50:16 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,28 @@ int			parsing_line(char *line);
 void		print_node(t_ast *node);
 void		print_matrix(char **matrix);
 void		print_ast(t_ast *root, int level);
+
+
+/*BUILTINS*/
+
+int cd(char *path);
+int ft_echo(int ar, char **args);
+void ft_env();
+void ft_exit();
+void ft_export(char **args);
+int pwd();
+void ft_unset(const char *var);
+
+
+/*BUILTINS*/
+
+int cd(char *path);
+int ft_echo(int ar, char **args);
+void ft_env();
+void ft_exit();
+void ft_export(char **args);
+int pwd();
+void ft_unset(const char *var);
 
 void		ft_read_fd(int fd);
 void		ft_read_fd_name(char *filename);
