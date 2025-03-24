@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 19:01:18 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:06:15 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ int		obtain_ast_deep(t_ast *ast_root);
 /*	NODE_EXECUTION	*/
 void	execute_cmd_node(t_ast *node, int fd_in, int fd_out);
 void	execute_pipe_node(t_ast *node);
+t_ast	**order_cmds(t_ast *node, t_ast **cmds);
+void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd);
+
 
 /*	NODE_REDIRECTION	*/
 void	execute_heredoc_node(t_ast *node);

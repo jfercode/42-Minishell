@@ -26,33 +26,45 @@ int	is_special(char *str, int index)
 	return (0);
 }
 
-char	**nm_maker(char **matrix, char **new_mx, int i, int k)
+char    *maker_aux(char **matrix, char **new_mx, int *k, int i)
 {
-	int	n;
+    int n;
+	int	j;
 
-	while (matrix[i])
+	j = 0;
+	while (matrix[i][j])
 	{
-		n = is_special(matrix[i], 0);
+		n = is_special(matrix[i], j);
 		if (n)
 		{
-			new_mx[k++] = ft_substr(matrix[i], 0, n);
-			if (ft_strlen(matrix[i]) > 2)
-				new_mx[k++] = ft_substr(matrix[i], n, ft_strlen(matrix[i]) - n);
-		}
-		else
-		{
-			n = is_special(matrix[i], ft_strlen(matrix[i]) - 1);
-			if (n)
+			if (j > 0)
+				new_mx[(*k)++] = ft_substr(matrix[i], 0, j);
+			if (n == 2)
 			{
-				new_mx[k++] = ft_substr(matrix[i], 0, ft_strlen(matrix[i]) - n);
-				new_mx[k++] = ft_substr(matrix[i], ft_strlen(matrix[i]) - n, n);
+				new_mx[(*k)++] = ft_substr(matrix[i], j, 2);
+				j++;
 			}
 			else
-				new_mx[k++] = ft_strdup(matrix[i]);
+				new_mx[(*k)++] = ft_substr(matrix[i], j, 1);
+			matrix[i] += j + 1;
+			j = -1;
 		}
-		i++;
+		j++;
 	}
-	return (new_mx[k] = NULL, new_mx);
+    return (new_mx[*k]);
+}
+
+char    **nm_maker(char **matrix, char **new_mx, int i, int k)
+{
+	while (matrix[i])
+	{
+		maker_aux(matrix, new_mx, &k, i);
+		if (*matrix[i])
+			new_mx[k++] = ft_strdup(matrix[i]);
+		i++;
+    }
+	new_mx[k] = NULL;
+	return (new_mx);
 }
 
 char	**handle_meta(char **matrix)

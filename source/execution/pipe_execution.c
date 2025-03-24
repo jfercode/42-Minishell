@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/21 14:50:26 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:41:30 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  *	right: y
  */
 
-void	forking(t_ast *node, int fdin, int fdout)
+static void	forking(t_ast *node, int fdin, int fdout)
 {
 	pid_t	pid;
 
@@ -65,6 +65,8 @@ void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 		prev_fd = fd[0];
 		i++;
 	}
+	if (!cmds[i])
+    	printf("Error: Last command in pipeline is NULL!\n");
 	forking(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
@@ -98,7 +100,7 @@ t_ast	**order_cmds(t_ast *node, t_ast **cmds)
 	return (cmds);
 }
 
-void	execute_pipe(t_ast *node)
+void	execute_pipe_node(t_ast *node)
 {
 	t_ast	**cmds;
 	t_ast	*current;

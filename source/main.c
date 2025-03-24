@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 19:02:02 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:46:55 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ static void	ft_exec_line(char *line, char **envp)
 
 	add_history(line);
 	if (syntax_error(line) == ERROR)
+	{
+		perror("syntax");
 		free(line);
+		return;
+	}
 	else
 	{
 		mtx = create_matrix(line);
@@ -60,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		else if (*line)
 			ft_exec_line(line, envp);
-		free (line);
+		// free (line);
 	}
 	printf("Leaving Gigachell...\n");
 	rl_clear_history();

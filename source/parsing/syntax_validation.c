@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 18:57:23 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:28:11 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	syntax_error(char *line)
 	if (invalid_redir(line))
 		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_op(line))
-		printf("syntax error near unexpected token\n");
+		return (printf("syntax error near unexpected token\n"), ERROR);
 	if (invalid_env(line))
-		printf("$: command not found\n");
+		return (printf("$: command not found\n"), ERROR);
 	return (0);
 }
 

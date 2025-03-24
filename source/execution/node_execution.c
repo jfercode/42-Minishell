@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/21 14:50:39 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:26:15 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,18 @@ void	run_command(t_ast *node)
     if (!node || !node->args || !node->args[0])
     {
         perror("Invalid command");
-        exit(EXIT_FAILURE);
+        exit(127);
     }
 	path = get_path(node->args, node->envp);
 	if (!path)
 	{
 		perror("Command not found");
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	if (execve(path, node->args, node->envp) == -1)
 	{
-		perror("execve failed");
-		exit(EXIT_FAILURE);
+		perror("Execve failed");
+		exit(127);
 	}
 }
 
@@ -77,7 +77,6 @@ void	run_command(t_ast *node)
 */
 void	execute_cmd_node(t_ast *node, int fd_in, int fd_out)
 {
-	// Execute cmd simple
 	pid_t	pid;
 
 	if (node->type != NODE_CMD)

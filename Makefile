@@ -14,7 +14,7 @@ LIBFT_DIR	=	source/libft
 LIBFT_LIB	=	source/libft/build/libft.a
 
 BUILTINS		=	cd echo env exit export pwd unset
-EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection
+EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection pipe_execution
 PARSING			=	matrix_handling meta_handling syntax_validation
 SIGNALS			=	signals_utils
 TOKENIZATION	=	ast_utils tokenization tokenization_utils
