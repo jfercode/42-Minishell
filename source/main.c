@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:39:20 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:42:54 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		else if (*line)
 			ft_exec_line(line, envp);
-		// free (line);
 	}
 	printf("Leaving Gigachell...\n");
 	rl_clear_history();
