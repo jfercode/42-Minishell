@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/javier/Escritorio/42/Cursus/42-Minishell/source",
-      "program": "/home/javier/Escritorio/42/Cursus/42-Minishell/source/build/Debug/outDebug",
+      "cwd": "/home/javier/Escritorio/42/Cursus/42-Minishell/source/execution",
+      "program": "/home/javier/Escritorio/42/Cursus/42-Minishell/source/execution/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -3,49 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 18:57:00 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:02:47 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 /**
- * 	type: CMD
- *	token: echo
- * 	token arg[0]: echo
- *	token arg[1]: hello world
+ * @brief Finds the full path of a command using the system's PATH 
+ * environment variable.
+ *
+ * Searches through each directory listed in the PATH environment variable,
+ * appending the command name to each path, and checks if the command exists 
+ * using `access()`. 
+ * 
+ * Returns the first valid path found.
+ *
+ * Memory allocated for temporary paths is freed to prevent leaks.
+ *
+ * @param cmd  The command to find (e.g., "ls", "grep").
+ * @param envp The environment variables containing the PATH.
+ * @return The full path to the executable if found, or NULL if not found.
  */
-
-char	*get_path(char **cmd, char **envp)
+char	*find_path(char *cmd, char **envp)
 {
-	char	**path;
+	char	**paths;
+	char	*path;
 	char	*tmp;
 	int		i;
 
 	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			break ;
+	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
-	}
-	tmp = ft_substr(envp[i], 6, ft_strlen(envp[i]) + 1);
-	path = ft_split(tmp, ':');
-	if (!path)
-		perror("Cmd");
+	paths = ft_split(envp[i], ':');
 	i = 0;
-	while (path[i])
+	while (paths[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
-		tmp = ft_strjoin(tmp, cmd[0]);
-		if (access(tmp, F_OK | X_OK) == 0)
-			return (tmp);
+		tmp = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
 		i++;
 	}
-	free(tmp);
+	i = 0;
+	while (paths[i])
+		free(paths[i++]);
+	free(paths);
 	return (NULL);
 }
 
@@ -54,30 +61,26 @@ void	run_command(t_ast *node)
 	char	*path;
 
     if (!node || !node->args || !node->args[0])
-    {
-        perror("Invalid command");
-        exit(EXIT_FAILURE);
-    }
-	path = get_path(node->args, node->envp);
+	{
+		ft_error("Error: Invalid command");
+		// exit(127);	
+	}
+	path = find_path(*node->args, node->envp);
 	if (!path)
 	{
-		perror("Command not found");
-		exit(EXIT_FAILURE);
+		ft_error("Error: Command not found");
+		// exit(127);
 	}
 	if (execve(path, node->args, node->envp) == -1)
 	{
-		perror("execve failed");
-		exit(EXIT_FAILURE);
+		ft_error("Error: Execve failed");
+		free(path);
+		// exit(126);
 	}
 }
 
-/*
-*	TO DO: Redireccion de entrada y de salida
-*	
-*/
-void	execute_cmd_node(t_ast *node, int fd_in, int fd_out)
+void	execute_cmd_node(t_ast *node)
 {
-	// Execute cmd simple
 	pid_t	pid;
 
 	if (node->type != NODE_CMD)
@@ -91,73 +94,5 @@ void	execute_cmd_node(t_ast *node, int fd_in, int fd_out)
 		waitpid(pid, NULL, 0);
 	}
 	else
-		perror("fork");
-}
-
-/**
- *	type: PIPE
- *	token: |
- *	left: x
- *	right: y
- */
-
-void	forking(t_ast *node, int fdin, int fdout)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("Error: fork failed");
-		exit(1);
-	}
-	if (pid == 0)
-	{
-		if (fdin != STDIN_FILENO)
-		{
-			dup2(fdin, STDIN_FILENO);
-			close(fdin);
-		}
-		if (fdout != STDOUT_FILENO)
-		{
-			dup2(fdout, STDOUT_FILENO);
-			close(fdout);
-		}
-		run_command(node);
-	}
-}
-
-void	execute_pipe_node(t_ast *node)
-{
-	// call pipe_function(x, y)
-	int		fd[2];
-	t_ast	*current;
-	int		prev_fd;
-
-	if (node->type != NODE_PIPE)
-		return ; 
-	prev_fd = STDIN_FILENO;
-	current = node;
-	while (current && current->type == NODE_PIPE)
-	{
-		if (pipe(fd) == -1)
-		{
-			perror("Error: pipe failed");
-			return ;
-		}
-		if (current->left && current->left->type == NODE_CMD)
-			forking(current->left, prev_fd, fd[1]);
-		else
-			execute_pipe_node(current->left);
-		close(fd[1]);
-		if (prev_fd != STDIN_FILENO)
-			close(prev_fd);
-		prev_fd = fd[0];
-		current = current->right;
-		if (current && current->type == NODE_CMD)
-			forking(current, prev_fd, STDOUT_FILENO);
-	}
-	if (prev_fd != STDIN_FILENO)
-		close(prev_fd);
-	wait(NULL);
+		ft_error("Error: Failed fork");
 }

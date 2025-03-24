@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 19:01:18 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:53:48 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ typedef struct s_ast
 	t_node_type		type;
 	char			**args;
 	char			**envp;
-	int				input_fd;
-	int				output_fd;
 	pid_t			pid;
 	struct s_ast	*left;
 	struct s_ast	*right;
@@ -87,20 +85,17 @@ t_ast		*create_node(char **args, char **envp, int *indx);
 t_node_type	get_token_type(char	*token);
 
 /*	EXECUTION	*/
-int		execute_ast(t_ast *ast);
-int		obtain_ast_deep(t_ast *ast_root);
+void	execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
-void	execute_cmd_node(t_ast *node, int fd_in, int fd_out);
+void	execute_cmd_node(t_ast *node);
 void	execute_pipe_node(t_ast *node);
 
 /*	NODE_REDIRECTION	*/
-void	execute_heredoc_node(t_ast *node);
-void	execute_redir_in_node(t_ast *node);
-void	execute_redir_out_node(t_ast *node);
-void	execute_redir_append_node(t_ast *node);
-
-
+void	execute_heredoc_node(t_ast *node, int *fd_heredoc);
+void	execute_redir_in_node(t_ast *node, int *fd_infile);
+void	execute_redir_out_node(t_ast *node, int *fd_outfile);
+void	execute_redir_append_node(t_ast *node, int *fd_outfile);
 
 /*	PARSE INPUT	*/
 int			parsing_line(char *line);
@@ -110,10 +105,10 @@ void		print_node(t_ast *node);
 void		print_matrix(char **matrix);
 void		print_ast(t_ast *root, int level);
 
-void		ft_read_fd(char *filename);
+void		ft_read_fd(int fd);
+void		ft_read_fd_name(char *filename);
 void		ft_error_exit(const char *error_msg);
 void		ft_error(const char *error_msg);
-
 
 int			syntax_error(char *line);
 int			open_quotes(char *line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:35:43 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 19:02:02 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:41:10 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	ft_exec_line(char *line, char **envp)
 		free_matrix(mtx);
 	}
 }
- 
+
 /**
  * Main function of the program
  */
@@ -66,79 +66,3 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
-
-// static void	reorder_matrix(char **tokens)
-// {
-// 	int i = 0, j, k;
-//     while (tokens[i])
-//     {
-// 		ft_printf(1, GREEN"Reordered matrix:"RST"\n");
-// 		print_matrix(tokens);
-//         // Si encontramos un comando (CMD)
-//         if (get_token_type(tokens[i]) == NODE_CMD)
-//         {
-//             j = i + 1; // Buscar redirecciones después del comando
-//             while (tokens[j] && get_token_type(tokens[j]) != NODE_PIPE)
-//             {
-//                 // Si encontramos una redirección
-//                 if (get_token_type(tokens[j]) == NODE_REDIR_IN ||
-//                     get_token_type(tokens[j]) == NODE_REDIR_OUT ||
-//                     get_token_type(tokens[j]) == NODE_HEREDOC ||
-//                     get_token_type(tokens[j]) == NODE_REDIR_APPEND)
-//                 {
-//                     // La redirección y su argumento deben moverse al final del bloque del comando
-//                     char *redir = tokens[j];
-//                     char *file = tokens[j + 1];
-
-//                     // Desplazar los elementos para hacer espacio
-//                     k = j;
-//                     while (tokens[k + 2])
-//                     {
-//                         tokens[k] = tokens[k + 2];
-//                         k++;
-//                     }
-//                     tokens[k] = redir;
-//                     tokens[k + 1] = file;
-//                     tokens[k + 2] = NULL; // Asegurar fin de la matriz
-//                     j = i; // Reiniciar `j` para revisar desde la nueva posición de `i`
-//                 }
-//                 j++;
-//             }
-//         }
-//         i++;
-//     }
-// }
-
-// /**
-//  * AST main de pruebas
-//  */
-// int	main(void)
-// {
-// 	char	*mtx[] = {"grep", "<<", "in", "a", "|", "echo" ,"Hello World" ,">" ,"out", NULL};
-// 	ft_printf(1, GREEN"Original matrix:"RST"\n");
-// 	print_matrix(mtx);
-// 	// reorder_matrix(mtx);
-// 	// ft_printf(1, GREEN"Reordered matrix:"RST"\n");
-// 	// print_matrix(mtx);
-// 	// t_ast *ast = create_ast(mtx);
-// 	// if (!ast)
-// 	// 	ft_error_exit("Error creating AST\n");
-// 	// print_ast(ast, 0);
-// 	// free_ast(ast);
-// 	return (EXIT_SUCCESS);
-// }
-
-/**
- * HANDLE NODES MAIN test
- */
-
-// int	main (void)
-// {
-// 	char	*mtx[] = {"<<", "in", NULL};
-// 	t_ast *test;
-	
-// 	test = create_ast(mtx);
-// 	execute_heredoc_node(test);
-// 	free(test);
-// 	return (EXIT_SUCCESS);
-// }

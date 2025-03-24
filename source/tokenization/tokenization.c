@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 18:39:09 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:50:23 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
 
 	i = *indx;
 	if (type == NODE_CMD)
-	while (args[i] && get_token_type(args[i]) == NODE_CMD)
-		i++;
-	else if (type == NODE_REDIR_OUT || type == NODE_REDIR_IN ||
-		type == NODE_HEREDOC || type == NODE_REDIR_APPEND)
+		while (args[i] && get_token_type(args[i]) == NODE_CMD)
+			i++;
+	else if (type == NODE_REDIR_OUT || type == NODE_REDIR_IN
+		|| type == NODE_HEREDOC || type == NODE_REDIR_APPEND)
 		i = *indx + 2;
 	else
 		i = *indx + 1;
@@ -65,6 +65,20 @@ t_ast	*create_node(char **args, char **envp, int *indx)
 	return (node);
 }
 
+static void	handle_pipe_node(t_ast **root, t_ast *new_node)
+{
+    new_node->left = *root;
+    *root = new_node;
+}
+
+static void	handle_command_node(t_ast *current, t_ast *new_node)
+{
+    if (current && current->type == NODE_PIPE)
+        current->right = new_node;
+    else if (current)
+        current->left = new_node;
+}
+
 /**
  * @brief Creates an Abstract Syntax Tree (AST) from a list of tokens.
  *
@@ -91,28 +105,13 @@ t_ast	*create_ast(char **tokens, char **envp)
 		new_node = create_node(tokens, envp, &i);
 		if (!new_node)
 			return (free_ast(root), NULL);
-		if (new_node->type == NODE_CMD)
-		{
-			if (current && current->type != NODE_CMD)
-				current->right = new_node;
-		}
-		else
-			new_node->left = root;
-		if (!root || new_node->type != NODE_CMD)
+		if (new_node->type == NODE_PIPE)
+			handle_pipe_node(&root, new_node);
+		else 
+			handle_command_node(current, new_node);
+		if (!root)
 			root = new_node;
 		current = new_node;
 	}
 	return (root);
 }
-
-/*
-grep << in a -> grep a << in
-
-node: 
-	here
-	in
-node: 
-	cmd
-	grep 
-gre in a
-*/
