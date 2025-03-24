@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/14 18:14:27 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:39:09 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
  * consecutive command tokens. Ot1herwise, it handles a single operator token.
  *
  * @param args A null-terminated array of strings representing tokens.
- * @param indx A pointer to the current index in the token array, updated as 
+ * @param indx A pointer to the current index in the token array, updated as
  * tokens are processed.
  * @return A pointer to the newly created AST node, or NULL if allocation fails.
  */
-t_ast	*create_node(char **args, int *indx)
+t_ast	*create_node(char **args, char **envp, int *indx)
 {
 	t_ast	*node;
 	int		i;
@@ -58,6 +58,7 @@ t_ast	*create_node(char **args, int *indx)
 		return (free_node(node), NULL);
 	while (*indx < i)
 		node->args[j++] = ft_strdup(args[(*indx)++]);
+	node->envp = envp;
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
@@ -75,19 +76,19 @@ t_ast	*create_node(char **args, int *indx)
  * @param tokens A null-terminated array of strings representing tokens.
  * @return A pointer to the root of the constructed AST.
  */
-t_ast	*create_ast(char **tokens)
+t_ast	*create_ast(char **tokens, char **envp)
 {
-	t_ast		*root;
-	t_ast		*new_node;
-	t_ast		*current;
-	int			i;
+	t_ast	*root;
+	t_ast	*new_node;
+	t_ast	*current;
+	int		i;
 
 	root = NULL;
 	current = NULL;
 	i = 0;
 	while (tokens[i])
 	{
-		new_node = create_node(tokens, &i);
+		new_node = create_node(tokens, envp, &i);
 		if (!new_node)
 			return (free_ast(root), NULL);
 		if (new_node->type == NODE_CMD)
@@ -103,3 +104,15 @@ t_ast	*create_ast(char **tokens)
 	}
 	return (root);
 }
+
+/*
+grep << in a -> grep a << in
+
+node: 
+	here
+	in
+node: 
+	cmd
+	grep 
+gre in a
+*/

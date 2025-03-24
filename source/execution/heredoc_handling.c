@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/14 18:06:34 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:07:58 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
  * this function replaces it with a null terminator.
  *
  * @param line The string to process.
- * @return The modified string without a trailing newline, 
+ * @return The modified string without a trailing newline,
  * or NULL if the input is NULL.
  */
 static char	*remove_newline(char *line)
 {
 	size_t	len;
 	char	*tmp;
-	
+
 	if (!len)
 		return (NULL);
 	tmp = ft_strdup(line);
@@ -43,11 +43,12 @@ static char	*remove_newline(char *line)
  * Opens a temporary file and repeatedly prompts the user with "heredoc> "
  *  to read input.
  * Each line (after removing its newline) is compared with the delimiter;
- *  if it matches, the file is closed and IS_HEREDOC is returned. 
+ *  if it matches, the file is closed and IS_HEREDOC is returned.
  * Otherwise, the line is written to the file.
  *
  * @param delimiter The string that terminates the here-document input.
- * @return IS_HEREDOC when the delimiter is encountered, or 0 if an error occurs.
+ * @return IS_HEREDOC when the delimiter is encountered,
+	or 0 if an error occurs.
  */
 int	ft_handle_here_doc(char *delimiter)
 {
@@ -60,16 +61,42 @@ int	ft_handle_here_doc(char *delimiter)
 	while (1)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
-		line = ft_get_next_line(STDIN_FILENO); // EN DUDA CUANDO SE IMPLEMENTE VER QUE CARAJO PILLA
+		line = ft_get_next_line(STDIN_FILENO);
 		if (!line)
 			return (ft_error_exit("Error: while reading heredoc"), EXIT_FAILURE);
 		line = remove_newline(line);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-			return (free(line), close(tmp_fd), EXIT_FAILURE);
+			return (free(line), close(tmp_fd), EXIT_SUCCESS);
 		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1);
 		free(line);
 	}
-	close (tmp_fd);
-	return (EXIT_SUCCESS);
+	close(tmp_fd);
+	return (EXIT_FAILURE);
+}
+
+void	ft_read_fd(char *filename)
+{
+	int		i;
+	int		tmp_fd;
+	char	*line;
+	
+	tmp_fd = open(filename, O_RDONLY, 0644);
+	if (!tmp_fd)
+		return (ft_error("Error: can't read a fd"));
+	line = ft_get_next_line(tmp_fd);
+	if (!line)
+		ft_printf(STDOUT_FILENO,"NO leyo nada\n");
+	else
+	{
+		i = 0;
+		while(line != NULL)
+		{
+			ft_printf(STDOUT_FILENO, GREEN"FD[%d]_ln[%d]: "RST"%s\n", tmp_fd, i, line);
+			i++;
+			free(line);
+			line = ft_get_next_line(tmp_fd);
+		}
+	}
+	close(tmp_fd);
 }
