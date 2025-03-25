@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 16:31:11 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:44:26 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,13 @@ int					invalid_redir(char *line);
 // int				special_chars(char *line);
 
 /*	MATRIX HANDLING	*/
+
+char				**create_matrix(char *line, char **envp);
 void				free_matrix(char **matrix);
-
-int					read_until(char *line, int i, char quote);
-int					omit_spaces(char *line, int i);
-
 char				**split_line(char **matrix, char *line);
-char				**create_matrix(char *line);
 char				**handle_meta(char **matrix);
+char				**expand_matrix(char **matrix, char **envp);
+char				**cleanup_matrix(char **matrix);
 
 /*BUILTINS*/
 

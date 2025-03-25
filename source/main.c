@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:42:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:43:19 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_exec_line(char *line, char **envp)
 	}
 	else
 	{
-		mtx = create_matrix(line);
+		mtx = create_matrix(line, envp);
 		ast = create_ast(mtx, envp);
 		if(!ast)
 			ft_error_exit("Error creating AST\n");

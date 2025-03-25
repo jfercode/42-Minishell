@@ -6,15 +6,13 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/24 16:43:35 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:58:14 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**clean_up_matrix(char **matrix);
-
-char	**create_matrix(char *line)
+char	**create_matrix(char *line, char **envp)
 {
 	unsigned int	count;
 	char			**matrix;
@@ -38,7 +36,8 @@ char	**create_matrix(char *line)
 	matrix = split_line(matrix, line);
 	matrix = handle_meta(matrix);
 	print_matrix(matrix);
-	matrix = expand_matrix(matrix);
+	matrix = expand_matrix(matrix, envp);
+	print_matrix(matrix);
 	return (matrix);
 }
 

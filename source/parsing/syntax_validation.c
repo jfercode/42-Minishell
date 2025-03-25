@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/24 14:28:11 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:00:20 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	invalid_env(char *line)
 		if (line[i] == '$')
 		{
 			if (line[i - 1] != ' ' && line[i - 1] != '\"' && \
-				line[i - 1] != '\0')
+				line[i - 1] != '\0' && line[i - 1] != '\'')
 				return (1);
 			if (!ft_isalnum(line[i + 1]))
 				return (1);
