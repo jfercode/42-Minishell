@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:42:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:14:54 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	ft_exec_line(char *line, char **envp)
 		ast = create_ast(mtx, envp);
 		if(!ast)
 			ft_error_exit("Error creating AST\n");
-		execute_ast(ast);
+		print_ast(ast, 0);
 		free_ast(ast);
 		free_matrix(mtx);
 	}

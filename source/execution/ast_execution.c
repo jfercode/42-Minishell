@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 18:22:45 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:39:26 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void prepare_redirecctions(t_ast *ast, int *fd_infile, int *fd_outfile)
 {
+	print_node(ast);
 	if (ast == NULL)
 		return ;
 	if (ast->type == NODE_REDIR_IN)
@@ -66,7 +67,7 @@ void	execute_ast(t_ast *ast)
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
 			ft_error_exit("Error duplicating file descriptor");
 
-	execute_cmds_and_pipes(ast);
+	execute_cmds_and_pipes(ast); // here run cmd 
 
 	if (dup2(original_stdin, STDIN_FILENO) == -1)
 		ft_error_exit("Error duplicating file descriptor");
