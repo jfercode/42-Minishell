@@ -25,7 +25,7 @@ int ft_execve(t_ast *node)
     }
 
     token_checked = check_token(node->args[0]);
-    printf("TOKEN CHECKED = %d\n",token_checked);
+
     if (token_checked >= 0)
     {
         // Es un builtin
@@ -39,7 +39,7 @@ int ft_execve(t_ast *node)
             printf("ENV");
             //ft_env();
         else if (token_checked == 3)
-            ft_exit();
+            ft_exit(node);
         else if (token_checked == 4)
             printf("EXPORT");
             //ft_export(node->args);

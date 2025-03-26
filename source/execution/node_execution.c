@@ -61,11 +61,10 @@ void	run_command(t_ast *node)
 	path = get_path(node->args, node->envp);
 	if (!path)
 	{
-		if(ft_execve(node) == 1)
-		{
-			perror("Command not found");
-			exit(EXIT_FAILURE);
-		}
+
+		perror("Command not found");
+		exit(EXIT_FAILURE);
+
 	}
 	if (execve(path, node->args, node->envp) == -1)
 	{
@@ -86,6 +85,11 @@ void	execute_cmd_node(t_ast *node, int fd_in, int fd_out)
 
 	if (node->type != NODE_CMD)
 		return ;
+	if(ft_execve(node) == 1)
+	{
+		perror("Command not found");
+		exit(EXIT_FAILURE);
+	}
 	pid = fork();
 	if (pid == 0)
 		run_command(node);

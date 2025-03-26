@@ -112,7 +112,7 @@ void	ft_env(void);
 int	ft_cd(char *path);
 int	ft_echo(int ar, char **args);
 void	ft_env(void);
-void	ft_exit(void);
+void	ft_exit(t_ast *ast);
 void	ft_export(char **args);
 int	ft_pwd(void);
 void	ft_unset(const char *var);
