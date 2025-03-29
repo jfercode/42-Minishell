@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/26 18:37:28 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/29 13:03:36 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static t_ast *find_last_pipe(t_ast *node)
-{
-	t_ast *current;
-
-	current = node;
-	while (current)
-	{
-		if (current->type == NODE_PIPE && current->right == NULL)
-			return (current);
-		current = current->left;
-	}
-	return (NULL);
-}
 
 static void	handle_pipe_node(t_ast **root, t_ast *new_node)
 {
@@ -35,55 +21,56 @@ static void	handle_pipe_node(t_ast **root, t_ast *new_node)
 
 static void handle_redirect_node(t_ast **root, t_ast *new_node)
 {
-	t_ast *last_pipe;
-
-	last_pipe = find_last_pipe(*root);
-	if (last_pipe)
+	if (*root != NULL)
 	{
-		if (last_pipe->right == NULL)
-			last_pipe->right = new_node;
-		else
+		if ((*root)->type == NODE_PIPE)
 		{
-			new_node->left = last_pipe->right;
-			last_pipe->right = new_node;
+			if ((*root)->right == NULL)
+				(*root)->right = new_node;
+			else
+			{
+				new_node->left = (*root)->right;
+				(*root)->right = new_node;
+			}
+		}
+		else if ((*root)->type != NODE_PIPE)
+		{
+			new_node->left = *root;
+			*root = new_node;
 		}
 	}
 	else
-	{
-		new_node->left = *root;
 		*root = new_node;
-	}
+}
+static void	insert_cmd_right(t_ast *parent, t_ast *new_node)
+{
+	t_ast	*current;
+	
+	current = parent;
+	while (current->right)
+		current = current->right;
+	current->right = new_node;
 }
 
 static void handle_cmd_node(t_ast **root, t_ast *new_node)
 {
-	t_ast	*last_pipe;
 	t_ast	*current;
-	
-	last_pipe = find_last_pipe(*root);
-	if (last_pipe)
+
+	if (!*root)
+		*root = new_node;
+	else if (*root && (*root)->type == NODE_PIPE)
 	{
-		if (last_pipe->right == NULL)
-			last_pipe->right = new_node;
+		if ((*root)->right == NULL)
+			(*root)->right = new_node;
 		else
-		{
-			current = last_pipe->right;
-			while (current->left)
-				current = current->left;
-			current->left = new_node;
-		}
+			insert_cmd_right((*root)->right, new_node);
 	}
-	else
+	else if (*root && (*root)->type != NODE_PIPE)
 	{
-		if (!*root)
-			*root = new_node;
-		else
-		{
-			current = *root;
-			while (current->left)
-				current = current->left;
-			current->left = new_node;
-		}
+		current = (*root);
+		while (current->left)
+			current = current->left;
+		current->left = new_node;
 	}
 }
 
