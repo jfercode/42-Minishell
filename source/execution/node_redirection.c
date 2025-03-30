@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 10:25:24 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/30 12:42:50 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	execute_heredoc_node(t_ast *node, int *fd_heredoc)
 	fd = open("/tmp/heredoc_tmp.txt", O_RDONLY);
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (dup2(fd, *fd_heredoc) == -1)
+		ft_error_exit("Error restoring STDIN");
 	*fd_heredoc = fd;
 }
 
@@ -46,6 +48,8 @@ void	execute_redir_in_node(t_ast *node, int *fd_infile)
 	fd = open(node->args[1], O_RDONLY);
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (dup2(fd, *fd_infile) == -1)
+		ft_error_exit("Error restoring STDIN");
 	*fd_infile = fd;
 }
 
@@ -67,6 +71,8 @@ void	execute_redir_out_node(t_ast *node, int *fd_outfile)
 	fd = open(node->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644); 
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (dup2(fd, *fd_outfile) == -1)
+		ft_error_exit("Error restoring STDIN");
 	*fd_outfile = fd;
 }
 
@@ -88,5 +94,7 @@ void	execute_redir_append_node(t_ast *node, int *fd_outfile)
 	fd = open(node->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644); 
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (dup2(fd, *fd_outfile) == -1)
+		ft_error_exit("Error restoring STDIN");
 	*fd_outfile = fd;
 }
