@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/25 18:51:53 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/03/31 10:01:20 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/03/31 10:02:21 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/minishell.h"
 /**
@@ -61,7 +60,7 @@ void	run_command(t_ast *node)
 {
 	char	*path;
 
-    if (!node || !node->args || !node->args[0])
+	if (!node || !node->args || !node->args[0])
 	{
 		ft_error("Error: Invalid command");
 		exit(127);

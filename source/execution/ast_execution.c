@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/30 12:43:06 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:04:34 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 	REVISAR EL PUTO CODIGO QUE YA ETAAAAAAAAAAAAAAAAAAAAAAAAAAA
  */
 
-static void restore_stdio(int original_stdin, int original_stdout)
+static void	restore_stdio(int original_stdin, int original_stdout)
 {
 	if (dup2(original_stdin, STDIN_FILENO) == -1)
 		ft_error_exit("Error restoring STDIN");
@@ -34,7 +34,7 @@ static void restore_stdio(int original_stdin, int original_stdout)
 	close(original_stdout);
 }
 
-static void save_stdio(int *original_stdin, int *original_stdout)
+static void	save_stdio(int *original_stdin, int *original_stdout)
 {
 	*original_stdin = dup(STDIN_FILENO);
 	if (*original_stdin == -1)
@@ -42,11 +42,15 @@ static void save_stdio(int *original_stdin, int *original_stdout)
 	*original_stdout = dup(STDOUT_FILENO);
 	if (*original_stdout == -1)
 		ft_error("Error saving original STDOUT");
-
 }
 
-static void	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile)
+static void	execute_redirection_node(t_ast *node,
+					int *fd_infile, int *fd_outfile)
 {
+	if (node == NULL)
+		return ;
+	if (node->left != NULL)
+		execute_redirection_node(node->left, fd_infile, fd_outfile);
 	if (node->type == NODE_HEREDOC)
 		execute_heredoc_node(node, fd_infile);
 	else if (node->type == NODE_REDIR_IN)
@@ -57,18 +61,26 @@ static void	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfil
 		execute_redir_append_node(node, fd_outfile);
 }
 
-static void execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
+static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 {
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
-		execute_pipe_node(node);
+		execute_pipe_node(node); // PREPARAR LOS PIPES AQUÍ
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
-			|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
+		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
+	{
 		execute_redirection_node(node, fd_infile, fd_outfile);
+		while (node->left->type != NODE_CMD)
+			node = node->left;
+		if (dup2(*fd_infile, STDIN_FILENO) == -1)
+			ft_error_exit("Error duplicating STDIN");
+		if (dup2(*fd_outfile, STDOUT_FILENO) == -1)
+			ft_error_exit("Error duplicating STDOUT");
+	}
 	else if (node->type == NODE_CMD)
 	{
-		run_command(node);
+		execute_cmd_node(node);
 		return ;
 	}
 	if (node->left)

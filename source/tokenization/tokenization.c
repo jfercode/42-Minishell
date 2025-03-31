@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/29 13:03:36 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:16:31 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static void	handle_pipe_node(t_ast **root, t_ast *new_node)
 {
 	if (*root)
 		new_node->left = *root;
-	*root = new_node;	
+	*root = new_node;
 }
 
-static void handle_redirect_node(t_ast **root, t_ast *new_node)
+static void	handle_redirect_node(t_ast **root, t_ast *new_node)
 {
 	if (*root != NULL)
 	{
@@ -42,17 +42,18 @@ static void handle_redirect_node(t_ast **root, t_ast *new_node)
 	else
 		*root = new_node;
 }
+
 static void	insert_cmd_right(t_ast *parent, t_ast *new_node)
 {
 	t_ast	*current;
-	
+
 	current = parent;
 	while (current->right)
 		current = current->right;
 	current->right = new_node;
 }
 
-static void handle_cmd_node(t_ast **root, t_ast *new_node)
+static void	handle_cmd_node(t_ast **root, t_ast *new_node)
 {
 	t_ast	*current;
 
@@ -102,8 +103,10 @@ t_ast	*create_ast(char **tokens, char **envp)
 			return (free_ast(root), NULL);
 		if (new_node->type == NODE_PIPE)
 			handle_pipe_node(&root, new_node);
-		else if (new_node->type == NODE_REDIR_IN || new_node->type == NODE_REDIR_OUT
-				|| new_node->type == NODE_REDIR_APPEND || new_node->type == NODE_HEREDOC)
+		else if (new_node->type == NODE_REDIR_IN
+			|| new_node->type == NODE_REDIR_OUT
+			|| new_node->type == NODE_REDIR_APPEND
+			|| new_node->type == NODE_HEREDOC)
 			handle_redirect_node(&root, new_node);
 		else if (new_node->type == NODE_CMD)
 			handle_cmd_node(&root, new_node);

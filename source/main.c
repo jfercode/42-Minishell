@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/30 12:33:11 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/03/31 10:16:57 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/03/31 10:17:32 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -25,20 +24,20 @@ static void	ft_start_gigachell(void)
 static void	ft_exec_line(char *line, char **envp)
 {
 	char	**mtx;
-	t_ast 	*ast;
+	t_ast	*ast;
 
 	add_history(line);
 	if (syntax_error(line) == ERROR)
 	{
 		perror("syntax");
 		free(line);
-		return;
+		return ;
 	}
 	else
 	{
 		mtx = create_matrix(line);
 		ast = create_ast(mtx, envp);
-		if(!ast)
+		if (!ast)
 			ft_error_exit("Error creating AST\n");
 		execute_ast(ast);
 		free_ast(ast);

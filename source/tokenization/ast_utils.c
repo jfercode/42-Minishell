@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/26 18:31:21 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:16:12 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ void	print_node(t_ast *node)
 	int	i;
 
 	if (node->type == NODE_CMD)
-		ft_printf(STDOUT_FILENO,GREEN "type: " RST "CMD\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "CMD\n");
 	else if (node->type == NODE_PIPE)
-		ft_printf(STDOUT_FILENO,GREEN "type: " RST "PIPE\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "PIPE\n");
 	else if (node->type == NODE_HEREDOC)
-		ft_printf(STDOUT_FILENO,GREEN "type: " RST "HEREDOC\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "HEREDOC\n");
 	else if (node->type == NODE_REDIR_IN)
-		ft_printf(STDOUT_FILENO,GREEN "type: " RST "REDIR_IN\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "REDIR_IN\n");
 	else if (node->type == NODE_REDIR_OUT)
-		ft_printf(STDOUT_FILENO,GREEN "type: " RST "REDIR_OUT\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "REDIR_OUT\n");
 	else if (node->type == NODE_REDIR_APPEND)
-		ft_printf(STDOUT_FILENO,GREEN "type: " RST "REDIR_OUT\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "REDIR_OUT\n");
 	printf(GREEN "token: " RST "%s\n", node->args[0]);
 	if (node->args)
 	{
