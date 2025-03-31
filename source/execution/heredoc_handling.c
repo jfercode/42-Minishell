@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/26 15:30:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:34:33 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static char	*remove_newline(char *line)
 	size_t	len;
 	char	*tmp;
 
-	if (!len)
-		return (NULL);
 	tmp = ft_strdup(line);
 	free(line);
 	len = ft_strlen(tmp);
+	if (!len)
+		return (NULL);
 	if (len > 0 && tmp[len - 1] == '\n')
 		tmp[len - 1] = '\0';
 	return (tmp);
@@ -58,8 +58,7 @@ int	ft_handle_here_doc(char *delimiter)
 	ft_printf(STDOUT_FILENO, "DELIMITER: %s\n", delimiter);
 	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp_fd == -1)
-		return (ft_error("Error: can't opening temp heredoc file"),
-			EXIT_FAILURE);
+		return (ft_error("Error: can't opening temp heredoc file"), 1);
 	while (1)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
@@ -88,14 +87,14 @@ void	ft_read_fd_name(char *filename)
 		return (ft_error("Error: can't read a fd"));
 	line = ft_get_next_line(tmp_fd);
 	if (!line)
-		ft_printf(STDOUT_FILENO, "NO leyo nada\n");
+		ft_error("Error: nothing to read");
 	else
 	{
 		i = 0;
 		while (line != NULL)
 		{
-			ft_printf(STDOUT_FILENO, GREEN "FD[%d]_ln[%d]: " RST "%s\n", tmp_fd,
-				i, line);
+			ft_printf(STDOUT_FILENO,
+				GREEN"FD[%d]_ln[%d]: "RST"%s\n", tmp_fd, i, line);
 			i++;
 			free(line);
 			line = ft_get_next_line(tmp_fd);
@@ -113,14 +112,14 @@ void	ft_read_fd(int fd)
 		return (ft_error("Error: can't read a fd"));
 	line = ft_get_next_line(fd);
 	if (!line)
-		ft_printf(STDOUT_FILENO, "NO leyo nada\n");
+		ft_error("Error: nothing to read");
 	else
 	{
 		i = 0;
 		while (line != NULL)
 		{
-			ft_printf(STDOUT_FILENO, GREEN "FD[%d]_ln[%d]: " RST "%s\n", fd, i,
-				line);
+			ft_printf(STDOUT_FILENO,
+				GREEN"FD[%d]_ln[%d]: "RST"%s\n", fd, i, line);
 			i++;
 			free(line);
 			line = ft_get_next_line(fd);

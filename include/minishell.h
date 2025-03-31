@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/25 15:44:26 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:34:00 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ t_node_type			get_token_type(char *token);
 void				execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
-void				execute_cmd_node(t_ast *node);
-void				execute_pipe_node(t_ast *node);
-t_ast				**order_cmds(t_ast *node, t_ast **cmds);
-void				execute_pipeline(t_ast **cmds, int pipe_count, int *fd,
-						int prev_fd);
+void	run_command(t_ast *node);
+void	execute_cmd_node(t_ast *node);
+void	execute_pipe_node(t_ast *node);
+t_ast	**order_cmds(t_ast *node, t_ast **cmds);
+void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd);
+
 
 /*	NODE_REDIRECTION	*/
 void				execute_heredoc_node(t_ast *node, int *fd_heredoc);

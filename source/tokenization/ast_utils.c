@@ -3,14 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/20 18:07:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:16:12 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
+{
+	int	i;
+
+	i = *indx;
+	if (type == NODE_CMD)
+		while (args[i] && get_token_type(args[i]) == NODE_CMD)
+			i++;
+	else if (type == NODE_REDIR_OUT || type == NODE_REDIR_IN
+		|| type == NODE_HEREDOC || type == NODE_REDIR_APPEND)
+		i = *indx + 2;
+	else
+		i = *indx + 1;
+	return (i);
+}
+
+/**
+ * @brief Creates a new AST node from the given arguments.
+ *
+ * This function allocates memory for a new AST node and determines its type
+ * based on the provided tokens. If the node is a command, it collects all
+ * consecutive command tokens. Ot1herwise, it handles a single operator token.
+ *
+ * @param args A null-terminated array of strings representing tokens.
+ * @param indx A pointer to the current index in the token array, updated as
+ * tokens are processed.
+ * @return A pointer to the newly created AST node, or NULL if allocation fails.
+ */
+t_ast	*create_node(char **args, char **envp, int *indx)
+{
+	t_ast	*node;
+	int		i;
+	int		j;
+
+	i = *indx;
+	j = 0;
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->type = get_token_type(args[i]);
+	i = obtain_current_indx_token(indx, args, node->type);
+	node->args = malloc(sizeof(char *) * (i - *indx + 1));
+	if (!node->args)
+		return (free_node(node), NULL);
+	while (*indx < i)
+		node->args[j++] = ft_strdup(args[(*indx)++]);
+	node->envp = envp;
+	node->args[j] = NULL;
+	node->right = NULL;
+	node->left = NULL;
+	return (node);
+}
 
 /**
  * @brief Prints information about a given AST node.
@@ -25,25 +78,25 @@ void	print_node(t_ast *node)
 	int	i;
 
 	if (node->type == NODE_CMD)
-		printf(GREEN "type: " RST "CMD\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "CMD\n");
 	else if (node->type == NODE_PIPE)
-		printf(GREEN "type: " RST "PIPE\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "PIPE\n");
 	else if (node->type == NODE_HEREDOC)
-		printf(GREEN "type: " RST "HEREDOC\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "HEREDOC\n");
 	else if (node->type == NODE_REDIR_IN)
-		printf(GREEN "type: " RST "REDIR_IN\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "REDIR_IN\n");
 	else if (node->type == NODE_REDIR_OUT)
-		printf(GREEN "type: " RST "REDIR_OUT\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "REDIR_OUT\n");
 	else if (node->type == NODE_REDIR_APPEND)
-		printf(GREEN "type: " RST "REDIR_OUT\n");
+		ft_printf(STDOUT_FILENO, GREEN "type: " RST "REDIR_OUT\n");
 	printf(GREEN "token: " RST "%s\n", node->args[0]);
 	if (node->args)
 	{
 		i = 0;
 		while (node->args[i])
 		{
-			printf(GREEN "token arg[" RST "%d" GREEN "]: " RST "%s\n", i,
-				node->args[i]);
+			ft_printf(STDOUT_FILENO, GREEN"token arg[" RST "%d" GREEN "]: "
+				RST "%s\n", i, node->args[i]);
 			i++;
 		}
 	}

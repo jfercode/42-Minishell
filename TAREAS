@@ -1,10 +1,9 @@
-1.	Implementacion de logica de los pipes 
+1.	Checkear la logica de los pipes
 
-2.	Implementar la deteccion y ejecución de built ins
+2.	Implementar los built ins en los cmd
 
-3.	Ver error en ejecucion en la que tenemos [">", "o", "cat", "<<", "in"]
-	-	Salta error en la creacion del heredoc
+3.	Liberacion de memoria 
 
-4.	Liberacion de memoria
+4.	Pruebas 
 
-5.	Pruebas de ejecución.
+5.	Gestión de errores
