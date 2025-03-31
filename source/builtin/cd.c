@@ -14,6 +14,7 @@
 
 int	ft_cd(char *path)
 {
+	// printf("CHDIR RES: %d",chdir(path));
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);

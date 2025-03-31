@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:41:17 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 15:17:23 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:50:32 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ void	execute_cmd_node(t_ast *node, int fd_in, int fd_out)
 
 	if (node->type != NODE_CMD)
 		return ;
-	if(ft_execve(node) == 1)
-	{
-		perror("Command not found");
-		exit(EXIT_FAILURE);
-	}
+	ft_execve(node);
+	// {
+	// 	perror("Command not found");
+	// 	exit(EXIT_FAILURE);
+	// }
 	pid = fork();
 	if (pid == 0)
 		run_command(node);

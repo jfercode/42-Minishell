@@ -1,5 +1,15 @@
 #include "../../include/minishell.h"
 
+static check_node_args(t_ast *node)
+{
+    int res;
+
+    res = 0;
+    while(node->args[res])
+        res++;
+    return res;
+}
+
 int check_token(char *str)
 {
     char *builtin_types[] = {"cd", "echo", "env", "exit", "export", "pwd", "unset", NULL};
@@ -17,6 +27,7 @@ int check_token(char *str)
 int ft_execve(t_ast *node)
 {
     int token_checked;
+    int num_args;
 
     if (!node)
     {
@@ -28,39 +39,33 @@ int ft_execve(t_ast *node)
 
     if (token_checked >= 0)
     {
+
         // Es un builtin
         if (token_checked == 0)
-            printf("CD");
-            // ft_cd(node->args[1]);
+            ft_cd(node->args[1]);
         else if (token_checked == 1)
-            printf("ECHO");
-            //ft_echo(1,node->args);
+            ft_echo(check_node_args(node),node->args);
         else if (token_checked == 2)
-            printf("ENV");
-            //ft_env();
+            ft_env();
         else if (token_checked == 3)
             ft_exit(node);
         else if (token_checked == 4)
-            printf("EXPORT");
-            //ft_export(node->args);
+            ft_export(node->args);
         else if (token_checked == 5)
-            printf("PWD");
-            //ft_pwd();
+            ft_pwd();
         else if (token_checked == 6)
-            printf("UNSET");
-            //ft_unset(node->args[1]);
+            ft_unset(node->args[1]);
     }
     else if (token_checked == -1)
-    {
         // Es otro tipo de comando
-        if (execve(node->args[0], node->args, NULL) == -1)
-            ft_error_exit("execve");
+        // if (execve(node->args[0], node->args, NULL) == -1)
+        //     ft_error_exit("execve");
         return 1;
-    }
     else
     {
         ft_error_exit("Error checking token");
         return 1;
     }
+    print_ast(node,1);
     return 0;
 }

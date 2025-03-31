@@ -20,7 +20,7 @@ int	ft_pwd(void)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	if (path == NULL)
+	if (!path)
 	{
 		ft_putstr_fd("minishell: pwd: error retrieving current directory: getcwd: \
 			cannot access parent directories: ", 2);
@@ -28,8 +28,8 @@ int	ft_pwd(void)
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\n", 1);
+	// ft_putstr_fd(path, 1);
+	// ft_putstr_fd("\n", 1);
 	free(path);
 	return (0);
 }

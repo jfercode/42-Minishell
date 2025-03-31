@@ -89,5 +89,4 @@ void	ft_export(char **args)
 	}
 }
 
-// Replica el builtin export sin unsar strtok
-// Retorna 1 si todo fue correcto, 0 si hubo un error
+

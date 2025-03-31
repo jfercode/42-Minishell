@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 11:28:07 by pabalons          #+#    #+#             */
-/*   Updated: 2025/03/17 18:55:39 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:53:53 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern char	**environ;
 
 static int	check_arg(int ar, char *str)
 {
@@ -21,6 +23,21 @@ static int	check_arg(int ar, char *str)
 // Imprime en pantalla los argumentos que recibe
 // Si recibe -n no imprime salto de linea
 // Retorna el numero de bytes escritos
+
+static int check_var(char *str)
+{
+	if(str[0] == '$')
+		return 1;
+	return 0;
+}
+
+static int print_var(char *str)
+{
+	ft_env();
+	return 0;
+}
+
+
 int	ft_echo(int ar, char **args)
 {
 	int	i;
@@ -30,19 +47,31 @@ int	ft_echo(int ar, char **args)
 	i = 1;
 	n_line = 1;
 	bytes_printed = 0;
-	if (ar > 1 && check_arg(ar, args[1]) == 0)
+
+
+	if (ar > 1 && check_arg(ar, args[i]) == 0)
 	{
 		n_line = 0;
 		i++;
 	}
-	while (i < ar)
+
+	while(i < ar)
 	{
-		bytes_printed += write(1, args[i], ft_strlen(args[i]));
-		if (i < ar - 1)
-			bytes_printed += write(1, " ", 1);
-		i++;
+		if(check_var(args[i]) == 1)
+		{
+			print_var(args[i]);
+			printf("Aaaaaaaaaaaa");
+			i++;		
+		}
+		printf("%s ",args[i]);
+		bytes_printed += (ft_strlen(args[1]) + 1);
+		i++;	
 	}
-	if (n_line)
-		bytes_printed += write(1, "\n", 1);
+	if(n_line == 1)
+	{
+		printf("\n");
+		bytes_printed += 1;
+	}
+
 	return (bytes_printed);
 }
