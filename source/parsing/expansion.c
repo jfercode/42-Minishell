@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/25 18:05:17 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:20:18 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	char	*var;
 	char	*new;
 	char	*prefix;
-	int 	start;
-	
+	int		start;
+
 	start = ++(*j);
-	while (matrix[*i][(*j)] && (ft_isalnum(matrix[*i][(*j)]) || matrix[*i][(*j)] == '_'))
-    	(*j)++;
+	while (matrix[*i][(*j)] && (ft_isalnum(matrix[*i][(*j)]) || \
+		matrix[*i][(*j)] == '_'))
+		(*j)++;
 	tmp = ft_substr(matrix[*i], start, *j - start);
 	var = get_envp(envp, tmp);
 	free(tmp);
@@ -59,7 +60,7 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 		if (new)
 		{
 			free(matrix[*i]);
-			matrix[*i] = new;	
+			matrix[*i] = new;
 		}
 	}
 	return (matrix);
@@ -67,9 +68,9 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 
 char	**expand_matrix(char **matrix, char **envp)
 {
-	int	i; 
-	int j;
-	int ch_single;
+	int	i;
+	int	j;
+	int	ch_single;
 	int	ch_double;
 
 	i = 0;
@@ -96,10 +97,10 @@ char	**expand_matrix(char **matrix, char **envp)
 
 char	**cleanup_matrix(char **matrix)
 {
-	int i;
-	int j;
-	int k;
-	int ch_single;
+	int	i;
+	int	j;
+	int	k;
+	int	ch_single;
 	int	ch_double;
 
 	i = 0;

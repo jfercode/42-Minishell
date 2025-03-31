@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 11:50:23 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:25:06 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,16 @@ t_ast	*create_node(char **args, char **envp, int *indx)
 
 static void	handle_pipe_node(t_ast **root, t_ast *new_node)
 {
-    new_node->left = *root;
-    *root = new_node;
+	new_node->left = *root;
+	*root = new_node;
 }
 
 static void	handle_command_node(t_ast *current, t_ast *new_node)
 {
-    if (current && current->type == NODE_PIPE)
-        current->right = new_node;
-    else if (current)
-        current->left = new_node;
+	if (current && current->type == NODE_PIPE)
+		current->right = new_node;
+	else if (current)
+		current->left = new_node;
 }
 
 /**
@@ -107,7 +107,7 @@ t_ast	*create_ast(char **tokens, char **envp)
 			return (free_ast(root), NULL);
 		if (new_node->type == NODE_PIPE)
 			handle_pipe_node(&root, new_node);
-		else 
+		else
 			handle_command_node(current, new_node);
 		if (!root)
 			root = new_node;

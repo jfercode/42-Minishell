@@ -6,13 +6,13 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 15:41:50 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:26:23 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void prepare_redirecctions(t_ast *ast, int *fd_infile, int *fd_outfile)
+static void	prepare_redirecctions(t_ast *ast, int *fd_infile, int *fd_outfile)
 {
 	if (ast == NULL)
 		return ;
@@ -38,7 +38,6 @@ static void	execute_cmds_and_pipes(t_ast *ast)
 		execute_cmd_node(ast);
 	else if (ast->type == NODE_PIPE)
 		execute_pipe_node(ast);
-	// TO DO implementar los pipes
 }
 
 void	execute_ast(t_ast *ast)
@@ -49,10 +48,10 @@ void	execute_ast(t_ast *ast)
 	int	original_stdout;
 
 	original_stdin = dup(STDIN_FILENO);
-    if (original_stdin == -1)
+	if (original_stdin == -1)
 		ft_error("Error saving original STDIN");
-    original_stdout = dup(STDOUT_FILENO);
-    if (original_stdout == -1)
+	original_stdout = dup(STDOUT_FILENO);
+	if (original_stdout == -1)
 		ft_error("Error saving original STDOUT");
 	
 	fd_infile = STDIN_FILENO;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 10:25:24 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:33:57 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	execute_redir_in_node(t_ast *node, int *fd_infile)
  */
 void	execute_redir_out_node(t_ast *node, int *fd_outfile)
 {
-	int fd;
+	int	fd;
 
 	if (node->type != NODE_REDIR_OUT)
 		return ;
 	if (*fd_outfile != STDOUT_FILENO)
 		close(*fd_outfile);
-	fd = open(node->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644); 
+	fd = open(node->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		ft_error("Error opening file");
 	*fd_outfile = fd;
@@ -79,13 +79,13 @@ void	execute_redir_out_node(t_ast *node, int *fd_outfile)
  */
 void	execute_redir_append_node(t_ast *node, int *fd_outfile)
 {
-	int fd;
+	int	fd;
 
 	if (node->type != NODE_REDIR_APPEND)
 		return ;
 	if (*fd_outfile != STDOUT_FILENO)
 		close(*fd_outfile);
-	fd = open(node->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644); 
+	fd = open(node->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		ft_error("Error opening file");
 	*fd_outfile = fd;

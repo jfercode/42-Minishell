@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:42:30 by penpalac         ###   ########.fr       */
+/*   Created: 2025/03/26 15:31:01 by penpalac          #+#    #+#             */
+/*   Updated: 2025/03/26 15:32:56 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/minishell.h"
 /**
@@ -61,22 +60,22 @@ void	run_command(t_ast *node)
 {
 	char	*path;
 
-    if (!node || !node->args || !node->args[0])
+	if (!node || !node->args || !node->args[0])
 	{
 		ft_error("Error: Invalid command");
-		// exit(127);	
+		exit(127);
 	}
 	path = find_path(*node->args, node->envp);
 	if (!path)
 	{
 		ft_error("Error: Command not found");
-		// exit(127);
+		exit(127);
 	}
 	if (execve(path, node->args, node->envp) == -1)
 	{
 		ft_error("Error: Execve failed");
 		free(path);
-		// exit(126);
+		exit(126);
 	}
 }
 
