@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/25 15:58:14 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:50:18 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ char	**create_matrix(char *line, char **envp)
 		ft_error("Error: failed matrix creation\n");
 	matrix = split_line(matrix, line);
 	matrix = handle_meta(matrix);
-	print_matrix(matrix);
 	matrix = expand_matrix(matrix, envp);
-	print_matrix(matrix);
 	return (matrix);
 }
 

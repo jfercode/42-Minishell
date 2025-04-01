@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 16:32:51 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:26:11 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	-> NODO COMANDO SE EJECUTA EL COMANDO
 	POR LO TANTO TENGO QUE COGER LAS FUNCIONES Y PREPARARLAS PARA QUE PASEN
 	CORRECTAMENTE SEGÚN EL TIPO DE NODO QUE SEA. 
-	REVISAR EL PUTO CODIGO QUE YA ETAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	REVISAR EL PUTO CODIGO QUE YA ETA
  */
 
 static void	restore_stdio(int original_stdin, int original_stdout)
@@ -44,9 +44,10 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 		ft_error("Error saving original STDOUT");
 }
 
-static void	execute_redirection_node(t_ast *node,
+void	execute_redirection_node(t_ast *node,
 					int *fd_infile, int *fd_outfile)
 {
+	printf("ReDIR NODE %u\n", node->type);
 	if (node == NULL)
 		return ;
 	if (node->left != NULL)
@@ -66,7 +67,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
-		execute_pipe_node(node); // PREPARAR LOS PIPES AQUÍ
+		execute_pipe_node(node, fd_infile, fd_outfile);
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
 		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
 	{

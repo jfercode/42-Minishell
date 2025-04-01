@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 16:34:45 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:36:40 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	execute_redir_in_node(t_ast *node, int *fd_infile)
 {
 	int	fd;
 
+	printf("IN_NODE fd that enters: %d\n", *fd_infile);
 	if (node->type != NODE_REDIR_IN)
 		return ;
 	if (*fd_infile != STDIN_FILENO)
@@ -47,6 +48,7 @@ void	execute_redir_in_node(t_ast *node, int *fd_infile)
 	if (fd == -1)
 		ft_error("Error opening file");
 	*fd_infile = fd;
+	printf("IN_NODE fd that exits: %d\n", *fd_infile);
 }
 
 /**
@@ -60,6 +62,7 @@ void	execute_redir_out_node(t_ast *node, int *fd_outfile)
 {
 	int	fd;
 
+	printf("OUT_NODE fd that enters: %d\n", *fd_outfile);
 	if (node->type != NODE_REDIR_OUT)
 		return ;
 	if (*fd_outfile != STDOUT_FILENO)
@@ -68,6 +71,7 @@ void	execute_redir_out_node(t_ast *node, int *fd_outfile)
 	if (fd == -1)
 		ft_error("Error opening file");
 	*fd_outfile = fd;
+	printf("OUT_NODE fd that exits: %d\n", *fd_outfile);
 }
 
 /**

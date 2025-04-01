@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:01:20 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 16:34:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:36:59 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*find_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	run_command(t_ast *node)
+void	run_command(t_ast *node, int fd_outfile)
 {
 	char	*path;
 
@@ -68,7 +68,7 @@ void	run_command(t_ast *node)
 	path = find_path(*node->args, node->envp);
 	if (!path)
 	{
-		ft_error("Error: Command not found");
+		ft_error(node->args[0]);
 		exit(127);
 	}
 	if (execve(path, node->args, node->envp) == -1)
@@ -87,7 +87,7 @@ void	execute_cmd_node(t_ast *node)
 		return ;
 	pid = fork();
 	if (pid == 0)
-		run_command(node);
+		run_command(node, 1);
 	else if (pid > 0)
 	{
 		node->pid = pid;

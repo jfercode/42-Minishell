@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 16:34:00 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:43:19 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ t_node_type			get_token_type(char *token);
 void				execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
-void	run_command(t_ast *node);
+void	run_command(t_ast *node, int fd_outfile);
 void	execute_cmd_node(t_ast *node);
-void	execute_pipe_node(t_ast *node);
-t_ast	**order_cmds(t_ast *node, t_ast **cmds);
-void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd);
+void	execute_pipe_node(t_ast *node, int *fd_in, int *fd_out);
+void	execute_pipeline(t_ast *node, int fd_in, int fd_out);
 
 
 /*	NODE_REDIRECTION	*/
+void				execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile);
 void				execute_heredoc_node(t_ast *node, int *fd_heredoc);
 void				execute_redir_in_node(t_ast *node, int *fd_infile);
 void				execute_redir_out_node(t_ast *node, int *fd_outfile);
