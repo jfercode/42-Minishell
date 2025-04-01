@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:16:57 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 19:48:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:18:23 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ static void	ft_exec_line(char *line, char **envp)
 
 	add_history(line);
 	if (syntax_error(line) == ERROR)
-	{
-		ft_error("Syntax error");
-		free(line);
 		return ;
-	}
 	else
 	{
 		mtx = create_matrix(line);

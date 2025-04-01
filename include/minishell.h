@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 18:04:58 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:31:16 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ typedef struct s_ast
 /*	SIGNALS BEHAVIOUR	*/
 void		ft_handle_sigint(int sig);
 void		ft_handle_sigint_child(int sig);
-void		ft_handle_sigterm(int sig);
-void		ft_handle_sigquit(int sig);
 void		ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*	ERROR HANDLING	*/
+void		ft_error(const char *error_msg);
 void		ft_error_exit(const char *error_msg);
 
 /*	HEREDOC HANDLING	*/
@@ -84,62 +83,47 @@ t_ast		*create_node(char **args, char **envp, int *indx);
 t_node_type	get_token_type(char	*token);
 
 /*	EXECUTION	*/
-void	execute_ast(t_ast *ast);
+void		execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
-void	run_command(t_ast *node);
-void	execute_cmd_node(t_ast *node);
-void	execute_pipe_node(t_ast *node);
-t_ast	**order_cmds(t_ast *node, t_ast **cmds);
-void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd);
+void		run_command(t_ast *node);
+void		execute_cmd_node(t_ast *node);
+void		execute_pipe_node(t_ast *node);
+void		execute_pipeline(t_ast **cmds,
+				int pipe_count, int *fd, int prev_fd);
 
+t_ast		**order_cmds(t_ast *node, t_ast **cmds);
 
 /*	NODE_REDIRECTION	*/
-void	execute_heredoc_node(t_ast *node, int *fd_heredoc);
-void	execute_redir_in_node(t_ast *node, int *fd_infile);
-void	execute_redir_out_node(t_ast *node, int *fd_outfile);
-void	execute_redir_append_node(t_ast *node, int *fd_outfile);
+int		execute_heredoc_node(t_ast *node, int *fd_heredoc);
+int		execute_redir_in_node(t_ast *node, int *fd_infile);
+int		execute_redir_out_node(t_ast *node, int *fd_outfile);
+int		execute_redir_append_node(t_ast *node, int *fd_outfile);
 
 /*	PARSE INPUT	*/
 int			parsing_line(char *line);
-
-/*	UTILS	*/
-void		print_node(t_ast *node);
-void		print_matrix(char **matrix);
-void		print_ast(t_ast *root, int level);
-
-/*BUILTINS*/
-int cd(char *path);
-int ft_echo(int ar, char **args);
-void ft_env();
-void ft_exit();
-void ft_export(char **args);
-int pwd();
-void ft_unset(const char *var);
-
-
-/*BUILTINS*/
-
-int cd(char *path);
-int ft_echo(int ar, char **args);
-void ft_env();
-void ft_exit();
-void ft_export(char **args);
-int pwd();
-void ft_unset(const char *var);
-
-void		ft_read_fd(int fd);
-void		ft_read_fd_name(char *filename);
-void		ft_error_exit(const char *error_msg);
-void		ft_error(const char *error_msg);
-
 int			syntax_error(char *line);
 int			open_quotes(char *line);
 int			invalid_op(char *line);
 int			invalid_env(char *line);
 int			invalid_redir(char *line);
 
-//int				special_chars(char *line);
+/*BUILTINS*/
+void		ft_env(void);
+void		ft_exit(void);
+void		ft_export(char **args);
+void		ft_unset(const char *var);
+
+int			pwd(void);
+int			cd(char *path);
+int			ft_echo(int ar, char **args);
+
+/*	UTILS	*/
+void		print_node(t_ast *node);
+void		print_matrix(char **matrix);
+void		print_ast(t_ast *root, int level);
+void		ft_read_fd(int fd);
+void		ft_read_fd_name(char *filename);
 
 /*	MATRIX HANDLING	*/
 void		free_matrix(char **matrix);
