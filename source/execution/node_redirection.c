@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 17:28:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:13:47 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	execute_redir_out_node(t_ast *node, int *fd_outfile)
 	if (fd == -1)
 		return (ft_error("Error opening file"), ERROR);
 	*fd_outfile = fd;
-	return(0);
+	return (0);
 }
 
 /**

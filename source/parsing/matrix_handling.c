@@ -6,13 +6,11 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/20 19:03:43 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:15:18 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	**clean_up_matrix(char **matrix);
 
 char	**create_matrix(char *line)
 {
@@ -118,29 +116,4 @@ char	**split_line(char **matrix, char *line)
 	}
 	matrix[count] = NULL;
 	return (matrix);
-}
-
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-}
-
-void	print_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-	{
-		printf(GREEN"matrix[%d]:"RST" %s\n", i, matrix[i]);
-		i++;
-	}
 }

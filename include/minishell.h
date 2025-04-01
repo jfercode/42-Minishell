@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 17:31:16 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:14:36 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int			open_quotes(char *line);
 int			invalid_op(char *line);
 int			invalid_env(char *line);
 int			invalid_redir(char *line);
+
+char		**clean_up_matrix(char **matrix);
 
 /*BUILTINS*/
 void		ft_env(void);

@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:03:01 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 16:07:16 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:19:16 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_handle_sigint(int sig)
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();		
+		rl_redisplay();
 	}
 }
 
