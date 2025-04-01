@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 16:28:38 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:04:58 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 
 # define ERROR -1
 
-extern bool	g_running;
-
 /* NODE TYPE ENUM	*/
 typedef enum e_type
 {
@@ -65,6 +63,7 @@ typedef struct s_ast
 
 /*	SIGNALS BEHAVIOUR	*/
 void		ft_handle_sigint(int sig);
+void		ft_handle_sigint_child(int sig);
 void		ft_handle_sigterm(int sig);
 void		ft_handle_sigquit(int sig);
 void		ft_signal(int signo, void *handler, bool use_siginfo);

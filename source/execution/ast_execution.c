@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 10:04:34 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:15:31 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
-		execute_pipe_node(node); // PREPARAR LOS PIPES AQUÍ
+		execute_pipe_node(node); // PREPARAR LOS PIPES AQUÍ.
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
 		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
 	{

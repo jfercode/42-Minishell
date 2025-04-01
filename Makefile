@@ -3,7 +3,7 @@ NAME	=	build/minishell.a
 
 # Compiller and compiler flags
 CC		=	clang
-C_FLAGS	=	-Wall -Werror -Wextra
+C_FLAGS	=	-Wall -Werror -Wextra -g
 LIBS 	=	-lreadline -lncurses -ltermcap
 
 # Directories

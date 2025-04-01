@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:16:57 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 10:17:32 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/03/31 19:48:43 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-bool		g_running = true;
-
 static void	ft_start_gigachell(void)
 {
-	ft_signal(SIGINT, ft_handle_sigint, false);
-	ft_signal(SIGTERM, ft_handle_sigterm, false);
-	ft_signal(SIGQUIT, SIG_IGN, false);
+	signal(SIGINT, ft_handle_sigint);
+	signal(SIGTERM, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static void	ft_exec_line(char *line, char **envp)
@@ -29,7 +27,7 @@ static void	ft_exec_line(char *line, char **envp)
 	add_history(line);
 	if (syntax_error(line) == ERROR)
 	{
-		perror("syntax");
+		ft_error("Syntax error");
 		free(line);
 		return ;
 	}
@@ -54,18 +52,21 @@ int	main(int argc, char **argv, char **envp)
 	char	**mtx;
 	t_ast	*ast;
 
-	ft_start_gigachell();
 	(void) argc;
 	(void) argv;
-	while (g_running)
+	while (1)
 	{
+		ft_start_gigachell();
 		line = readline(GREEN "Gigachell> " RST);
 		if (!line)
+		{
+			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");
 			break ;
+		}
 		else if (*line)
 			ft_exec_line(line, envp);
+		free(line);
 	}
-	printf("Leaving Gigachell...\n");
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
