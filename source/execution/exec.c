@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-static check_node_args(t_ast *node)
+static int check_node_args(t_ast *node)
 {
     int res;
 
@@ -66,6 +66,6 @@ int ft_execve(t_ast *node)
         ft_error_exit("Error checking token");
         return 1;
     }
-    print_ast(node,1);
+    // print_ast(node,1);
     return 0;
 }
