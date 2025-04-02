@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:34:21 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:38:11 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 		ft_error("Error saving original STDOUT");
 }
 
-static int	execute_redirection_node(t_ast *node,
+int	execute_redirection_node(t_ast *node,
 					int *fd_infile, int *fd_outfile)
 {
 	if (!node)

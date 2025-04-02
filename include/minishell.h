@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:32:50 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:02:54 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ typedef struct s_ast
 }					t_ast;
 
 /*	SIGNALS BEHAVIOUR	*/
-void		ft_handle_sigint(int sig);
-void		ft_handle_sigint_child(int sig);
-void		ft_signal(int signo, void *handler, bool use_siginfo);
+void				ft_handle_sigint(int sig);
+void				ft_handle_sigint_child(int sig);
+void				ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*	ERROR HANDLING	*/
-void		ft_error(const char *error_msg);
-void		ft_error_exit(const char *error_msg);
+void				ft_error(const char *error_msg);
+void				ft_error_exit(const char *error_msg);
 
 /*	HEREDOC HANDLING	*/
 int					ft_handle_here_doc(char *delimiter);
@@ -84,7 +84,7 @@ t_ast				*create_node(char **args, char **envp, int *indx);
 t_node_type			get_token_type(char *token);
 
 /*	EXECUTION	*/
-void		execute_ast(t_ast *ast);
+void				execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
 void				run_command(t_ast *node);
@@ -92,48 +92,47 @@ void				execute_cmd_node(t_ast *node);
 void				execute_pipe_node(t_ast *node);
 
 /*	NODE_REDIRECTION	*/
-void				execute_redirection_node(t_ast *node, int *fd_infile,
+int				execute_redirection_node(t_ast *node, int *fd_infile,
 						int *fd_outfile);
-int		execute_heredoc_node(t_ast *node, int *fd_heredoc);
-int		execute_redir_in_node(t_ast *node, int *fd_infile);
-int		execute_redir_out_node(t_ast *node, int *fd_outfile);
-int		execute_redir_append_node(t_ast *node, int *fd_outfile);
+int					execute_heredoc_node(t_ast *node, int *fd_heredoc);
+int					execute_redir_in_node(t_ast *node, int *fd_infile);
+int					execute_redir_out_node(t_ast *node, int *fd_outfile);
+int					execute_redir_append_node(t_ast *node, int *fd_outfile);
 
 /*	PARSE INPUT	*/
-int			parsing_line(char *line);
-int			syntax_error(char *line);
-int			open_quotes(char *line);
-int			invalid_op(char *line);
-int			invalid_env(char *line);
-int			invalid_redir(char *line);
-
-void		clean_up_matrix(char **matrix);
+int					parsing_line(char *line);
+int					syntax_error(char *line);
+int					open_quotes(char *line);
+int					invalid_op(char *line);
+int					invalid_env(char *line);
+int					invalid_redir(char *line);
+char				**expand_matrix(char **matrix, char **envp);
 
 /*BUILTINS*/
-void		ft_env(void);
-void		ft_exit(void);
-void		ft_export(char **args);
-void		ft_unset(const char *var);
+void				ft_env(void);
+void				ft_exit(void);
+void				ft_export(char **args);
+void				ft_unset(const char *var);
 
-int			pwd(void);
-int			cd(char *path);
-int			ft_echo(int ar, char **args);
+int					pwd(void);
+int					cd(char *path);
+int					ft_echo(int ar, char **args);
 
 /*	UTILS	*/
-void		print_node(t_ast *node);
-void		print_matrix(char **matrix);
-void		print_ast(t_ast *root, int level);
-void		ft_read_fd(int fd);
-void		ft_read_fd_name(char *filename);
+void				print_node(t_ast *node);
+void				print_matrix(char **matrix);
+void				print_ast(t_ast *root, int level);
+void				ft_read_fd(int fd);
+void				ft_read_fd_name(char *filename);
 
 /*	MATRIX HANDLING	*/
-void		free_matrix(char **matrix);
+void				free_matrix(char **matrix);
 
-int			read_until(char *line, int i, char quote);
-int			omit_spaces(char *line, int i);
+int					read_until(char *line, int i, char quote);
+int					omit_spaces(char *line, int i);
 
-void		split_line(char **matrix, char *line);
-char		**create_matrix(char *line);
-char		**handle_meta(char **matrix);
+void				split_line(char **matrix, char *line);
+char				**create_matrix(char *line, char **envp);
+char				**handle_meta(char **matrix);
 
 #endif /*	MINISHELL_H	*/

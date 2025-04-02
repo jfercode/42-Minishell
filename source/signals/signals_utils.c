@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:03:01 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 18:19:16 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:56:42 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/**
- * @brief Sets up a signal handler for SIGUSR1 or SIGUSR2.
- *
- * This function configures a signal handler for SIGUSR1 or SIGUSR2, allowing 
- * the user to specify a custom handler function. 
- * 
- * It also provides an option to use `SA_SIGINFO` 
- * to receive additional information about the signal.
- *
- * @param signo The signal to handle (SIGUSR1 or SIGUSR2).
- * @param handler A function pointer to handle the received signal.
- * @param use_siginfo A boolean flag indicating whether to use `SA_SIGINFO` 
- * for extended signal information.
- */
-void	ft_signal(int signo, void *handler, bool use_siginfo)
-{
-	struct sigaction	sa;
-
-	sa.sa_sigaction = handler;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(signo, &sa, NULL) < 0)
-		ft_error_exit("Error. sigaction failed\n");
-}
 
 void	ft_handle_sigint(int sig)
 {

@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/02 19:33:41 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:02:32 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	ft_exec_line(char *line, char **envp)
 		return ;
 	else
 	{
-		mtx = create_matrix(line);
+		mtx = create_matrix(line, envp);
 		if (!mtx)
 			ft_error_exit("Error creating matrix\n");
 		ast = create_ast(mtx, envp);
@@ -40,6 +40,18 @@ static void	ft_exec_line(char *line, char **envp)
 		free_ast(ast);
 		free_matrix(mtx);
 	}
+}
+
+static char *prompt_readline()
+{
+	char	*path;
+	char	*promt;
+
+	path = ft_strjoin(GREEN ,getcwd(NULL, 0));
+	promt = ft_strjoin(path, "/");
+	promt = ft_strjoin(promt, "Gigachell> "RST);
+	free (path);
+	return (promt);
 }
 
 /**
@@ -56,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_start_gigachell();
-		line = readline(GREEN "Gigachell> " RST);
+		line = readline(prompt_readline());
 		if (!line)
 		{
 			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");

@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/26 15:20:18 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:01:19 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,35 +66,6 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	return (matrix);
 }
 
-char	**expand_matrix(char **matrix, char **envp)
-{
-	int	i;
-	int	j;
-	int	ch_single;
-	int	ch_double;
-
-	i = 0;
-	while (matrix[i])
-	{
-		j = 0;
-		ch_single = 0;
-		ch_double = 0;
-		while (matrix[i][j])
-		{
-			if (matrix[i][j] == '\'')
-				ch_single = !ch_single;
-			else if (matrix[i][j] == '"')
-				ch_double = !ch_double;
-			else if (matrix[i][j] == '$' && !ch_single)
-				matrix = expansion(matrix, envp, &i, &j);
-			j++;
-		}
-		i++;
-	}
-	matrix = cleanup_matrix(matrix);
-	return (matrix);
-}
-
 char	**cleanup_matrix(char **matrix)
 {
 	int	i;
@@ -123,5 +94,34 @@ char	**cleanup_matrix(char **matrix)
 		matrix[i][k] = '\0';
 		i++;
 	}
+	return (matrix);
+}
+
+char	**expand_matrix(char **matrix, char **envp)
+{
+	int	i;
+	int	j;
+	int	ch_single;
+	int	ch_double;
+
+	i = 0;
+	while (matrix[i])
+	{
+		j = 0;
+		ch_single = 0;
+		ch_double = 0;
+		while (matrix[i][j])
+		{
+			if (matrix[i][j] == '\'')
+				ch_single = !ch_single;
+			else if (matrix[i][j] == '"')
+				ch_double = !ch_double;
+			else if (matrix[i][j] == '$' && !ch_single)
+				matrix = expansion(matrix, envp, &i, &j);
+			j++;
+		}
+		i++;
+	}
+	matrix = cleanup_matrix(matrix);
 	return (matrix);
 }

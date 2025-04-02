@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/02 19:28:57 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:41:00 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@ void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 	if (cmd->type == NODE_HEREDOC || cmd->type == NODE_REDIR_IN
 		|| cmd->type == NODE_REDIR_OUT || cmd->type == NODE_REDIR_APPEND)
 	{
-		execute_redirection_node(cmd, &fd_in, &fd_out);
+		if (execute_redirection_node(cmd, &fd_in, &fd_out) == ERROR)
+		{
+			if (fd_in != STDIN_FILENO)
+				close(fd_in);
+			if(fd_out != STDOUT_FILENO)
+				close(fd_out);
+			return ;
+		}
 		if (cmd->left && cmd->left->type == NODE_CMD)
 			cmd = cmd->left;
 		else if (cmd->right && cmd->right->type == NODE_CMD)
