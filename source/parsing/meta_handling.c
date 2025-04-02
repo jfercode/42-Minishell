@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/26 15:19:45 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:36:10 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	is_special(char *str, int index)
 
 char	*maker_aux(char **matrix, char **new_mx, int *k, int i)
 {
-	int	n;
-	int	j;
+	int		n;
+	int		j;
 
 	j = 0;
 	while (matrix[i][j])

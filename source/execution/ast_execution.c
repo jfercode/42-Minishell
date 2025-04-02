@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:09:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:34:21 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,27 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 		ft_error("Error saving original STDOUT");
 }
 
-void	execute_redirection_node(t_ast *node,
+static int	execute_redirection_node(t_ast *node,
 					int *fd_infile, int *fd_outfile)
 {
-	if (node == NULL)
-		return ;
-	if (node->left != NULL)
-		execute_redirection_node(node->left, fd_infile, fd_outfile);
-	if (node->type == NODE_HEREDOC)
-		execute_heredoc_node(node, fd_infile);
-	else if (node->type == NODE_REDIR_IN)
-		execute_redir_in_node(node, fd_infile);
-	else if (node->type == NODE_REDIR_OUT)
-		execute_redir_out_node(node, fd_outfile);
-	else if (node->type == NODE_REDIR_APPEND)
-		execute_redir_append_node(node, fd_outfile);
+	if (!node)
+		return (ERROR);
+	if (node->left && execute_redirection_node(node->left,
+			fd_infile, fd_outfile) == ERROR)
+		return (ERROR);
+	if (node->type == NODE_HEREDOC
+		&& execute_heredoc_node(node, fd_infile) == ERROR)
+		return (ERROR);
+	else if (node->type == NODE_REDIR_IN
+		&& execute_redir_in_node(node, fd_infile) == ERROR)
+		return (ERROR);
+	else if (node->type == NODE_REDIR_OUT
+		&& execute_redir_out_node(node, fd_outfile) == ERROR)
+		return (ERROR);
+	else if (node->type == NODE_REDIR_APPEND
+		&& execute_redir_append_node(node, fd_outfile) == ERROR)
+		return (ERROR);
+	return (0);
 }
 
 static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
@@ -70,9 +76,19 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
 		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
 	{
-		execute_redirection_node(node, fd_infile, fd_outfile);
-		while (node->left->type != NODE_CMD)
-			node = node->left;
+		if (execute_redirection_node(node, fd_infile, fd_outfile) == ERROR)
+		{
+			if (*fd_infile != STDIN_FILENO)
+				close(*fd_infile);
+			if (*fd_outfile != STDOUT_FILENO)
+				close(*fd_outfile);
+			return ;
+		}
+		while (node->left)
+			if (node->left->type != NODE_CMD)
+				node = node->left;
+			else
+				break ;
 		if (dup2(*fd_infile, STDIN_FILENO) == -1)
 			ft_error_exit("Error duplicating STDIN");
 		if (dup2(*fd_outfile, STDOUT_FILENO) == -1)

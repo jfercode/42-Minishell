@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/25 16:00:20 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:36:22 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	syntax_error(char *line)
 	if (invalid_redir(line))
 		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_op(line))
-		return (printf("syntax error near unexpected token\n"), ERROR);
+		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_env(line))
-		return (printf("$: command not found\n"), ERROR);
+		return (ft_error("$: command not found\n"), ERROR);
 	return (0);
 }
 

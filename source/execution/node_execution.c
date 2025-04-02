@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 10:01:20 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 16:46:35 by penpalac         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/02 19:34:53 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 /**
@@ -85,6 +86,7 @@ void	execute_cmd_node(t_ast *node)
 
 	if (node->type != NODE_CMD)
 		return ;
+	signal(SIGINT, ft_handle_sigint_child);
 	pid = fork();
 	if (pid == 0)
 		run_command(node);
@@ -95,4 +97,5 @@ void	execute_cmd_node(t_ast *node)
 	}
 	else
 		ft_error("Error: Failed fork");
+	signal(SIGINT, ft_handle_sigint);
 }
