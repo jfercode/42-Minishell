@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 10:16:12 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:12:42 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_ast	*create_node(char **args, char **envp, int *indx)
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
+	node->fd_infile = STDIN_FILENO;
+	node->fd_outfile = STDOUT_FILENO;
 	return (node);
 }
 

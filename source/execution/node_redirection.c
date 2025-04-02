@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 20:36:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:21:10 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
  */
 void	execute_heredoc_node(t_ast *node, int *fd_heredoc)
 {
+	int	new_fd;
 	int	fd;
 
 	if (node->type != NODE_HEREDOC)
@@ -28,18 +29,26 @@ void	execute_heredoc_node(t_ast *node, int *fd_heredoc)
 	fd = open("/tmp/heredoc_tmp.txt", O_RDONLY);
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (fd == 5 || fd == 6)
+	{
+		new_fd = dup2(fd, 7);
+		if (new_fd == -1)
+			ft_error("Error duplicating file descriptor");
+		close(fd);
+		fd = new_fd;
+	}
 	*fd_heredoc = fd;
 }
 
 /**
- * Comprobar que existe el archivo, abrirlo con los permisos necesarios y 
- * actualizar como infile en la ejecución 
+ * Comprobar que existe el archivo, abrirlo con los permisos necesarios y
+ * actualizar como infile en la ejecución
  */
 void	execute_redir_in_node(t_ast *node, int *fd_infile)
 {
+	int	new_fd;
 	int	fd;
 
-	printf("IN_NODE fd that enters: %d\n", *fd_infile);
 	if (node->type != NODE_REDIR_IN)
 		return ;
 	if (*fd_infile != STDIN_FILENO)
@@ -47,8 +56,15 @@ void	execute_redir_in_node(t_ast *node, int *fd_infile)
 	fd = open(node->args[1], O_RDONLY);
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (fd == 5 || fd == 6)
+	{
+		new_fd = dup2(fd, 7);
+		if (new_fd == -1)
+			ft_error("Error duplicating file descriptor");
+		close(fd);
+		fd = new_fd;
+	}
 	*fd_infile = fd;
-	printf("IN_NODE fd that exits: %d\n", *fd_infile);
 }
 
 /**
@@ -60,9 +76,9 @@ void	execute_redir_in_node(t_ast *node, int *fd_infile)
  */
 void	execute_redir_out_node(t_ast *node, int *fd_outfile)
 {
+	int	new_fd;
 	int	fd;
 
-	printf("OUT_NODE fd that enters: %d\n", *fd_outfile);
 	if (node->type != NODE_REDIR_OUT)
 		return ;
 	if (*fd_outfile != STDOUT_FILENO)
@@ -70,8 +86,15 @@ void	execute_redir_out_node(t_ast *node, int *fd_outfile)
 	fd = open(node->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (fd == 5 || fd == 6)
+	{
+		new_fd = dup2(fd, 7);
+		if (new_fd == -1)
+			ft_error("Error duplicating file descriptor");
+		close(fd);
+		fd = new_fd;
+	}
 	*fd_outfile = fd;
-	printf("OUT_NODE fd that exits: %d\n", *fd_outfile);
 }
 
 /**
@@ -83,6 +106,7 @@ void	execute_redir_out_node(t_ast *node, int *fd_outfile)
  */
 void	execute_redir_append_node(t_ast *node, int *fd_outfile)
 {
+	int	new_fd;
 	int	fd;
 
 	if (node->type != NODE_REDIR_APPEND)
@@ -92,5 +116,13 @@ void	execute_redir_append_node(t_ast *node, int *fd_outfile)
 	fd = open(node->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		ft_error("Error opening file");
+	if (fd == 5 || fd == 6)
+	{
+		new_fd = dup2(fd, 7);
+		if (new_fd == -1)
+			ft_error("Error duplicating file descriptor");
+		close(fd);
+		fd = new_fd;
+	}
 	*fd_outfile = fd;
 }

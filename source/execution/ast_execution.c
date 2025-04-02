@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 20:26:11 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:19:37 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 void	execute_redirection_node(t_ast *node,
 					int *fd_infile, int *fd_outfile)
 {
-	printf("ReDIR NODE %u\n", node->type);
 	if (node == NULL)
 		return ;
 	if (node->left != NULL)
@@ -67,7 +66,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
-		execute_pipe_node(node, fd_infile, fd_outfile);
+		execute_pipe_node(node);
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
 		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
 	{
@@ -78,16 +77,16 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 			ft_error_exit("Error duplicating STDIN");
 		if (dup2(*fd_outfile, STDOUT_FILENO) == -1)
 			ft_error_exit("Error duplicating STDOUT");
+		if (node->left)
+			execute_node(node->left, fd_infile, fd_outfile);
+		if (node->right)
+			execute_node(node->right, fd_infile, fd_outfile);
 	}
 	else if (node->type == NODE_CMD)
 	{
 		execute_cmd_node(node);
 		return ;
 	}
-	if (node->left)
-		execute_node(node->left, fd_infile, fd_outfile);
-	if (node->right)
-		execute_node(node->right, fd_infile, fd_outfile);
 }
 
 void	execute_ast(t_ast *ast)
