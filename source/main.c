@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:16:57 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 18:26:06 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/02 18:23:43 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	ft_exec_line(char *line, char **envp)
 	else
 	{
 		mtx = create_matrix(line);
+		if (!mtx)
+			ft_error_exit("Error creating matrix\n");
 		ast = create_ast(mtx, envp);
 		if (!ast)
 			ft_error_exit("Error creating AST\n");

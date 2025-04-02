@@ -6,7 +6,7 @@
 /*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:01:20 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/01 17:28:51 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:46:59 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	execute_cmd_node(t_ast *node)
 
 	if (node->type != NODE_CMD)
 		return ;
-	ft_signal(SIGINT, ft_handle_sigint_child, false);
+	signal(SIGINT, ft_handle_sigint_child);
 	pid = fork();
 	if (pid == 0)
 		run_command(node);
@@ -96,5 +96,5 @@ void	execute_cmd_node(t_ast *node)
 	}
 	else
 		ft_error("Error: Failed fork");
-	ft_signal(SIGINT, ft_handle_sigint, false);
+	signal(SIGINT, ft_handle_sigint);
 }
