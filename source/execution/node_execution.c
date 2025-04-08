@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/02 19:34:53 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:32:17 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	run_command(t_ast *node)
 		ft_error("Error: Invalid command");
 		exit(127);
 	}
-	path = find_path(*node->args, node->envp);
+	if (ft_strchr(node->args[0], '/'))
+		path = ft_strdup(node->args[0]);
+	else
+		path = find_path(*node->args, node->envp);
 	if (!path)
 	{
 		ft_error(node->args[0]);

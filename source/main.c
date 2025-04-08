@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/02 20:02:32 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:48:10 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,17 @@ static void	ft_exec_line(char *line, char **envp)
 	else
 	{
 		mtx = create_matrix(line, envp);
-		if (!mtx)
-			ft_error_exit("Error creating matrix\n");
+		if (!mtx && mtx == NULL)
+		{
+			ft_error("Error creating matrix\n");
+			return ;
+		}
 		ast = create_ast(mtx, envp);
 		if (!ast)
-			ft_error_exit("Error creating AST\n");
+		{
+			ft_error("Error creating AST\n");
+			return ;
+		}
 		execute_ast(ast);
 		free_ast(ast);
 		free_matrix(mtx);
@@ -45,13 +51,13 @@ static void	ft_exec_line(char *line, char **envp)
 static char *prompt_readline()
 {
 	char	*path;
-	char	*promt;
+	char	*prompt;
 
 	path = ft_strjoin(GREEN ,getcwd(NULL, 0));
-	promt = ft_strjoin(path, "/");
-	promt = ft_strjoin(promt, "Gigachell> "RST);
+	prompt = ft_strjoin(path, "/");
+	prompt = ft_strjoin(prompt, "Gigachell> "RST);
 	free (path);
-	return (promt);
+	return (prompt);
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:35:13 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:13:36 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

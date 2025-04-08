@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/02 20:02:19 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:48:26 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	**create_matrix(char *line, char **envp)
 		if (line[i] != '\0')
 			i++;
 	}
+	if (!count)
+		return (NULL);
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
 		return(ft_error("Error: failed matrix creation\n"), NULL);

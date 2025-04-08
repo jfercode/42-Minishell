@@ -2,7 +2,6 @@
 
 2.	Implementar los built ins en los cmd
 
-
 3.	Liberacion de memoria 
 
 ->	11 bytes in 2 blocks are indirectly lost in loss record 3 of 65
@@ -23,3 +22,15 @@
 4.	Pruebas 
 
 5.	Gestión de errores
+
+
+
+7. $?
+
+8.	signals:
+	-> en comando revisar y comparar funcionamiento señales ctrl \ 
+	-> heredoc igual revisar y comparar	
+
+9. Las comillas simples expanden cuando no deberían
+
+10.	Añadir avability de fds en redirecciones
