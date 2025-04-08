@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/02 20:01:19 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:29:44 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,6 @@ char	**expand_matrix(char **matrix, char **envp)
 		{
 			if (matrix[i][j] == '\'')
 				ch_single = !ch_single;
-			else if (matrix[i][j] == '"')
-				ch_double = !ch_double;
 			else if (matrix[i][j] == '$' && !ch_single)
 				matrix = expansion(matrix, envp, &i, &j);
 			j++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:38:11 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:25:49 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,33 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 }
 
 int	execute_redirection_node(t_ast *node,
-					int *fd_infile, int *fd_outfile)
+					int *fd_infile, int *fd_outfile, int *fd)
 {
 	if (!node)
 		return (ERROR);
 	if (node->left && execute_redirection_node(node->left,
-			fd_infile, fd_outfile) == ERROR)
+			fd_infile, fd_outfile, fd) == ERROR)
 		return (ERROR);
 	if (node->type == NODE_HEREDOC
-		&& execute_heredoc_node(node, fd_infile) == ERROR)
+		&& execute_heredoc_node(node, fd_infile, fd) == ERROR)
 		return (ERROR);
 	else if (node->type == NODE_REDIR_IN
-		&& execute_redir_in_node(node, fd_infile) == ERROR)
+		&& execute_redir_in_node(node, fd_infile, fd) == ERROR)
 		return (ERROR);
 	else if (node->type == NODE_REDIR_OUT
-		&& execute_redir_out_node(node, fd_outfile) == ERROR)
+		&& execute_redir_out_node(node, fd_outfile, fd) == ERROR)
 		return (ERROR);
 	else if (node->type == NODE_REDIR_APPEND
-		&& execute_redir_append_node(node, fd_outfile) == ERROR)
+		&& execute_redir_append_node(node, fd_outfile, fd) == ERROR)
 		return (ERROR);
 	return (0);
 }
 
 static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 {
+	int	fd;
+
+	fd = 7;
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPE)
@@ -76,7 +79,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
 		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
 	{
-		if (execute_redirection_node(node, fd_infile, fd_outfile) == ERROR)
+		if (execute_redirection_node(node, fd_infile, fd_outfile, &fd) == ERROR)
 		{
 			if (*fd_infile != STDIN_FILENO)
 				close(*fd_infile);

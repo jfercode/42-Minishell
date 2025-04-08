@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/07 20:13:36 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:34:47 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Usar función handle heredoc aqui y actualizar como infile en la ejecución al
  * heredoc
  */
-int	execute_heredoc_node(t_ast *node, int *fd_heredoc)
+int	execute_heredoc_node(t_ast *node, int *fd_heredoc, int *n)
 {
 	int	new_fd;
 	int	fd;
@@ -31,10 +31,12 @@ int	execute_heredoc_node(t_ast *node, int *fd_heredoc)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		new_fd = dup2(fd, 7);
+		printf("n_heredoc: %d\n", *n);
+		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
 		close(fd);
+		(*n)++;
 		fd = new_fd;
 	}
 	*fd_heredoc = fd;
@@ -45,7 +47,7 @@ int	execute_heredoc_node(t_ast *node, int *fd_heredoc)
  * Comprobar que existe el archivo, abrirlo con los permisos necesarios y
  * actualizar como infile en la ejecución
  */
-int	execute_redir_in_node(t_ast *node, int *fd_infile)
+int	execute_redir_in_node(t_ast *node, int *fd_infile, int *n)
 {
 	int	new_fd;
 	int	fd;
@@ -59,10 +61,12 @@ int	execute_redir_in_node(t_ast *node, int *fd_infile)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		new_fd = dup2(fd, 7);
+		printf("n_in: %d\n", *n);
+		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
 		close(fd);
+		(*n)++;
 		fd = new_fd;
 	}
 	*fd_infile = fd;
@@ -76,7 +80,7 @@ int	execute_redir_in_node(t_ast *node, int *fd_infile)
  * - abrirlo en modo O_TRUNC
  * - actualizar el archivo a outfile en ejecución
  */
-int	execute_redir_out_node(t_ast *node, int *fd_outfile)
+int	execute_redir_out_node(t_ast *node, int *fd_outfile, int *n)
 {
 	int	new_fd;
 	int	fd;
@@ -90,10 +94,12 @@ int	execute_redir_out_node(t_ast *node, int *fd_outfile)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		new_fd = dup2(fd, 7);
+		printf("n_out: %d\n", *n);
+		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
 		close(fd);
+		(*n)++;
 		fd = new_fd;
 	}
 	*fd_outfile = fd;
@@ -107,7 +113,7 @@ int	execute_redir_out_node(t_ast *node, int *fd_outfile)
  * - abrirlo en modo O_APPEND
  * - actualizar el archivo a outfile en ejecución
  */
-int	execute_redir_append_node(t_ast *node, int *fd_outfile)
+int	execute_redir_append_node(t_ast *node, int *fd_outfile, int *n)
 {
 	int	new_fd;
 	int	fd;
@@ -121,10 +127,12 @@ int	execute_redir_append_node(t_ast *node, int *fd_outfile)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		new_fd = dup2(fd, 7);
+		printf("n_append: %d\n", *n);
+		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
 		close(fd);
+		(*n)++;
 		fd = new_fd;
 	}
 	*fd_outfile = fd;

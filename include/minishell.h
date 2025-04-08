@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 20:02:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:15:43 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ void				execute_pipe_node(t_ast *node);
 
 /*	NODE_REDIRECTION	*/
 int				execute_redirection_node(t_ast *node, int *fd_infile,
-						int *fd_outfile);
-int					execute_heredoc_node(t_ast *node, int *fd_heredoc);
-int					execute_redir_in_node(t_ast *node, int *fd_infile);
-int					execute_redir_out_node(t_ast *node, int *fd_outfile);
-int					execute_redir_append_node(t_ast *node, int *fd_outfile);
+						int *fd_outfile, int *fd);
+int					execute_heredoc_node(t_ast *node, int *fd_heredoc, int *n);
+int					execute_redir_in_node(t_ast *node, int *fd_infile, int *n);
+int					execute_redir_out_node(t_ast *node, int *fd_outfile, int *n);
+int					execute_redir_append_node(t_ast *node, int *fd_outfile, int *n);
 
 /*	PARSE INPUT	*/
 int					parsing_line(char *line);

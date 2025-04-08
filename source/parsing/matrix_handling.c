@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/07 19:48:26 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:43:28 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_token(char *line, int *i, char quote)
 		(*i)++;
 		while (line[*i] != quote && line[*i])
 			(*i)++;
-		token = ft_substr(line, start + 1, *i - (start + 1));
+		token = ft_substr(line, start, (*i + 1) - start);
 		if (!token)
 			return (free(line), NULL);
 		if (line[*i] == quote)
