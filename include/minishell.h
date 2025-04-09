@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:55:20 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:58:52 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef enum e_type
 	NODE_REDIR_OUT,
 	NODE_REDIR_APPEND,
 	// NODE_LOGICAL_OP
-}					t_node_type;
 }					t_node_type;
 
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
