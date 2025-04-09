@@ -23,14 +23,14 @@
 
 5.	Gestión de errores
 
-
-
-7. $?
+7. $? -> exit_status
+	necesito una estructura maestra que comunique con ast 
+	
 
 8.	signals:
 	-> en comando revisar y comparar funcionamiento señales ctrl \ 
-	-> heredoc igual revisar y comparar	
+	-> heredoc igual revisar y comparar
 
-9. Las comillas simples expanden cuando no deberían
 
-10.	Añadir avability de fds en redirecciones
+
+

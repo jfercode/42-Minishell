@@ -6,20 +6,11 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/08 13:29:44 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:24:59 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*
-	$a = 1 -- if $a -- if 1
-
-	echo hola"mundo" - holamundo
-	echo $PWD'$PWD'  - ruta$PWD
-	echo $PWD"$PWD"  - rutaruta
-
-*/
 
 char	*get_envp(char **envp, char *var)
 {
@@ -97,23 +88,26 @@ char	**cleanup_matrix(char **matrix)
 	return (matrix);
 }
 
-char	**expand_matrix(char **matrix, char **envp)
+char	**expand_matrix(char **matrix, char **envp, t_data *data)
 {
 	int	i;
 	int	j;
 	int	ch_single;
-	int	ch_double;
 
 	i = 0;
 	while (matrix[i])
 	{
 		j = 0;
 		ch_single = 0;
-		ch_double = 0;
 		while (matrix[i][j])
 		{
 			if (matrix[i][j] == '\'')
 				ch_single = !ch_single;
+			else if (matrix[i][j] == '$' && matrix[i][j + 1] == '?')
+			{
+				printf("XD");
+				matrix[i] = ft_itoa(data->exit_status);
+			}
 			else if (matrix[i][j] == '$' && !ch_single)
 				matrix = expansion(matrix, envp, &i, &j);
 			j++;

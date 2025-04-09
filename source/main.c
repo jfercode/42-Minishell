@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:33:37 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,33 @@ static void	ft_start_gigachell(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	ft_exec_line(char *line, char **envp)
+static int	ft_exec_line(char *line, char **envp, t_data *data)
 {
 	char	**mtx;
 	t_ast	*ast;
 
 	add_history(line);
 	if (syntax_error(line) == ERROR)
-		return ;
+		data->exit_status = 2;
 	else
 	{
-		mtx = create_matrix(line, envp);
+		mtx = create_matrix(line, envp, data);
 		if (!mtx && mtx == NULL)
 		{
 			ft_error("Error creating matrix\n");
-			return ;
+			data->exit_status = 2;
 		}
 		ast = create_ast(mtx, envp);
 		if (!ast)
 		{
 			ft_error("Error creating AST\n");
-			return ;
+			data->exit_status = 2;
 		}
-		execute_ast(ast);
+		data->exit_status = execute_ast(ast);
 		free_ast(ast);
 		free_matrix(mtx);
 	}
+	return (data->exit_status);
 }
 
 static char *prompt_readline()
@@ -65,12 +66,13 @@ static char *prompt_readline()
  */
 int	main(int argc, char **argv, char **envp)
 {
+	t_data	data;
 	char	*line;
 	char	**mtx;
-	t_ast	*ast;
 
 	(void) argc;
 	(void) argv;
+	data.exit_status = 0;
 	while (1)
 	{
 		ft_start_gigachell();
@@ -81,9 +83,12 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		else if (*line)
-			ft_exec_line(line, envp);
+		{
+			data.exit_status = ft_exec_line(line, envp, &data);
+			printf("exit: %d\n", data.exit_status);
+		}
 		free(line);
 	}
 	rl_clear_history();
-	return (EXIT_SUCCESS);
+	return (data.exit_status);
 }

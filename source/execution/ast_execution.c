@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/08 15:25:49 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:32:24 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	execute_redirection_node(t_ast *node,
 	return (0);
 }
 
-static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
+static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 {
 	int	fd;
 
 	fd = 7;
 	if (!node)
-		return ;
+		node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
 	if (node->type == NODE_PIPE)
 		execute_pipe_node(node);
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
@@ -85,7 +85,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 				close(*fd_infile);
 			if (*fd_outfile != STDOUT_FILENO)
 				close(*fd_outfile);
-			return ;
+			node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
 		}
 		while (node->left)
 			if (node->left->type != NODE_CMD)
@@ -104,11 +104,12 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	else if (node->type == NODE_CMD)
 	{
 		execute_cmd_node(node);
-		return ;
+		node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
 	}
+	return (node->data.exit_status);
 }
 
-void	execute_ast(t_ast *ast)
+int	execute_ast(t_ast *ast)
 {
 	int	fd_infile;
 	int	fd_outfile;
@@ -118,10 +119,11 @@ void	execute_ast(t_ast *ast)
 	save_stdio(&original_stdin, &original_stdout);
 	fd_infile = STDIN_FILENO;
 	fd_outfile = STDOUT_FILENO;
-	execute_node(ast, &fd_infile, &fd_outfile);
+	ast->data.exit_status = execute_node(ast, &fd_infile, &fd_outfile);
 	restore_stdio(original_stdin, original_stdout);
 	if (fd_infile != STDIN_FILENO)
 		close(fd_infile);
 	if (fd_outfile != STDOUT_FILENO)
 		close(fd_outfile);
+	return (ast->data.exit_status);
 }

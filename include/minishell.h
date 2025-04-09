@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/08 15:15:43 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:32:37 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ typedef enum e_type
 	// NODE_LOGICAL_OP
 }					t_node_type;
 
+typedef struct s_data
+{
+	int		exit_status;
+}					t_data;
+
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
 {
@@ -58,6 +63,7 @@ typedef struct s_ast
 	pid_t			pid;
 	int				fd_infile;
 	int				fd_outfile;
+	struct s_data	data;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
@@ -84,7 +90,7 @@ t_ast				*create_node(char **args, char **envp, int *indx);
 t_node_type			get_token_type(char *token);
 
 /*	EXECUTION	*/
-void				execute_ast(t_ast *ast);
+int				execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
 void				run_command(t_ast *node);
@@ -100,13 +106,12 @@ int					execute_redir_out_node(t_ast *node, int *fd_outfile, int *n);
 int					execute_redir_append_node(t_ast *node, int *fd_outfile, int *n);
 
 /*	PARSE INPUT	*/
-int					parsing_line(char *line);
 int					syntax_error(char *line);
 int					open_quotes(char *line);
 int					invalid_op(char *line);
 int					invalid_env(char *line);
 int					invalid_redir(char *line);
-char				**expand_matrix(char **matrix, char **envp);
+char				**expand_matrix(char **matrix, char **envp, t_data *data);
 
 /*BUILTINS*/
 void				ft_env(void);
@@ -128,11 +133,8 @@ void				ft_read_fd_name(char *filename);
 /*	MATRIX HANDLING	*/
 void				free_matrix(char **matrix);
 
-int					read_until(char *line, int i, char quote);
-int					omit_spaces(char *line, int i);
-
 void				split_line(char **matrix, char *line);
-char				**create_matrix(char *line, char **envp);
+char				**create_matrix(char *line, char **envp, t_data *data);
 char				**handle_meta(char **matrix);
 
 #endif /*	MINISHELL_H	*/

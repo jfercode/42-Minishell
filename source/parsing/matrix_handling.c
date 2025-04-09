@@ -6,13 +6,13 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/08 13:43:28 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:27:39 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**create_matrix(char *line, char **envp)
+char	**create_matrix(char *line, char **envp, t_data *data)
 {
 	unsigned int	count;
 	char			**matrix;
@@ -38,7 +38,7 @@ char	**create_matrix(char *line, char **envp)
 		return(ft_error("Error: failed matrix creation\n"), NULL);
 	split_line(matrix, line);
 	matrix = handle_meta(matrix);
-	matrix = expand_matrix(matrix, envp);
+	matrix = expand_matrix(matrix, envp, data);
 	return (matrix);
 }
 
