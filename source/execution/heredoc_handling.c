@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 17:32:44 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:39:16 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	ft_handle_here_doc(char *delimiter)
 	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp_fd == -1)
 		return (ft_error("Error: can't opening temp heredoc file"), 1);
-	while (1)
+	while (g_shell_mode == HEREDOC)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
 		line = ft_get_next_line(STDIN_FILENO);
-		if (!line)
-			return (ft_error("Error: while reading heredoc"), EXIT_FAILURE);
+		if (!line || g_shell_mode != HEREDOC)
+			break ;
 		line = remove_newline(line);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
 			return (free(line), close(tmp_fd));
@@ -72,6 +72,8 @@ int	ft_handle_here_doc(char *delimiter)
 		free(line);
 	}
 	close(tmp_fd);
+	if (g_shell_mode != HEREDOC)
+		return (130);
 	return (EXIT_FAILURE);
 }
 

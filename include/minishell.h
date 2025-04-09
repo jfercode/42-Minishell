@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/08 15:15:43 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:06:09 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 
 # define ERROR -1
 
+extern int	g_shell_mode;
+
 /* NODE TYPE ENUM	*/
 typedef enum e_type
 {
@@ -49,6 +51,13 @@ typedef enum e_type
 	// NODE_LOGICAL_OP
 }					t_node_type;
 
+typedef enum e_mode
+{
+	NORMAL,
+	HEREDOC,
+	CMD,
+}					t_shell_mode;
+
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
 {
@@ -58,6 +67,7 @@ typedef struct s_ast
 	pid_t			pid;
 	int				fd_infile;
 	int				fd_outfile;
+	int				exit_status;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;

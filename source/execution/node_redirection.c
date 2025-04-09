@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/08 16:34:47 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:17:53 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	execute_heredoc_node(t_ast *node, int *fd_heredoc, int *n)
 		return (ERROR);
 	if (*fd_heredoc != STDIN_FILENO)
 		close(*fd_heredoc);
+	g_shell_mode = HEREDOC;
 	ft_handle_here_doc(node->args[1]);
+	g_shell_mode = NORMAL;
 	fd = open("/tmp/heredoc_tmp.txt", O_RDONLY);
 	if (fd == -1)
 		ft_error("Error opening file");

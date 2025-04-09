@@ -6,18 +6,27 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/08 16:55:15 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:32:27 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
+
+int	g_shell_mode = 0;
 
 static void	ft_start_gigachell(void)
 {
+	struct sigaction sa;
+
+	g_shell_mode = NORMAL;
 	signal(SIGINT, ft_handle_sigint);
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = ft_handle_sigint;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		ft_error("Failed sigaction");
 }
 
 static void	ft_exec_line(char *line, char **envp)
