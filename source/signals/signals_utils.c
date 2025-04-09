@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:03:01 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:56:42 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:36:27 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

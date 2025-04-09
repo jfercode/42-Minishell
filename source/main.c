@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:55:15 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ static void	ft_exec_line(char *line, char **envp)
 
 static char *prompt_readline()
 {
+	char	*temp;
 	char	*path;
 	char	*prompt;
 
 	path = ft_strjoin(GREEN ,getcwd(NULL, 0));
-	prompt = ft_strjoin(path, "/");
-	prompt = ft_strjoin(prompt, "Gigachell> "RST);
+	temp = ft_strjoin(path, "/");
+	prompt = ft_strjoin(temp, "Gigachell> "RST);
 	free (path);
+	free (temp);
 	return (prompt);
 }
 

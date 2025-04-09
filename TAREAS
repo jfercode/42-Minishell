@@ -23,8 +23,6 @@
 
 5.	Gestión de errores
 
-
-
 7. $?
 
 8.	signals:
@@ -34,3 +32,4 @@
 9. Las comillas simples expanden cuando no deberían
 
 10.	Añadir avability de fds en redirecciones
+

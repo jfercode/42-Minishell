@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/31 16:34:33 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:32:44 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ static char	*remove_newline(char *line)
  * Otherwise, the line is written to the file.
  *
  * @param delimiter The string that terminates the here-document input.
- * @return IS_HEREDOC when the delimiter is encountered,
-	or 0 if an error occurs.
+ * 
  */
 int	ft_handle_here_doc(char *delimiter)
 {
