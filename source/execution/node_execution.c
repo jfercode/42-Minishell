@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:56:54 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:45:23 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	execute_cmd_node(t_ast *node)
 {
 	pid_t	pid;
 	
-	signal(SIGINT, ft_handle_sigint_child);
+	g_shell_mode = CMD;
 	if (node->type != NODE_CMD)
 		return ;
 	pid = fork();
