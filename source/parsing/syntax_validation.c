@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/09 17:52:02 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:57:23 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	syntax_error(char *line)
 	if (invalid_redir(line))
 		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_op(line))
-		return (printf("syntax error near unexpected token\n"), ERROR);
+		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
 	if (invalid_env(line))
-		return (printf("$: command not found\n"), ERROR);
+		return (ft_error("$: command not found\n"), ERROR);
 	return (0);
 }
 
@@ -118,7 +118,7 @@ int	invalid_env(char *line)
 		if (line[i] == '$')
 		{
 			if (line[i - 1] != ' ' && line[i - 1] != '\"' && \
-				line[i - 1] != '\0')
+				line[i - 1] != '\0' && line[i - 1] != '\'')
 				return (1);
 			if (!ft_isalnum(line[i + 1]))
 				return (1);
@@ -137,7 +137,7 @@ int	invalid_env(char *line)
 		if (line[i] == '$')
 		{
 			if (line[i - 1] != ' ' && line[i - 1] != '\"' && \
-				line[i - 1] != '\0')
+				line[i - 1] != '\0' && line[i - 1] != '\'')
 				return (1);
 			if (!ft_isalnum(line[i + 1]))
 				return (1);

@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_utils.c                                    :+:      :+:    :+:   */
+/*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 11:03:01 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 17:36:27 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/01 18:15:13 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/02 19:02:19 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_handle_sigint(int sig)
+void	free_matrix(char **matrix)
 {
-	if (sig == SIGINT)
+	int	i;
+
+	if(!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		free(matrix[i]);
+		i++;
 	}
+	free(matrix);
+	matrix = NULL;
 }
 
-void	ft_handle_sigint_child(int sig)
+void	print_matrix(char **matrix)
 {
-	if (sig == SIGINT)
+	int	i;
+
+	i = 0;
+	while (matrix[i])
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		return ;
+		printf(GREEN"matrix[%d]:"RST" %s\n", i, matrix[i]);
+		i++;
 	}
 }

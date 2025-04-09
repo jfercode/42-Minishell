@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/09 17:51:49 by pabalons         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/09 17:57:06 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
@@ -19,29 +20,53 @@
  *	right: y
  */
 
-static void	forking(t_ast *node, int fdin, int fdout)
+void	setup_redirections(t_ast *node)
+{
+	if (node->fd_infile != STDIN_FILENO)
+	{
+		dup2(node->fd_infile, STDIN_FILENO);
+		close(node->fd_infile);
+	}
+	if (node->fd_outfile != STDOUT_FILENO)
+	{
+		dup2(node->fd_outfile, STDOUT_FILENO);
+		close(node->fd_outfile);
+	}
+}
+
+void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 {
 	pid_t	pid;
+	int		fd;
 
-	pid = fork();
-	if (pid == -1)
+	fd = 7;
+	if (cmd->type == NODE_HEREDOC || cmd->type == NODE_REDIR_IN
+		|| cmd->type == NODE_REDIR_OUT || cmd->type == NODE_REDIR_APPEND)
 	{
-		perror("Error: fork failed");
-		exit(1);
+		if (execute_redirection_node(cmd, &fd_in, &fd_out, &fd) == ERROR)
+		{
+			if (fd_in != STDIN_FILENO)
+				close(fd_in);
+			if(fd_out != STDOUT_FILENO)
+				close(fd_out);
+			return ;
+		}
+		while (cmd->left && (cmd->type != NODE_CMD))
+			cmd = cmd->left;
 	}
+	pid = fork();
 	if (pid == 0)
 	{
-		if (fdin != STDIN_FILENO)
-		{
-			dup2(fdin, STDIN_FILENO);
-			close(fdin);
-		}
-		if (fdout != STDOUT_FILENO)
-		{
-			dup2(fdout, STDOUT_FILENO);
-			close(fdout);
-		}
-		run_command(node);
+		if (fd_in != STDIN_FILENO)
+			dup2(fd_in, STDIN_FILENO);
+		if (fd_out != STDOUT_FILENO)
+			dup2(fd_out, STDOUT_FILENO);
+		setup_redirections(cmd);
+		if (fd_in != STDIN_FILENO)
+			close(fd_in);
+		if (fd_out != STDOUT_FILENO)
+			close(fd_out);
+		run_command(cmd);
 	}
 }
 
@@ -55,19 +80,17 @@ void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 	{
 		if (pipe(fd) == -1)
 		{
-			perror("pipe");
+			ft_error("Pipe");
 			exit(EXIT_FAILURE);
 		}
-		forking(cmds[i], prev_fd, fd[1]);
+		execute_command(cmds[i], prev_fd, fd[1]);
 		close(fd[1]);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		prev_fd = fd[0];
 		i++;
 	}
-	if (!cmds[i])
-    	printf("Error: Last command in pipeline is NULL!\n");
-	forking(cmds[i], prev_fd, STDOUT_FILENO);
+	execute_command(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
 	while (wait(&status) > 0);
@@ -123,3 +146,38 @@ void	execute_pipe_node(t_ast *node)
 	execute_pipeline(cmds, pipe_count, fd, prev_fd);
 	free(cmds);
 }
+
+/*
+
+	int		pipe_fd[2];
+	int		prev;
+	int		i;
+	t_ast	*current;
+
+	i = 0;
+	prev = -1;
+	current = node;
+	while (current && current->type == NODE_PIPE)
+	{
+		if (pipe(pipe_fd) == -1)
+		{
+			ft_error("Pipe");
+			exit(EXIT_FAILURE);
+		}
+		if (current->left->type == NODE_PIPE)
+			execute_pipe_node(current->left);
+		else
+			execute_command(current->left, prev, pipe_fd[1]);
+		close(pipe_fd[1]);
+		if (prev != -1)
+			close(prev);
+		prev = pipe_fd[0];
+		current = current->right;
+	}
+		execute_command(current, prev, STDOUT_FILENO);
+	if (prev != -1)
+		close(prev);
+	while (wait(NULL) > 0)
+		;
+
+*/

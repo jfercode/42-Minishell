@@ -5,81 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 17:44:52 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 17:52:09 by pabalons         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/09 17:57:40 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../include/minishell.h"
-
-static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
-{
-	int	i;
-
-	i = *indx;
-	if (type == NODE_CMD)
-		while (args[i] && get_token_type(args[i]) == NODE_CMD)
-			i++;
-	else if (type == NODE_REDIR_OUT || type == NODE_REDIR_IN
-		|| type == NODE_HEREDOC || type == NODE_REDIR_APPEND)
-		i = *indx + 2;
-	else
-		i = *indx + 1;
-	return (i);
-}
-
-/**
- * @brief Creates a new AST node from the given arguments.
- *
- * This function allocates memory for a new AST node and determines its type
- * based on the provided tokens. If the node is a command, it collects all
- * consecutive command tokens. Ot1herwise, it handles a single operator token.
- *
- * @param args A null-terminated array of strings representing tokens.
- * @param indx A pointer to the current index in the token array, updated as
- * @param indx A pointer to the current index in the token array, updated as
- * tokens are processed.
- * @return A pointer to the newly created AST node, or NULL if allocation fails.
- */
-t_ast	*create_node(char **args, char **envp, int *indx)
-t_ast	*create_node(char **args, char **envp, int *indx)
-{
-	t_ast	*node;
-	int		i;
-	int		j;
-
-	i = *indx;
-	j = 0;
-	node = malloc(sizeof(t_ast));
-	if (!node)
-		return (NULL);
-	node->type = get_token_type(args[i]);
-	i = obtain_current_indx_token(indx, args, node->type);
-	node->args = malloc(sizeof(char *) * (i - *indx + 1));
-	if (!node->args)
-		return (free_node(node), NULL);
-	while (*indx < i)
-		node->args[j++] = ft_strdup(args[(*indx)++]);
-	node->envp = envp;
-	node->envp = envp;
-	node->args[j] = NULL;
-	node->right = NULL;
-	node->left = NULL;
-	return (node);
-}
 
 static void	handle_pipe_node(t_ast **root, t_ast *new_node)
 {
-    new_node->left = *root;
-    *root = new_node;
+	if (*root)
+		new_node->left = *root;
+	*root = new_node;
 }
 
-static void	handle_command_node(t_ast *current, t_ast *new_node)
+static void	handle_redirect_node(t_ast **root, t_ast *new_node)
 {
-    if (current && current->type == NODE_PIPE)
-        current->right = new_node;
-    else if (current)
-        current->left = new_node;
+	if (*root != NULL)
+	{
+		if ((*root)->type == NODE_PIPE)
+		{
+			if ((*root)->right == NULL)
+				(*root)->right = new_node;
+			else
+			{
+				new_node->left = (*root)->right;
+				(*root)->right = new_node;
+			}
+		}
+		else if ((*root)->type != NODE_PIPE)
+		{
+			new_node->left = *root;
+			*root = new_node;
+		}
+	}
+	else
+		*root = new_node;
+}
+
+static void	insert_cmd_right(t_ast *parent, t_ast *new_node)
+{
+	t_ast	*current;
+
+	current = parent;
+	while (current->right)
+		current = current->right;
+	current->right = new_node;
+}
+
+static void	handle_cmd_node(t_ast **root, t_ast *new_node)
+{
+	t_ast	*current;
+
+	if (!*root)
+		*root = new_node;
+	else if (*root && (*root)->type == NODE_PIPE)
+	{
+		if ((*root)->right == NULL)
+			(*root)->right = new_node;
+		else
+			insert_cmd_right((*root)->right, new_node);
+	}
+	else if (*root && (*root)->type != NODE_PIPE)
+	{
+		current = (*root);
+		while (current->left)
+			current = current->left;
+		current->left = new_node;
+	}
 }
 
 /**
@@ -116,11 +110,13 @@ t_ast	*create_ast(char **tokens, char **envp)
 			return (free_ast(root), NULL);
 		if (new_node->type == NODE_PIPE)
 			handle_pipe_node(&root, new_node);
-		else 
-			handle_command_node(current, new_node);
-		if (!root)
-			root = new_node;
-		current = new_node;
+		else if (new_node->type == NODE_REDIR_IN
+			|| new_node->type == NODE_REDIR_OUT
+			|| new_node->type == NODE_REDIR_APPEND
+			|| new_node->type == NODE_HEREDOC)
+			handle_redirect_node(&root, new_node);
+		else if (new_node->type == NODE_CMD)
+			handle_cmd_node(&root, new_node);
 	}
 	return (root);
 }

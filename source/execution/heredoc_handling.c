@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 17:50:53 by pabalons         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/09 17:56:47 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
@@ -28,12 +29,11 @@ static char	*remove_newline(char *line)
 	size_t	len;
 	char	*tmp;
 
-
-	if (!len)
-		return (NULL);
 	tmp = ft_strdup(line);
 	free(line);
 	len = ft_strlen(tmp);
+	if (!len)
+		return (NULL);
 	if (len > 0 && tmp[len - 1] == '\n')
 		tmp[len - 1] = '\0';
 	return (tmp);
@@ -50,20 +50,17 @@ static char	*remove_newline(char *line)
  * Otherwise, the line is written to the file.
  *
  * @param delimiter The string that terminates the here-document input.
- * @return IS_HEREDOC when the delimiter is encountered,
-	or 0 if an error occurs.
- * @return IS_HEREDOC when the delimiter is encountered,
-	or 0 if an error occurs.
+ * 
  */
 int	ft_handle_here_doc(char *delimiter)
 {
 	int		tmp_fd;
 	char	*line;
-	
+
 	ft_printf(STDOUT_FILENO, "DELIMITER: %s\n", delimiter);
 	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (tmp_fd == - 1)
-		return (ft_error("Error: can't opening temp heredoc file"), EXIT_FAILURE);
+	if (tmp_fd == -1)
+		return (ft_error("Error: can't opening temp heredoc file"), 1);
 	while (1)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
@@ -73,7 +70,7 @@ int	ft_handle_here_doc(char *delimiter)
 			return (ft_error("Error: while reading heredoc"), EXIT_FAILURE);
 		line = remove_newline(line);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-			return (free(line),	close(tmp_fd));
+			return (free(line), close(tmp_fd));
 		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1);
 		free(line);
@@ -87,19 +84,20 @@ void	ft_read_fd_name(char *filename)
 	int		i;
 	int		tmp_fd;
 	char	*line;
-	
+
 	tmp_fd = open(filename, O_RDONLY, 0644);
 	if (!tmp_fd)
 		return (ft_error("Error: can't read a fd"));
 	line = ft_get_next_line(tmp_fd);
 	if (!line)
-		ft_printf(STDOUT_FILENO,"NO leyo nada\n");
+		ft_error("Error: nothing to read");
 	else
 	{
 		i = 0;
-		while(line != NULL)
+		while (line != NULL)
 		{
-			ft_printf(STDOUT_FILENO, GREEN"FD[%d]_ln[%d]: "RST"%s\n", tmp_fd, i, line);
+			ft_printf(STDOUT_FILENO,
+				GREEN"FD[%d]_ln[%d]: "RST"%s\n", tmp_fd, i, line);
 			i++;
 			free(line);
 			line = ft_get_next_line(tmp_fd);
@@ -112,18 +110,19 @@ void	ft_read_fd(int fd)
 {
 	int		i;
 	char	*line;
-	
+
 	if (!fd)
 		return (ft_error("Error: can't read a fd"));
 	line = ft_get_next_line(fd);
 	if (!line)
-		ft_printf(STDOUT_FILENO,"NO leyo nada\n");
+		ft_error("Error: nothing to read");
 	else
 	{
 		i = 0;
-		while(line != NULL)
+		while (line != NULL)
 		{
-			ft_printf(STDOUT_FILENO, GREEN"FD[%d]_ln[%d]: "RST"%s\n", fd, i, line);
+			ft_printf(STDOUT_FILENO,
+				GREEN"FD[%d]_ln[%d]: "RST"%s\n", fd, i, line);
 			i++;
 			free(line);
 			line = ft_get_next_line(fd);
