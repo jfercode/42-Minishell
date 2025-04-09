@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:52:01 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/09 17:46:10 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:01:01 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static void	close_ast_fds(t_ast *node)
 {
 	if (!node)
 		return ;
-	if (node->input_fd > 2)
-		close(node->input_fd);
-	if (node->output_fd > 2)
-		close(node->output_fd);
+	if (node->fd_infile > 2)
+		close(node->fd_infile);
+	if (node->fd_outfile > 2)
+		close(node->fd_outfile);
 	close_ast_fds(node->left);
 	close_ast_fds(node->right);
 }

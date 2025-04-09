@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:57:40 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:03:21 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,7 @@ static void	handle_cmd_node(t_ast **root, t_ast *new_node)
  * @return A pointer to the root of the constructed AST.
  */
 t_ast	*create_ast(char **tokens, char **envp)
-t_ast	*create_ast(char **tokens, char **envp)
 {
-	t_ast	*root;
-	t_ast	*new_node;
-	t_ast	*current;
-	int		i;
 	t_ast	*root;
 	t_ast	*new_node;
 	t_ast	*current;

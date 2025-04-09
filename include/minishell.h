@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:58:52 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:01:43 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char				**expand_matrix(char **matrix, char **envp);
 
 /*BUILTINS*/
 void				ft_env(void);
-void				ft_exit(void);
+void				ft_exit(t_ast *ast);
 void				ft_export(char **args);
 void				ft_unset(const char *var);
 

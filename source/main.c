@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:55:52 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:03:41 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	ft_start_gigachell(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	ft_exec_line(char *line, char **envp)
 static void	ft_exec_line(char *line, char **envp)
 {
 	char	**mtx;

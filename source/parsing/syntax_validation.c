@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/09 17:57:23 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:02:44 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,22 +127,4 @@ int	invalid_env(char *line)
 	}
 	return (0);
 }
-int	invalid_env(char *line)
-{
-	int	i;
 
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '$')
-		{
-			if (line[i - 1] != ' ' && line[i - 1] != '\"' && \
-				line[i - 1] != '\0' && line[i - 1] != '\'')
-				return (1);
-			if (!ft_isalnum(line[i + 1]))
-				return (1);
-		}
-		i++;
-	}
-	return (0);
-}
