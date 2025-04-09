@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/24 14:28:11 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:52:02 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// lo que dice bash en caso de error de direcciones es
+// "syntax error near unexpected token"
 // lo que dice bash en caso de error de direcciones es
 // "syntax error near unexpected token"
 // pero en los otros dos casos literalmente se vuelve un heardoc,
@@ -106,6 +108,25 @@ int	invalid_op(char *line)
 	return (0);
 }
 
+int	invalid_env(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			if (line[i - 1] != ' ' && line[i - 1] != '\"' && \
+				line[i - 1] != '\0')
+				return (1);
+			if (!ft_isalnum(line[i + 1]))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 int	invalid_env(char *line)
 {
 	int	i;

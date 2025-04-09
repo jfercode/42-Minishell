@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 16:29:23 by penpalac         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/09 17:48:40 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -40,6 +41,7 @@
 extern bool			g_running;
 
 /* NODE TYPE ENUM	*/
+/* NODE TYPE ENUM	*/
 typedef enum e_type
 {
 	NODE_CMD,
@@ -50,7 +52,9 @@ typedef enum e_type
 	NODE_REDIR_APPEND,
 	// NODE_LOGICAL_OP
 }					t_node_type;
+}					t_node_type;
 
+/*	ABSTRACT SYNTAX TREE STRUCT	*/
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
 {
@@ -67,20 +71,34 @@ void				ft_handle_sigint(int sig);
 void				ft_handle_sigterm(int sig);
 void				ft_handle_sigquit(int sig);
 void				ft_signal(int signo, void *handler, bool use_siginfo);
+/*	SIGNALS BEHAVIOUR	*/
+void				ft_handle_sigint(int sig);
+void				ft_handle_sigterm(int sig);
+void				ft_handle_sigquit(int sig);
+void				ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*	ERROR HANDLING	*/
 void				ft_error_exit(const char *error_msg);
+/*	ERROR HANDLING	*/
+void				ft_error_exit(const char *error_msg);
 
+/*	HEREDOC HANDLING	*/
+int					ft_handle_here_doc(char *delimiter);
 /*	HEREDOC HANDLING	*/
 int					ft_handle_here_doc(char *delimiter);
 
 /* TOKENIZATION */
 void				free_ast(t_ast *root);
 void				free_node(t_ast *node);
+void				free_ast(t_ast *root);
+void				free_node(t_ast *node);
 
 t_ast				*create_ast(char **line, char **envp);
 t_ast				*create_node(char **args, char **envp, int *indx);
+t_ast				*create_ast(char **line, char **envp);
+t_ast				*create_node(char **args, char **envp, int *indx);
 
+t_node_type			get_token_type(char *token);
 t_node_type			get_token_type(char *token);
 
 /*	EXECUTION	*/
@@ -117,12 +135,22 @@ int					open_quotes(char *line);
 int					invalid_op(char *line);
 int					invalid_env(char *line);
 int					invalid_redir(char *line);
+int					syntax_error(char *line);
+int					open_quotes(char *line);
+int					invalid_op(char *line);
+int					invalid_env(char *line);
+int					invalid_redir(char *line);
 
+// int				special_chars(char *line);
 // int				special_chars(char *line);
 
 /*	MATRIX HANDLING	*/
 void				free_matrix(char **matrix);
+/*	MATRIX HANDLING	*/
+void				free_matrix(char **matrix);
 
+int					read_until(char *line, int i, char quote);
+int					omit_spaces(char *line, int i);
 int					read_until(char *line, int i, char quote);
 int					omit_spaces(char *line, int i);
 
@@ -140,4 +168,5 @@ void				ft_export(char **args);
 int					pwd(void);
 void				ft_unset(const char *var);
 
+#endif /*	MINISHELL_H	*/
 #endif /*	MINISHELL_H	*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/24 10:25:24 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:51:44 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

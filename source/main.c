@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:42:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:48:50 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ static void	ft_start_gigachell(void)
 }
 
 static void	ft_exec_line(char *line, char **envp)
+static void	ft_exec_line(char *line, char **envp)
 {
 	char	**mtx;
+	t_ast 	*ast;
 	t_ast 	*ast;
 
 	add_history(line);
@@ -38,8 +40,10 @@ static void	ft_exec_line(char *line, char **envp)
 	{
 		mtx = create_matrix(line);
 		ast = create_ast(mtx, envp);
+		ast = create_ast(mtx, envp);
 		if(!ast)
 			ft_error_exit("Error creating AST\n");
+		execute_ast(ast);
 		execute_ast(ast);
 		free_ast(ast);
 		free_matrix(mtx);

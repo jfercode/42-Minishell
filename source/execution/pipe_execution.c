@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/24 14:41:30 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:51:49 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

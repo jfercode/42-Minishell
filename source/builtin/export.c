@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                             :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/03 11:28:07 by pabalons          #+#    #+#             */
-/*   Updated: 2025/03/03 11:28:07 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/01 14:52:22 by pabalons          #+#    #+#             */
+/*   Updated: 2025/04/09 17:50:11 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	set_env_var(const char *var)
 	equal_sign = strchr(var, '=');
 	if (!equal_sign)
 	{
-		// Revisar el error
 		printf("export: '%s' is not a valid identifier\n", var);
 		ft_putstr_fd("export: '%s' is not a valid identifier\n", 2);
 		return (1);
@@ -88,6 +87,3 @@ void	ft_export(char **args)
 		i++;
 	}
 }
-
-// Replica el builtin export sin unsar strtok
-// Retorna 1 si todo fue correcto, 0 si hubo un error
