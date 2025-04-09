@@ -3,47 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:42:54 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:55:15 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
 
-bool		g_running = true;
-
 static void	ft_start_gigachell(void)
 {
-	ft_signal(SIGINT, ft_handle_sigint, false);
-	ft_signal(SIGTERM, ft_handle_sigterm, false);
-	ft_signal(SIGQUIT, SIG_IGN, false);
+	signal(SIGINT, ft_handle_sigint);
+	signal(SIGTERM, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static void	ft_exec_line(char *line, char **envp)
 {
 	char	**mtx;
-	t_ast 	*ast;
+	t_ast	*ast;
 
 	add_history(line);
 	if (syntax_error(line) == ERROR)
-	{
-		perror("syntax");
-		free(line);
-		return;
-	}
+		return ;
 	else
 	{
-		mtx = create_matrix(line);
+		mtx = create_matrix(line, envp);
+		if (!mtx && mtx == NULL)
+		{
+			ft_error("Error creating matrix\n");
+			return ;
+		}
 		ast = create_ast(mtx, envp);
-		if(!ast)
-			ft_error_exit("Error creating AST\n");
+		if (!ast)
+		{
+			ft_error("Error creating AST\n");
+			return ;
+		}
 		execute_ast(ast);
 		free_ast(ast);
 		free_matrix(mtx);
 	}
+}
+
+static char *prompt_readline()
+{
+	char	*temp;
+	char	*path;
+	char	*prompt;
+
+	path = ft_strjoin(GREEN ,getcwd(NULL, 0));
+	temp = ft_strjoin(path, "/");
+	prompt = ft_strjoin(temp, "Gigachell> "RST);
+	free (path);
+	free (temp);
+	return (prompt);
 }
 
 /**
@@ -55,18 +71,21 @@ int	main(int argc, char **argv, char **envp)
 	char	**mtx;
 	t_ast	*ast;
 
-	ft_start_gigachell();
 	(void) argc;
 	(void) argv;
-	while (g_running)
+	while (1)
 	{
-		line = readline(GREEN "Gigachell> " RST);
+		ft_start_gigachell();
+		line = readline(prompt_readline());
 		if (!line)
+		{
+			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");
 			break ;
+		}
 		else if (*line)
 			ft_exec_line(line, envp);
+		free(line);
 	}
-	printf("Leaving Gigachell...\n");
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }

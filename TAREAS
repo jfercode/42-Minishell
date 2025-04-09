@@ -1,10 +1,35 @@
-1.	Implementacion de logica de los pipes 
+1.	Checkear la logica de los pipes
 
-2.	Implementar la deteccion y ejecución de built ins
+2.	Implementar los built ins en los cmd
 
-3.	Ver error en ejecucion en la que tenemos [">", "o", "cat", "<<", "in"]
-	-	Salta error en la creacion del heredoc
+3.	Liberacion de memoria 
 
-4.	Liberacion de memoria
+->	11 bytes in 2 blocks are indirectly lost in loss record 3 of 65
+		==1972211==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+		==1972211==    by 0x4059DD: ft_substr (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x4027BC: get_token (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x402489: split_line (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x4023B1: create_matrix (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x4013F8: ft_exec_line (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x401351: main (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
 
-5.	Pruebas de ejecución.
+->	35 (24 direct, 11 indirect) bytes in 1 blocks are definitely lost in loss record 14 of 65
+		==1972211==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+		==1972211==    by 0x402386: create_matrix (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x4013F8: ft_exec_line (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)
+		==1972211==    by 0x401351: main (in /home/jaferna2/Desktop/My-Repos/42-Minishell/minishell)	
+
+4.	Pruebas 
+
+5.	Gestión de errores
+
+7. $?
+
+8.	signals:
+	-> en comando revisar y comparar funcionamiento señales ctrl \ 
+	-> heredoc igual revisar y comparar	
+
+9. Las comillas simples expanden cuando no deberían
+
+10.	Añadir avability de fds en redirecciones
+

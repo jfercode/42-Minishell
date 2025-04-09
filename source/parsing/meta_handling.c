@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   meta_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by penpalac          #+#    #+#             */
-/*   Updated: 2025/03/17 19:06:56 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:36:10 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +25,10 @@ int	is_special(char *str, int index)
 	return (0);
 }
 
-char    *maker_aux(char **matrix, char **new_mx, int *k, int i)
+char	*maker_aux(char **matrix, char **new_mx, int *k, int i)
 {
-    int n;
-	int	j;
+	int		n;
+	int		j;
 
 	j = 0;
 	while (matrix[i][j])
@@ -51,10 +50,10 @@ char    *maker_aux(char **matrix, char **new_mx, int *k, int i)
 		}
 		j++;
 	}
-    return (new_mx[*k]);
+	return (new_mx[*k]);
 }
 
-char    **nm_maker(char **matrix, char **new_mx, int i, int k)
+char	**nm_maker(char **matrix, char **new_mx, int i, int k)
 {
 	while (matrix[i])
 	{
@@ -62,7 +61,7 @@ char    **nm_maker(char **matrix, char **new_mx, int i, int k)
 		if (*matrix[i])
 			new_mx[k++] = ft_strdup(matrix[i]);
 		i++;
-    }
+	}
 	new_mx[k] = NULL;
 	return (new_mx);
 }

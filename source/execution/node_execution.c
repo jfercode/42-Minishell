@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/03/24 15:42:30 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/09 16:26:52 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,33 @@ void	run_command(t_ast *node)
 {
 	char	*path;
 
-    if (!node || !node->args || !node->args[0])
+	if (!node || !node->args || !node->args[0])
 	{
 		ft_error("Error: Invalid command");
-		// exit(127);	
+		exit(127);
 	}
-	path = find_path(*node->args, node->envp);
+	if (ft_strchr(node->args[0], '/'))
+		path = ft_strdup(node->args[0]);
+	else
+		path = find_path(*node->args, node->envp);
 	if (!path)
 	{
-		ft_error("Error: Command not found");
-		// exit(127);
+		ft_error(node->args[0]);
+		exit(127);
 	}
 	if (execve(path, node->args, node->envp) == -1)
 	{
 		ft_error("Error: Execve failed");
 		free(path);
-		// exit(126);
+		exit(126);
 	}
 }
 
 void	execute_cmd_node(t_ast *node)
 {
 	pid_t	pid;
-
+	
+	signal(SIGINT, ft_handle_sigint_child);
 	if (node->type != NODE_CMD)
 		return ;
 	pid = fork();
@@ -96,4 +100,5 @@ void	execute_cmd_node(t_ast *node)
 	}
 	else
 		ft_error("Error: Failed fork");
+	signal(SIGINT, ft_handle_sigint);
 }

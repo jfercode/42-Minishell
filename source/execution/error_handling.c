@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:07:10 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/23 12:22:01 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:59:52 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  */
 void	ft_error_exit(const char *error_msg)
 {
-	printf(RED "%s: "RST"%s\n", error_msg, strerror(errno));
+	printf("%s: %s\n", error_msg, strerror(errno));
 	exit(EXIT_FAILURE);
 }
 
@@ -37,6 +37,5 @@ void	ft_error_exit(const char *error_msg)
  */
 void	ft_error(const char *error_msg)
 {
-	printf(RED"%s: "RST"%s\n", error_msg, strerror(errno));
+	printf("%s: %s\n", error_msg, strerror(errno));
 }
-
