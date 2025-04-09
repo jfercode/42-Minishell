@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 18:06:20 by pabalons          #+#    #+#             */
+/*   Updated: 2025/04/09 18:06:41 by pabalons         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static int	check_node_args(t_ast *node)
@@ -41,7 +53,6 @@ int	ft_execve(t_ast *node)
 
 	if (token_checked >= 0)
 	{
-		// Es un builtin
 		if (token_checked == 0)
 			ft_cd(node->args[1]);
 		else if (token_checked == 1)
@@ -58,15 +69,11 @@ int	ft_execve(t_ast *node)
 			ft_unset(node->args[1]);
 	}
 	else if (token_checked == -1)
-		// Es otro tipo de comando
-		// if (execve(node->args[0], node->args, NULL) == -1)
-		//     ft_error_exit("execve");
 		return (1);
 	else
 	{
 		ft_error_exit("Error checking token");
 		return (1);
 	}
-	// print_ast(node,1);
 	return (0);
 }

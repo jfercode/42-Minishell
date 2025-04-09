@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 18:01:43 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/09 18:07:24 by pabalons          #+#    #+#             */
+/*   Updated: 2025/04/09 18:08:35 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -102,12 +100,14 @@ void				execute_cmd_node(t_ast *node);
 void				execute_pipe_node(t_ast *node);
 
 /*	NODE_REDIRECTION	*/
-int				execute_redirection_node(t_ast *node, int *fd_infile,
+int					execute_redirection_node(t_ast *node, int *fd_infile,
 						int *fd_outfile, int *fd);
 int					execute_heredoc_node(t_ast *node, int *fd_heredoc, int *n);
 int					execute_redir_in_node(t_ast *node, int *fd_infile, int *n);
-int					execute_redir_out_node(t_ast *node, int *fd_outfile, int *n);
-int					execute_redir_append_node(t_ast *node, int *fd_outfile, int *n);
+int					execute_redir_out_node(t_ast *node, int *fd_outfile,
+						int *n);
+int					execute_redir_append_node(t_ast *node, int *fd_outfile,
+						int *n);
 
 /*	PARSE INPUT	*/
 int					parsing_line(char *line);

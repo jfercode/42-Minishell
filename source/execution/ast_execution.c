@@ -6,11 +6,9 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:56:06 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:06:55 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../include/minishell.h"
 
@@ -22,7 +20,7 @@
 	-> SI ESTA EN UN NODO DE REDIRECCION TENGO QUE EJECUTAR LA REDIRECCION
 	-> NODO COMANDO SE EJECUTA EL COMANDO
 	POR LO TANTO TENGO QUE COGER LAS FUNCIONES Y PREPARARLAS PARA QUE PASEN
-	CORRECTAMENTE SEGÚN EL TIPO DE NODO QUE SEA. 
+	CORRECTAMENTE SEGÚN EL TIPO DE NODO QUE SEA.
 	REVISAR EL PUTO CODIGO QUE YA ETA
  */
 
@@ -46,25 +44,25 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 		ft_error("Error saving original STDOUT");
 }
 
-int	execute_redirection_node(t_ast *node,
-					int *fd_infile, int *fd_outfile, int *fd)
+int	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile,
+		int *fd)
 {
 	if (!node)
 		return (ERROR);
-	if (node->left && execute_redirection_node(node->left,
-			fd_infile, fd_outfile, fd) == ERROR)
+	if (node->left && execute_redirection_node(node->left, fd_infile,
+			fd_outfile, fd) == ERROR)
 		return (ERROR);
-	if (node->type == NODE_HEREDOC
-		&& execute_heredoc_node(node, fd_infile, fd) == ERROR)
+	if (node->type == NODE_HEREDOC && execute_heredoc_node(node, fd_infile,
+			fd) == ERROR)
 		return (ERROR);
-	else if (node->type == NODE_REDIR_IN
-		&& execute_redir_in_node(node, fd_infile, fd) == ERROR)
+	else if (node->type == NODE_REDIR_IN && execute_redir_in_node(node,
+			fd_infile, fd) == ERROR)
 		return (ERROR);
-	else if (node->type == NODE_REDIR_OUT
-		&& execute_redir_out_node(node, fd_outfile, fd) == ERROR)
+	else if (node->type == NODE_REDIR_OUT && execute_redir_out_node(node,
+			fd_outfile, fd) == ERROR)
 		return (ERROR);
-	else if (node->type == NODE_REDIR_APPEND
-		&& execute_redir_append_node(node, fd_outfile, fd) == ERROR)
+	else if (node->type == NODE_REDIR_APPEND && execute_redir_append_node(node,
+			fd_outfile, fd) == ERROR)
 		return (ERROR);
 	return (0);
 }

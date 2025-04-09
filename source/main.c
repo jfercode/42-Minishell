@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 18:03:41 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/09 18:07:39 by pabalons          #+#    #+#             */
+/*   Updated: 2025/04/09 18:07:43 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../include/minishell.h"
 
@@ -49,17 +47,17 @@ static void	ft_exec_line(char *line, char **envp)
 	}
 }
 
-static char *prompt_readline()
+static char	*prompt_readline(void)
 {
 	char	*temp;
 	char	*path;
 	char	*prompt;
 
-	path = ft_strjoin(GREEN ,getcwd(NULL, 0));
+	path = ft_strjoin(GREEN, getcwd(NULL, 0));
 	temp = ft_strjoin(path, "/");
-	prompt = ft_strjoin(temp, "Gigachell> "RST);
-	free (path);
-	free (temp);
+	prompt = ft_strjoin(temp, "Gigachell> " RST);
+	free(path);
+	free(temp);
 	return (prompt);
 }
 
@@ -72,8 +70,8 @@ int	main(int argc, char **argv, char **envp)
 	char	**mtx;
 	t_ast	*ast;
 
-	(void) argc;
-	(void) argv;
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
 		ft_start_gigachell();

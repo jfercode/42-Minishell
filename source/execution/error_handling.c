@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:56:13 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/09 18:09:32 by pabalons          #+#    #+#             */
+/*   Updated: 2025/04/09 18:09:37 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/minishell.h"
 
@@ -35,7 +34,7 @@ void	ft_error_exit(const char *error_msg)
  *
  * This function prints the provided error message in red.
  *
- * @param error_msg A pointer to a null-terminated string containing 
+ * @param error_msg A pointer to a null-terminated string containing
  * the error message to display.
  */
 void	ft_error(const char *error_msg)
