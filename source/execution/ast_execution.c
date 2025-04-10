@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 18:32:24 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:20:15 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 
 	fd = 7;
 	if (!node)
-		node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
+		node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
 	if (node->type == NODE_PIPE)
 		execute_pipe_node(node);
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
@@ -85,7 +85,7 @@ static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 				close(*fd_infile);
 			if (*fd_outfile != STDOUT_FILENO)
 				close(*fd_outfile);
-			node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
+			node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
 		}
 		while (node->left)
 			if (node->left->type != NODE_CMD)
@@ -104,9 +104,10 @@ static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	else if (node->type == NODE_CMD)
 	{
 		execute_cmd_node(node);
-		node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
+		printf("exit despues de execute cmd: %d\n", node->data->exit_status);
+		//node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
 	}
-	return (node->data.exit_status);
+	return (node->data->exit_status);
 }
 
 int	execute_ast(t_ast *ast)
@@ -119,11 +120,11 @@ int	execute_ast(t_ast *ast)
 	save_stdio(&original_stdin, &original_stdout);
 	fd_infile = STDIN_FILENO;
 	fd_outfile = STDOUT_FILENO;
-	ast->data.exit_status = execute_node(ast, &fd_infile, &fd_outfile);
+	ast->data->exit_status = execute_node(ast, &fd_infile, &fd_outfile);
 	restore_stdio(original_stdin, original_stdout);
 	if (fd_infile != STDIN_FILENO)
 		close(fd_infile);
 	if (fd_outfile != STDOUT_FILENO)
 		close(fd_outfile);
-	return (ast->data.exit_status);
+	return (ast->data->exit_status);
 }

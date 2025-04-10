@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/09 18:27:39 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:06:39 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**create_matrix(char *line, char **envp, t_data *data)
+char	**create_matrix(char *line, t_data *data)
 {
 	unsigned int	count;
 	char			**matrix;
@@ -36,9 +36,8 @@ char	**create_matrix(char *line, char **envp, t_data *data)
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
 		return(ft_error("Error: failed matrix creation\n"), NULL);
-	split_line(matrix, line);
-	matrix = handle_meta(matrix);
-	matrix = expand_matrix(matrix, envp, data);
+	matrix = split_line(matrix, line);
+	matrix = expand_matrix(matrix, data);
 	return (matrix);
 }
 
@@ -70,7 +69,13 @@ char	*get_token(char *line, int *i, char quote)
 	return (token);
 }
 
-void	split_line(char **matrix, char *line)
+void	omit_spaces(char *line, int *i)
+{
+	while (line[*i] == ' ')
+			(*i)++;
+}
+
+char	**split_line(char **matrix, char *line)
 {
 	char			quote;
 	unsigned int	count;
@@ -80,8 +85,7 @@ void	split_line(char **matrix, char *line)
 	count = 0;
 	while (line[i])
 	{
-		while (line[i] == ' ')
-			i++;
+		omit_spaces(line, &i);
 		if (line[i] == '"' || line[i] == '\'')
 			quote = line[i];
 		else
@@ -91,11 +95,11 @@ void	split_line(char **matrix, char *line)
 		{
 			free_matrix(matrix);
 			free(line);
-			return ;
+			return (NULL);
 		}
 		count++;
-		while (line[i] == ' ')
-			i++;
+		omit_spaces(line, &i);
 	}
 	matrix[count] = NULL;
+	return (handle_meta(matrix));
 }

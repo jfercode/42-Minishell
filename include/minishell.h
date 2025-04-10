@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 18:32:37 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:19:13 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,19 @@ typedef enum e_type
 typedef struct s_data
 {
 	int		exit_status;
+	char	**envp;
 }					t_data;
+
 
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
-	char			**envp;
 	pid_t			pid;
 	int				fd_infile;
 	int				fd_outfile;
-	struct s_data	data;
+	struct s_data	*data;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
@@ -84,8 +85,8 @@ int					ft_handle_here_doc(char *delimiter);
 void				free_ast(t_ast *root);
 void				free_node(t_ast *node);
 
-t_ast				*create_ast(char **line, char **envp);
-t_ast				*create_node(char **args, char **envp, int *indx);
+t_ast				*create_ast(char **line, t_data *data);
+t_ast				*create_node(char **args, t_data *data, int *indx);
 
 t_node_type			get_token_type(char *token);
 
@@ -111,7 +112,7 @@ int					open_quotes(char *line);
 int					invalid_op(char *line);
 int					invalid_env(char *line);
 int					invalid_redir(char *line);
-char				**expand_matrix(char **matrix, char **envp, t_data *data);
+char				**expand_matrix(char **matrix, t_data *data);
 
 /*BUILTINS*/
 void				ft_env(void);
@@ -133,8 +134,8 @@ void				ft_read_fd_name(char *filename);
 /*	MATRIX HANDLING	*/
 void				free_matrix(char **matrix);
 
-void				split_line(char **matrix, char *line);
-char				**create_matrix(char *line, char **envp, t_data *data);
+char				**split_line(char **matrix, char *line);
+char				**create_matrix(char *line, t_data *data);
 char				**handle_meta(char **matrix);
 
 #endif /*	MINISHELL_H	*/

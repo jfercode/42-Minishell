@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 18:33:37 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:28:13 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,27 @@ static void	ft_start_gigachell(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static int	ft_exec_line(char *line, char **envp, t_data *data)
+static char	**copy_envp(char **envp)
+{
+	char	**copy;
+	int		i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	copy = malloc(i * sizeof(char *));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		copy[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	return (copy);
+}
+
+static int	ft_exec_line(char *line, t_data *data)
 {
 	char	**mtx;
 	t_ast	*ast;
@@ -30,13 +50,13 @@ static int	ft_exec_line(char *line, char **envp, t_data *data)
 		data->exit_status = 2;
 	else
 	{
-		mtx = create_matrix(line, envp, data);
+		mtx = create_matrix(line, data);
 		if (!mtx && mtx == NULL)
 		{
 			ft_error("Error creating matrix\n");
 			data->exit_status = 2;
 		}
-		ast = create_ast(mtx, envp);
+		ast = create_ast(mtx, data);
 		if (!ast)
 		{
 			ft_error("Error creating AST\n");
@@ -61,18 +81,32 @@ static char *prompt_readline()
 	return (prompt);
 }
 
+void free_data(t_data *data)
+{
+	int	i;
+	
+	i = 0;
+	while (data->envp[i])
+	{
+		free(data->envp[i]);
+		i++;
+	}
+}
+
 /**
  * Main function of the program
  */
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	data;
+	t_data	*data;
 	char	*line;
 	char	**mtx;
 
 	(void) argc;
 	(void) argv;
-	data.exit_status = 0;
+	data = (t_data *)malloc(sizeof(t_data));
+	data->exit_status = 0;
+	data->envp = copy_envp(envp);
 	while (1)
 	{
 		ft_start_gigachell();
@@ -84,11 +118,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else if (*line)
 		{
-			data.exit_status = ft_exec_line(line, envp, &data);
-			printf("exit: %d\n", data.exit_status);
+			data->exit_status = ft_exec_line(line, &data);
+			printf("exit: %d\n", data->exit_status);
 		}
 		free(line);
 	}
+	free_data(&data);
 	rl_clear_history();
-	return (data.exit_status);
+	return (data->exit_status);
 }

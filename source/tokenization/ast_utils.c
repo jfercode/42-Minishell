@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/09 18:13:34 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:18:35 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
  * tokens are processed.
  * @return A pointer to the newly created AST node, or NULL if allocation fails.
  */
-t_ast	*create_node(char **args, char **envp, int *indx)
+t_ast	*create_node(char **args, t_data *data, int *indx)
 {
 	t_ast	*node;
 	int		i;
@@ -58,13 +58,12 @@ t_ast	*create_node(char **args, char **envp, int *indx)
 		return (free_node(node), NULL);
 	while (*indx < i)
 		node->args[j++] = ft_strdup(args[(*indx)++]);
-	node->envp = envp;
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
 	node->fd_infile = STDIN_FILENO;
 	node->fd_outfile = STDOUT_FILENO;
-	//node->data = data;
+	node->data = data;
 	return (node);
 }
 
