@@ -6,34 +6,33 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:42:45 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/08 16:42:46 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:58:49 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern char	**environ;
-
-void	ft_unset(const char *var)
+int	ft_unset(char **envp, const char *var)
 {
 	int	i;
 	int	j;
 
 	if (!var || !getenv(var))
-		return ;
+		return (1);
 	i = 0;
 	j = 0;
-	while (environ[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(environ[i], var, ft_strlen(var)) == 0
-			&& environ[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0
+			&& envp[i][ft_strlen(var)] == '=')
 		{
 			i++;
 			continue ;
 		}
-		environ[j++] = environ[i++];
+		envp[j++] = envp[i++];
 	}
-	environ[j] = NULL;
+	envp[j] = NULL;
+	return (0);
 }
 
 // int main() {

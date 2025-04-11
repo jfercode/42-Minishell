@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/11 17:38:23 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:08:51 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,16 +126,15 @@ int					execute_redir_append_node(t_ast *node, int *fd_outfile,
 						int *n);
 
 /*BUILTINS*/
-int	    			is_builtin(char *cmd);
-int					exec_builtin(char **cmd);
-void				ft_env(void);
-void				ft_exit(void);
-void				ft_export(char **args);
-void				ft_unset(const char *var);
-
-int					pwd(void);
-int					cd(char *path);
+int	    			is_builtin(t_ast *node);
+int	    			exec_builtin(t_ast *node);
+int					ft_cd(char *path);
 int					ft_echo(int ar, char **args);
+int					ft_env(t_ast *node);
+int					ft_exit(t_ast *ast);
+int					ft_export(t_ast *node);
+int					ft_pwd(void);
+int					ft_unset(char **envp, const char *var);
 
 /*	UTILS	*/
 void				print_node(t_ast *node);

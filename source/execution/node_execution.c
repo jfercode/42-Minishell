@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 17:11:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 17:36:30 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:09:57 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	execute_cmd_node(t_ast *node)
 	if (node->type != NODE_CMD)
 		return ;
 	signal(SIGINT, ft_handle_sigint_child);
-	if (is_builtin(node->args[0]))
-		node->data->exit_status = exec_builtin(node->args);
+	if (is_builtin(node))
+		node->data->exit_status = exec_builtin(node);
 	else
 	{
 		pid = fork();

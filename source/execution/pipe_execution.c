@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 17:09:55 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:04:34 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ static void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 			cmd = cmd->left;
 	}
 	signal(SIGINT, ft_handle_sigint_child);
-	fork_cmd(cmd, fd_in, fd_out);
+	if (is_builtin(cmd))
+		cmd->data->exit_status = is_builtin(cmd);
+	else
+		fork_cmd(cmd, fd_in, fd_out);
 }
 
 static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)

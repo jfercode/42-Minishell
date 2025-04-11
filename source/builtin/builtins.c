@@ -6,20 +6,59 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 17:31:37 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 17:50:45 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:10:19 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int    is_builtin(char *cmd)
+static int	check_node_args(t_ast *node)
 {
-    // if (ft_strncmp(cmd, "echo", 4) == 0)
-    //     ft_echo();
-    return (0);
+	int	res;
+
+	res = 0;
+	while (node->args[res])
+		res++;
+	return (res);
 }
 
-int exec_builtin(char **cmd)
+int	is_builtin(t_ast *node)
 {
+	if (ft_strncmp(node->args[0], "cd", 2) == 0)
+		return (1);
+	else if (ft_strncmp(node->args[0], "echo", 4) == 0)
+		return (1);
+	else if (ft_strncmp(node->args[0], "env", 3) == 0)
+		return (1);
+	else if (ft_strncmp(node->args[0], "exit", 4) == 0)
+		return (1);
+	else if (ft_strncmp(node->args[0], "export", 6) == 0)
+		return (1);
+	else if (ft_strncmp(node->args[0], "pwd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(node->args[0], "unset", 5) == 0)
+		return (1);
+	else
+		return (0);
+}
+
+int	exec_builtin(t_ast *node)
+{
+	if (ft_strncmp(node->args[0], "cd", 2) == 0)
+		return (node->data->exit_status = ft_cd(node->args[1]));
+	else if (ft_strncmp(node->args[0], "echo", 4) == 0)
+		return (node->data->exit_status = ft_echo(check_node_args(node),
+				node->args));
+	else if (ft_strncmp(node->args[0], "env", 3) == 0)
+		return (node->data->exit_status = ft_env(node));
+	else if (ft_strncmp(node->args[0], "exit", 4) == 0)
+		return (node->data->exit_status = ft_exit(node));
+	else if (ft_strncmp(node->args[0], "export", 6) == 0)
+		return (node->data->exit_status = ft_export(node));
+	else if (ft_strncmp(node->args[0], "pwd", 3) == 0)
+		return (node->data->exit_status = ft_pwd());
+	else if (ft_strncmp(node->args[0], "unset", 5) == 0)
+		return (node->data->exit_status = ft_unset(node->data->envp,
+				node->args[1]));
     return (0);
 }
