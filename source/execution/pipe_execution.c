@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/08 16:28:02 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:09:55 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,32 @@
  *	right: y
  */
 
-void	setup_redirections(t_ast *node)
-{
-	if (node->fd_infile != STDIN_FILENO)
-	{
-		dup2(node->fd_infile, STDIN_FILENO);
-		close(node->fd_infile);
-	}
-	if (node->fd_outfile != STDOUT_FILENO)
-	{
-		dup2(node->fd_outfile, STDOUT_FILENO);
-		close(node->fd_outfile);
-	}
-}
-
-void	execute_command(t_ast *cmd, int fd_in, int fd_out)
+static void	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
 {
 	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		setup_redirections(cmd, &fd_in, &fd_out);
+		run_command(cmd);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			cmd->data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			cmd->data->exit_status = 128 + WTERMSIG(status);
+		else
+			cmd->data->exit_status = 1;
+	}
+	signal(SIGINT, ft_handle_sigint);
+}
+
+static void	execute_command(t_ast *cmd, int fd_in, int fd_out)
+{
 	int		fd;
 
 	fd = 7;
@@ -46,30 +55,18 @@ void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 		{
 			if (fd_in != STDIN_FILENO)
 				close(fd_in);
-			if(fd_out != STDOUT_FILENO)
+			if (fd_out != STDOUT_FILENO)
 				close(fd_out);
 			return ;
 		}
 		while (cmd->left && (cmd->type != NODE_CMD))
 			cmd = cmd->left;
 	}
-	pid = fork();
-	if (pid == 0)
-	{
-		if (fd_in != STDIN_FILENO)
-			dup2(fd_in, STDIN_FILENO);
-		if (fd_out != STDOUT_FILENO)
-			dup2(fd_out, STDOUT_FILENO);
-		setup_redirections(cmd);
-		if (fd_in != STDIN_FILENO)
-			close(fd_in);
-		if (fd_out != STDOUT_FILENO)
-			close(fd_out);
-		run_command(cmd);
-	}
+	signal(SIGINT, ft_handle_sigint_child);
+	fork_cmd(cmd, fd_in, fd_out);
 }
 
-void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
+static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 {
 	int	status;
 	int	i;
@@ -92,34 +89,8 @@ void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 	execute_command(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	while (wait(&status) > 0);
-}
-
-t_ast	**order_cmds(t_ast *node, t_ast **cmds)
-{
-	t_ast	*temp;
-	t_ast	*current;
-	int		i;
-	int		j;
-
-	i = 0;
-	current = node;
-	while (current && current->type == NODE_PIPE)
-	{
-		cmds[i++] = current->right;
-		current = current->left;
-	}
-	cmds[i++] = current;
-	cmds[i] = NULL;
-	j = 0;
-	while (j < i / 2)
-	{
-		temp = cmds[j];
-		cmds[j] = cmds[i - 1 - j];
-		cmds[i - 1 - j] = temp;
-		j++;
-	}
-	return (cmds);
+	while (wait(&status) > 0)
+		;
 }
 
 void	execute_pipe_node(t_ast *node)
@@ -145,38 +116,3 @@ void	execute_pipe_node(t_ast *node)
 	execute_pipeline(cmds, pipe_count, fd, prev_fd);
 	free(cmds);
 }
-
-/*
-
-	int		pipe_fd[2];
-	int		prev;
-	int		i;
-	t_ast	*current;
-
-	i = 0;
-	prev = -1;
-	current = node;
-	while (current && current->type == NODE_PIPE)
-	{
-		if (pipe(pipe_fd) == -1)
-		{
-			ft_error("Pipe");
-			exit(EXIT_FAILURE);
-		}
-		if (current->left->type == NODE_PIPE)
-			execute_pipe_node(current->left);
-		else
-			execute_command(current->left, prev, pipe_fd[1]);
-		close(pipe_fd[1]);
-		if (prev != -1)
-			close(prev);
-		prev = pipe_fd[0];
-		current = current->right;
-	}
-		execute_command(current, prev, STDOUT_FILENO);
-	if (prev != -1)
-		close(prev);
-	while (wait(NULL) > 0)
-		;
-
-*/

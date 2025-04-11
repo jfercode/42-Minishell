@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/10 11:28:13 by penpalac         ###   ########.fr       */
+/*   Created: 2025/04/11 17:07:15 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/11 17:47:40 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -69,28 +68,16 @@ static int	ft_exec_line(char *line, t_data *data)
 	return (data->exit_status);
 }
 
-static char *prompt_readline()
+static char	*prompt_readline(void)
 {
 	char	*path;
 	char	*prompt;
 
-	path = ft_strjoin(GREEN ,getcwd(NULL, 0));
+	path = ft_strjoin(GREEN, getcwd(NULL, 0));
 	prompt = ft_strjoin(path, "/");
-	prompt = ft_strjoin(prompt, "Gigachell> "RST);
-	free (path);
+	prompt = ft_strjoin(prompt, "Gigachell> " RST);
+	free(path);
 	return (prompt);
-}
-
-void free_data(t_data *data)
-{
-	int	i;
-	
-	i = 0;
-	while (data->envp[i])
-	{
-		free(data->envp[i]);
-		i++;
-	}
 }
 
 /**
@@ -102,8 +89,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	char	**mtx;
 
-	(void) argc;
-	(void) argv;
+	(void)argc;
+	(void)argv;
 	data = (t_data *)malloc(sizeof(t_data));
 	data->exit_status = 0;
 	data->envp = copy_envp(envp);
@@ -117,13 +104,10 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		else if (*line)
-		{
-			data->exit_status = ft_exec_line(line, &data);
-			printf("exit: %d\n", data->exit_status);
-		}
+			data->exit_status = ft_exec_line(line, data);
 		free(line);
 	}
-	free_data(&data);
+	free_data(data);
 	rl_clear_history();
 	return (data->exit_status);
 }

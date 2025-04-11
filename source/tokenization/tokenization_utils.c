@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:34:50 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/03/17 18:57:39 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:14:46 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ void	free_ast(t_ast *root)
 	free_ast(root->left);
 	free_ast(root->right);
 	free_node(root);
+}
+
+void	free_data(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->envp[i])
+	{
+		free(data->envp[i]);
+		i++;
+	}
 }

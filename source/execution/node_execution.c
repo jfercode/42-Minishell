@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/10 11:24:44 by penpalac         ###   ########.fr       */
+/*   Created: 2025/04/11 17:11:22 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/11 17:36:30 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../include/minishell.h"
+
 /**
- * @brief Finds the full path of a command using the system's PATH 
+ * @brief Finds the full path of a command using the system's PATH
  * environment variable.
  *
  * Searches through each directory listed in the PATH environment variable,
- * appending the command name to each path, and checks if the command exists 
- * using `access()`. 
- * 
+ * appending the command name to each path, and checks if the command exists
+ * using `access()`.
+ *
  * Returns the first valid path found.
  *
  * Memory allocated for temporary paths is freed to prevent leaks.
@@ -86,20 +86,20 @@ void	run_command(t_ast *node)
 void	execute_cmd_node(t_ast *node)
 {
 	pid_t	pid;
+	int		status;
 
 	if (node->type != NODE_CMD)
 		return ;
 	signal(SIGINT, ft_handle_sigint_child);
-	// if (is_builtin(node->args[0]))
-	// 	node->data->exit_status = exec_builtin(node->args);
-	// else
-	// {
+	if (is_builtin(node->args[0]))
+		node->data->exit_status = exec_builtin(node->args);
+	else
+	{
 		pid = fork();
 		if (pid == 0)
 			run_command(node);
 		else
 		{
-			int	status;
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 				node->data->exit_status = WEXITSTATUS(status);
@@ -108,6 +108,6 @@ void	execute_cmd_node(t_ast *node)
 			else
 				node->data->exit_status = 1;
 		}
-	
+	}
 	signal(SIGINT, ft_handle_sigint);
 }

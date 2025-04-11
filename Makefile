@@ -13,9 +13,9 @@ HEADER_DIR	=	include
 LIBFT_DIR	=	source/libft
 LIBFT_LIB	=	source/libft/build/libft.a
 
-BUILTINS		=	cd echo env exit export pwd unset
-EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection pipe_execution
-PARSING			=	matrix_handling meta_handling syntax_validation matrix_utils expansion
+BUILTINS		=	builtins cd echo env exit export pwd unset
+EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection pipe_execution pipe_execution_utils
+PARSING			=	matrix_handling meta_handling syntax_validation matrix_utils matrix_expansion
 SIGNALS			=	signals_utils
 TOKENIZATION	=	ast_utils tokenization tokenization_utils
 

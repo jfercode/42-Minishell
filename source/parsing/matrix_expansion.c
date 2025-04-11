@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.c                                        :+:      :+:    :+:   */
+/*   matrix_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/10 10:53:01 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:40:21 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ char	**expand_matrix(char **matrix, t_data *data)
 			if (matrix[i][j] == '\'')
 				ch_single = !ch_single;
 			else if (matrix[i][j] == '$' && matrix[i][j + 1] == '?')
-			{
-				printf("XD");
 				matrix[i] = ft_itoa(data->exit_status);
-			}
 			else if (matrix[i][j] == '$' && !ch_single)
 				matrix = expansion(matrix, data->envp, &i, &j);
 			j++;

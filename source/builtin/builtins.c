@@ -1,47 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_utils.c                                     :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 18:15:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/11 17:24:15 by penpalac         ###   ########.fr       */
+/*   Created: 2025/04/11 17:31:37 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/11 17:50:45 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	omit_spaces(char *line, int *i)
+int    is_builtin(char *cmd)
 {
-	while (line[*i] == ' ')
-		(*i)++;
+    // if (ft_strncmp(cmd, "echo", 4) == 0)
+    //     ft_echo();
+    return (0);
 }
 
-void	free_matrix(char **matrix)
+int exec_builtin(char **cmd)
 {
-	int	i;
-
-	if (!matrix)
-		return ;
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-	matrix = NULL;
-}
-
-void	print_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-	{
-		printf(GREEN"matrix[%d]:"RST" %s\n", i, matrix[i]);
-		i++;
-	}
+    return (0);
 }

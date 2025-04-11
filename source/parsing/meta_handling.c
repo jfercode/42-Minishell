@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/02 19:36:10 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:25:21 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**nm_maker(char **matrix, char **new_mx, int i, int k)
 	return (new_mx);
 }
 
-char	**handle_meta(char **matrix)
+char	**separate_tokens(char **matrix)
 {
 	char	**new_matrix;
 	int		cont;

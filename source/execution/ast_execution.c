@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/10 11:20:15 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:10:29 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,12 @@ static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 			node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
 		}
 		while (node->left)
+		{
 			if (node->left->type != NODE_CMD)
 				node = node->left;
 			else
 				break ;
+		}
 		if (dup2(*fd_infile, STDIN_FILENO) == -1)
 			ft_error_exit("Error duplicating STDIN");
 		if (dup2(*fd_outfile, STDOUT_FILENO) == -1)
@@ -102,11 +104,7 @@ static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 			execute_node(node->right, fd_infile, fd_outfile);
 	}
 	else if (node->type == NODE_CMD)
-	{
 		execute_cmd_node(node);
-		printf("exit despues de execute cmd: %d\n", node->data->exit_status);
-		//node->data.exit_status = waitpid(-1, &node->data.exit_status, 0);
-	}
 	return (node->data->exit_status);
 }
 

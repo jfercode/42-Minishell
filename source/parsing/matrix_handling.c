@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/10 11:06:39 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:25:19 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**create_matrix(char *line, t_data *data)
 		return (NULL);
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
-		return(ft_error("Error: failed matrix creation\n"), NULL);
+		return (ft_error("Error: failed matrix creation\n"), NULL);
 	matrix = split_line(matrix, line);
 	matrix = expand_matrix(matrix, data);
 	return (matrix);
@@ -69,12 +69,6 @@ char	*get_token(char *line, int *i, char quote)
 	return (token);
 }
 
-void	omit_spaces(char *line, int *i)
-{
-	while (line[*i] == ' ')
-			(*i)++;
-}
-
 char	**split_line(char **matrix, char *line)
 {
 	char			quote;
@@ -101,5 +95,5 @@ char	**split_line(char **matrix, char *line)
 		omit_spaces(line, &i);
 	}
 	matrix[count] = NULL;
-	return (handle_meta(matrix));
+	return (separate_tokens(matrix));
 }

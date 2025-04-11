@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/10 11:19:13 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:38:23 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ typedef enum e_type
 
 typedef struct s_data
 {
-	int		exit_status;
-	char	**envp;
+	int				exit_status;
+	char			**envp;
 }					t_data;
-
 
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
@@ -81,6 +80,21 @@ void				ft_error_exit(const char *error_msg);
 /*	HEREDOC HANDLING	*/
 int					ft_handle_here_doc(char *delimiter);
 
+/*	PARSE INPUT	*/
+int					syntax_error(char *line);
+int					open_quotes(char *line);
+int					invalid_op(char *line);
+int					invalid_env(char *line);
+int					invalid_redir(char *line);
+
+void				free_matrix(char **matrix);
+void				omit_spaces(char *line, int *i);
+
+char				**split_line(char **matrix, char *line);
+char				**create_matrix(char *line, t_data *data);
+char				**separate_tokens(char **matrix);
+char				**expand_matrix(char **matrix, t_data *data);
+
 /* TOKENIZATION */
 void				free_ast(t_ast *root);
 void				free_node(t_ast *node);
@@ -91,30 +105,29 @@ t_ast				*create_node(char **args, t_data *data, int *indx);
 t_node_type			get_token_type(char *token);
 
 /*	EXECUTION	*/
-int				execute_ast(t_ast *ast);
+int					execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
 void				run_command(t_ast *node);
 void				execute_cmd_node(t_ast *node);
 void				execute_pipe_node(t_ast *node);
+void				setup_redirections(t_ast *node, int *fd_in, int *fd_out);
+
+t_ast				**order_cmds(t_ast *node, t_ast **cmds);
 
 /*	NODE_REDIRECTION	*/
-int				execute_redirection_node(t_ast *node, int *fd_infile,
+int					execute_redirection_node(t_ast *node, int *fd_infile,
 						int *fd_outfile, int *fd);
 int					execute_heredoc_node(t_ast *node, int *fd_heredoc, int *n);
 int					execute_redir_in_node(t_ast *node, int *fd_infile, int *n);
-int					execute_redir_out_node(t_ast *node, int *fd_outfile, int *n);
-int					execute_redir_append_node(t_ast *node, int *fd_outfile, int *n);
-
-/*	PARSE INPUT	*/
-int					syntax_error(char *line);
-int					open_quotes(char *line);
-int					invalid_op(char *line);
-int					invalid_env(char *line);
-int					invalid_redir(char *line);
-char				**expand_matrix(char **matrix, t_data *data);
+int					execute_redir_out_node(t_ast *node, int *fd_outfile,
+						int *n);
+int					execute_redir_append_node(t_ast *node, int *fd_outfile,
+						int *n);
 
 /*BUILTINS*/
+int	    			is_builtin(char *cmd);
+int					exec_builtin(char **cmd);
 void				ft_env(void);
 void				ft_exit(void);
 void				ft_export(char **args);
@@ -130,12 +143,6 @@ void				print_matrix(char **matrix);
 void				print_ast(t_ast *root, int level);
 void				ft_read_fd(int fd);
 void				ft_read_fd_name(char *filename);
-
-/*	MATRIX HANDLING	*/
-void				free_matrix(char **matrix);
-
-char				**split_line(char **matrix, char *line);
-char				**create_matrix(char *line, t_data *data);
-char				**handle_meta(char **matrix);
+void				free_data(t_data *data);
 
 #endif /*	MINISHELL_H	*/
