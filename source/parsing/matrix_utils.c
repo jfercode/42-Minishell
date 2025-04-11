@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:15:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/02 19:02:19 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/11 11:25:42 by pablo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_matrix(char **matrix)
 {
 	int	i;
 
-	if(!matrix)
+	if (!matrix)
 		return ;
 	i = 0;
 	while (matrix[i])

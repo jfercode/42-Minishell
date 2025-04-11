@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 18:06:55 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/11 10:48:14 by pablo             #+#    #+#             */
+/*   Updated: 2025/04/11 10:49:45 by pablo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,12 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 			return ;
 		}
 		while (node->left)
+		{ //Added braces for correct loop structure
 			if (node->left->type != NODE_CMD)
 				node = node->left;
 			else
 				break ;
+		}
 		if (dup2(*fd_infile, STDIN_FILENO) == -1)
 			ft_error_exit("Error duplicating STDIN");
 		if (dup2(*fd_outfile, STDOUT_FILENO) == -1)

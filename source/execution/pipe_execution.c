@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 17:57:06 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/11 11:16:30 by pablo             #+#    #+#             */
+/*   Updated: 2025/04/11 11:17:38 by pablo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/minishell.h"
 
@@ -47,7 +46,7 @@ void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 		{
 			if (fd_in != STDIN_FILENO)
 				close(fd_in);
-			if(fd_out != STDOUT_FILENO)
+			if (fd_out != STDOUT_FILENO)
 				close(fd_out);
 			return ;
 		}

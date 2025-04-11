@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/08 13:29:44 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/11 11:25:02 by pablo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	int		start;
 
 	start = ++(*j);
-	while (matrix[*i][(*j)] && (ft_isalnum(matrix[*i][(*j)]) || \
-		matrix[*i][(*j)] == '_'))
+	while (matrix[*i][(*j)] && (ft_isalnum(matrix[*i][(*j)]) || matrix[*i][(*j)] == '_'))
 		(*j)++;
 	tmp = ft_substr(matrix[*i], start, *j - start);
 	var = get_envp(envp, tmp);

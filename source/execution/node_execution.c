@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 18:45:23 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/11 10:30:09 by pablo             #+#    #+#             */
+/*   Updated: 2025/04/11 10:41:55 by pablo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../include/minishell.h"
 /**
@@ -87,7 +85,7 @@ void	run_command(t_ast *node)
 void	execute_cmd_node(t_ast *node)
 {
 	pid_t	pid;
-	
+
 	g_shell_mode = CMD;
 	if (node->type != NODE_CMD)
 		return ;
