@@ -27,15 +27,18 @@ static char	**copy_envp(char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	copy = malloc(i * sizeof(char *));
+	copy = malloc((i + 1) * sizeof(char *));
 	if (!copy)
 		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
 		copy[i] = ft_strdup(envp[i]);
+		if (!copy[i])
+			return (NULL);
 		i++;
 	}
+	copy[i] = NULL;
 	return (copy);
 }
 
@@ -89,11 +92,10 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	char	**mtx;
 
-	(void)argc;
-	(void)argv;
-	data = (t_data *)malloc(sizeof(t_data));
-	data->exit_status = 0;
+	data = ft_calloc(1, sizeof(t_data));
 	data->envp = copy_envp(envp);
+	if (argc == 2)
+		data->exit_status = ft_exec_line(argv[1], data);
 	while (1)
 	{
 		ft_start_gigachell();
@@ -103,9 +105,10 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");
 			break ;
 		}
-		else if (*line)
-			data->exit_status = ft_exec_line(line, data);
+		data->exit_status = ft_exec_line(line, data);
 		free(line);
+		if (data->exit)
+			break ;
 	}
 	free_data(data);
 	rl_clear_history();

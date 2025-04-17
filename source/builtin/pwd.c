@@ -29,6 +29,7 @@ int	ft_pwd(void)
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
+	printf("%s\n", path);
 	free(path);
 	return (0);
 }

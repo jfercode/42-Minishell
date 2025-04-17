@@ -19,10 +19,9 @@
  *	right: y
  */
 
-static void	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
+static pid_t	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -30,20 +29,11 @@ static void	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
 		setup_redirections(cmd, &fd_in, &fd_out);
 		run_command(cmd);
 	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			cmd->data->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			cmd->data->exit_status = 128 + WTERMSIG(status);
-		else
-			cmd->data->exit_status = 1;
-	}
 	signal(SIGINT, ft_handle_sigint);
+	return (pid);
 }
 
-static void	execute_command(t_ast *cmd, int fd_in, int fd_out)
+static pid_t	execute_command(t_ast *cmd, int fd_in, int fd_out)
 {
 	int		fd;
 
@@ -57,24 +47,23 @@ static void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 				close(fd_in);
 			if (fd_out != STDOUT_FILENO)
 				close(fd_out);
-			return ;
+			return (NULL);
 		}
 		while (cmd->left && (cmd->type != NODE_CMD))
 			cmd = cmd->left;
 	}
 	signal(SIGINT, ft_handle_sigint_child);
-	if (is_builtin(cmd))
-		cmd->data->exit_status = is_builtin(cmd);
-	else
-		fork_cmd(cmd, fd_in, fd_out);
+	return (fork_cmd(cmd, fd_in, fd_out));
 }
 
 static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 {
+	pid_t	*pids;
 	int	status;
 	int	i;
 
 	i = 0;
+	pids = malloc((pipe_count + 1) * sizeof(pid_t));
 	while (i < pipe_count)
 	{
 		if (pipe(fd) == -1)
@@ -82,18 +71,26 @@ static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 			ft_error("Pipe");
 			exit(EXIT_FAILURE);
 		}
-		execute_command(cmds[i], prev_fd, fd[1]);
+		pids[i] = execute_command(cmds[i], prev_fd, fd[1]);
 		close(fd[1]);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		prev_fd = fd[0];
 		i++;
 	}
-	execute_command(cmds[i], prev_fd, STDOUT_FILENO);
+	pids[i] = execute_command(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	while (wait(&status) > 0)
-		;
+	while (i >= 0)
+	{
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status))
+			cmds[i]->data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			cmds[i]->data->exit_status = 128 + WTERMSIG(status);
+		else
+			cmds[i]->data->exit_status = 1;
+	}
 }
 
 void	execute_pipe_node(t_ast *node)

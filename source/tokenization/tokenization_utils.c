@@ -82,10 +82,14 @@ void	free_data(t_data *data)
 {
 	int	i;
 
+	if (!data || !data->envp)
+		return;
 	i = 0;
 	while (data->envp[i])
 	{
 		free(data->envp[i]);
 		i++;
 	}
+	free(data->envp);
+	data->envp = NULL;
 }
