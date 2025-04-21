@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/21 16:23:23 by jaferna2         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/21 18:20:59 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
@@ -23,12 +24,16 @@
 
 int	syntax_error(char *line)
 {
+	if (!line)
+		return (ERROR);
 	if (open_quotes(line))
-		return (ft_error("Syntax_error: unclosed quote\n"), ERROR);
+		return (ft_error("Gigachell: syntax error: unclosed quote\n"), ERROR);
 	if (invalid_redir(line))
-		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
+		return (ft_error("Gigachell: syntax error near unexpected token \
+		'<'\n"), ERROR);
 	if (invalid_op(line))
-		return (ft_error("Syntax_error: near unexpected token\n"), ERROR);
+		return (ft_error("Gigachell: syntax error near unexpected token \
+		'|'\n"), ERROR);
 	if (invalid_env(line))
 		return (ft_error("$: command not found\n"), ERROR);
 	return (0);
@@ -117,11 +122,14 @@ int	invalid_env(char *line)
 	{
 		if (line[i] == '$')
 		{
-			if (line[i - 1] != ' ' && line[i - 1] != '\"' && \
-				line[i - 1] != '\0' && line[i - 1] != '\'')
-				return (1);
-			if (!ft_isalnum(line[i + 1]))
-				return (1);
+			while (line[i] != ' ' && line[i] != '\0')
+			{
+				if (!ft_isalnum(line[i]) && line[i] != '_' \
+					&& line[i] != '\'' && line[i] != '\"' && \
+					line[i] != '$' && line[i] != '?')
+					return (1);
+				i++;
+			}
 		}
 		i++;
 	}

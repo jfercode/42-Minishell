@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:52:44 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 16:43:41 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:21:36 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static	int	obtain_current_indx_token(int *indx, char **args, t_node_type type)
  * tokens are processed.
  * @return A pointer to the newly created AST node, or NULL if allocation fails.
  */
-t_ast	*create_node(char **args, char **envp, int *indx)
+t_ast	*create_node(char **args, t_data *data, int *indx)
 {
 	t_ast	*node;
 	int		i;
@@ -58,13 +58,12 @@ t_ast	*create_node(char **args, char **envp, int *indx)
 		return (free_node(node), NULL);
 	while (*indx < i)
 		node->args[j++] = ft_strdup(args[(*indx)++]);
-	node->envp = envp;
 	node->args[j] = NULL;
 	node->right = NULL;
 	node->left = NULL;
 	node->fd_infile = STDIN_FILENO;
 	node->fd_outfile = STDOUT_FILENO;
-	node->exit_status = 0;
+	node->data = data;
 	return (node);
 }
 

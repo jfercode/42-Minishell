@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 14:51:58 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/01 14:51:59 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/08 16:42:36 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/21 18:23:32 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern char	**environ;
-
-void	ft_env(void)
+int	ft_env(t_ast *node)
 {
 	int	i;
 
 	i = 0;
-	while (environ[i])
+	while (node->data->envp[i])
 	{
-		printf("%s\n", environ[i]);
+		printf("%s\n", node->data->envp[i]);
 		i++;
 	}
+	return (0);
 }

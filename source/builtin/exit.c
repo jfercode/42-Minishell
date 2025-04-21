@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 14:52:01 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/09 18:01:01 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/08 16:42:38 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/21 18:24:11 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,51 @@ static void	close_ast_fds(t_ast *node)
 	close_ast_fds(node->right);
 }
 
-void	ft_exit(t_ast *ast)
+int	ft_exit_more_args(t_ast *ast)
+{
+	if (!is_numeric(ast->args[1]))
+	{
+		// kill_all_ast_processes(ast);
+		close_ast_fds(ast);
+		ast->data->exit = 1;
+		return (2);
+	}
+	else
+	{
+		ft_error("exit\nbash: exit: too many arguments\n");
+		return (1);
+	}
+}
+
+int	ft_exit(t_ast *ast)
+{
+	int	arg_count;
+
+	arg_count = 0;
+	if (ast && ast->args)
+		while (ast->args[arg_count])
+			arg_count++;
+	if (arg_count > 2)
+		return (ft_exit_more_args(ast));
+	if (arg_count == 2)
+	{
+		if (!is_numeric(ast->args[1]))
+			ast->data->exit_status = 2;
+		else
+		{
+			ast->data->exit_status = ft_atoi(ast->args[1]) % 256;
+			if (ast->data->exit_status < 0)
+				ast->data->exit_status += 256;
+		}
+	}
+	// kill_all_ast_processes(ast);
+	close_ast_fds(ast);
+	ast->data->exit = 1;
+	return (ast->data->exit_status);
+}
+
+/*
+int	ft_exit(t_ast *ast)
 {
 	int	exit_status;
 	int	arg_count;
@@ -75,7 +119,7 @@ void	ft_exit(t_ast *ast)
 	if (arg_count > 2)
 	{
 		write(STDERR_FILENO, "exit: too many arguments\n", 24);
-		return ;
+		return (1);
 	}
 	else if (arg_count == 2)
 	{
@@ -101,4 +145,6 @@ void	ft_exit(t_ast *ast)
 		free(ast);
 		exit(exit_status);
 	}
+	return (0);
 }
+*/

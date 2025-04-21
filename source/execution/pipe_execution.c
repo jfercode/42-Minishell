@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 11:16:30 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/21 16:17:53 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/21 18:19:37 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,24 @@
  *	right: y
  */
 
-void	setup_redirections(t_ast *node)
-{
-	if (node->fd_infile != STDIN_FILENO)
-	{
-		dup2(node->fd_infile, STDIN_FILENO);
-		close(node->fd_infile);
-	}
-	if (node->fd_outfile != STDOUT_FILENO)
-	{
-		dup2(node->fd_outfile, STDOUT_FILENO);
-		close(node->fd_outfile);
-	}
-}
-
-void	execute_command(t_ast *cmd, int fd_in, int fd_out)
+static pid_t	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
 {
 	pid_t	pid;
-	int		fd;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, ft_handle_sigint);
+		signal(SIGINT, SIG_DFL);
+		setup_redirections(cmd, &fd_in, &fd_out);
+		run_command(cmd);
+	}
+	return (pid);
+}
+
+static pid_t	execute_command(t_ast *cmd, int fd_in, int fd_out)
+{
+	int	fd;
 
 	fd = 7;
 	if (cmd->type == NODE_HEREDOC || cmd->type == NODE_REDIR_IN
@@ -48,79 +48,60 @@ void	execute_command(t_ast *cmd, int fd_in, int fd_out)
 				close(fd_in);
 			if (fd_out != STDOUT_FILENO)
 				close(fd_out);
-			return ;
+			return (0);
 		}
 		while (cmd->left && (cmd->type != NODE_CMD))
 			cmd = cmd->left;
 	}
-	pid = fork();
-	if (pid == 0)
+	return (fork_cmd(cmd, fd_in, fd_out));
+}
+
+static void	wait_for_children(pid_t *pids, t_ast **cmds, int count)
+{
+	int	status;
+
+	while (count >= 0)
 	{
-		if (fd_in != STDIN_FILENO)
-			dup2(fd_in, STDIN_FILENO);
-		if (fd_out != STDOUT_FILENO)
-			dup2(fd_out, STDOUT_FILENO);
-		setup_redirections(cmd);
-		if (fd_in != STDIN_FILENO)
-			close(fd_in);
-		if (fd_out != STDOUT_FILENO)
-			close(fd_out);
-		run_command(cmd);
+		waitpid(pids[count], &status, 0);
+		if (!cmds[count] || !cmds[count]->data)
+			return ;
+		if (WIFEXITED(status))
+			cmds[count]->data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			cmds[count]->data->exit_status = 128 + WTERMSIG(status);
+		else
+			cmds[count]->data->exit_status = 1;
+		count--;
 	}
 }
 
-void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
+static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 {
-	int	status;
-	int	i;
+	pid_t	*pids;
+	int		status;
+	int		i;
 
 	i = 0;
+	pids = malloc((pipe_count + 1) * sizeof(pid_t));
+	if (!pids)
+		return (ft_error("Pid: Malloc failed"));
 	while (i < pipe_count)
 	{
 		if (pipe(fd) == -1)
-		{
-			ft_error("Pipe");
-			exit(EXIT_FAILURE);
-		}
-		execute_command(cmds[i], prev_fd, fd[1]);
+			ft_error_exit("Pipe: ");
+		pids[i] = execute_command(cmds[i], prev_fd, fd[1]);
 		close(fd[1]);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		prev_fd = fd[0];
 		i++;
 	}
-	execute_command(cmds[i], prev_fd, STDOUT_FILENO);
+	pids[i] = execute_command(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	while (wait(&status) > 0)
-		;
-}
-
-t_ast	**order_cmds(t_ast *node, t_ast **cmds)
-{
-	t_ast	*temp;
-	t_ast	*current;
-	int		i;
-	int		j;
-
-	i = 0;
-	current = node;
-	while (current && current->type == NODE_PIPE)
-	{
-		cmds[i++] = current->right;
-		current = current->left;
-	}
-	cmds[i++] = current;
-	cmds[i] = NULL;
-	j = 0;
-	while (j < i / 2)
-	{
-		temp = cmds[j];
-		cmds[j] = cmds[i - 1 - j];
-		cmds[i - 1 - j] = temp;
-		j++;
-	}
-	return (cmds);
+	wait_for_children(pids, cmds, pipe_count);
+	signal(SIGINT, ft_handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	execute_pipe_node(t_ast *node)
@@ -142,42 +123,7 @@ void	execute_pipe_node(t_ast *node)
 	cmds = malloc((pipe_count + 2) * sizeof(t_ast *));
 	if (!cmds)
 		return ;
-	cmds = order_cmds(node, cmds);
+	order_cmds(node, cmds);
 	execute_pipeline(cmds, pipe_count, fd, prev_fd);
 	free(cmds);
 }
-
-/*
-
-	int		pipe_fd[2];
-	int		prev;
-	int		i;
-	t_ast	*current;
-
-	i = 0;
-	prev = -1;
-	current = node;
-	while (current && current->type == NODE_PIPE)
-	{
-		if (pipe(pipe_fd) == -1)
-		{
-			ft_error("Pipe");
-			exit(EXIT_FAILURE);
-		}
-		if (current->left->type == NODE_PIPE)
-			execute_pipe_node(current->left);
-		else
-			execute_command(current->left, prev, pipe_fd[1]);
-		close(pipe_fd[1]);
-		if (prev != -1)
-			close(prev);
-		prev = pipe_fd[0];
-		current = current->right;
-	}
-		execute_command(current, prev, STDOUT_FILENO);
-	if (prev != -1)
-		close(prev);
-	while (wait(NULL) > 0)
-		;
-
-*/

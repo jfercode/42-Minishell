@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 14:52:30 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/01 14:52:31 by pabalons         ###   ########.fr       */
+/*   Created: 2025/04/08 16:42:45 by penpalac          #+#    #+#             */
+/*   Updated: 2025/04/21 18:24:47 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern char	**environ;
-
-void	ft_unset(const char *var)
+int	ft_unset(char **envp, const char *var)
 {
 	int	i;
 	int	j;
 
 	if (!var || !getenv(var))
-		return ;
+		return (1);
 	i = 0;
 	j = 0;
-	while (environ[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(environ[i], var, ft_strlen(var)) == 0
-			&& environ[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0
+			&& envp[i][ft_strlen(var)] == '=')
 		{
 			i++;
 			continue ;
 		}
-		environ[j++] = environ[i++];
+		envp[j++] = envp[i++];
 	}
-	environ[j] = NULL;
+	envp[j] = NULL;
+	return (0);
 }
 
 // int main() {

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 10:48:14 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/21 17:19:34 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/21 18:16:39 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile,
 	return (0);
 }
 
+static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 /**
  * @brief Executes a node in the abstract syntax tree (AST).
  *
@@ -114,7 +115,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 
 	fd = 7;
 	if (!node)
-		return ;
+		node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
 	if (node->type == NODE_PIPE)
 		execute_pipe_node(node);
 	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
@@ -126,7 +127,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 				close(*fd_infile);
 			if (*fd_outfile != STDOUT_FILENO)
 				close(*fd_outfile);
-			return ;
+			node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
 		}
 		while (node->left)
 		{
@@ -145,10 +146,8 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 			execute_node(node->right, fd_infile, fd_outfile);
 	}
 	else if (node->type == NODE_CMD)
-	{
 		execute_cmd_node(node);
-		return ;
-	}
+	return (node->data->exit_status);
 }
 
 /**
@@ -162,7 +161,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
  *
  * @param ast Pointer to the root node of the AST to execute.
  */
-void	execute_ast(t_ast *ast)
+int	execute_ast(t_ast *ast)
 {
 	int	fd_infile;
 	int	fd_outfile;
@@ -172,10 +171,11 @@ void	execute_ast(t_ast *ast)
 	save_stdio(&original_stdin, &original_stdout);
 	fd_infile = STDIN_FILENO;
 	fd_outfile = STDOUT_FILENO;
-	execute_node(ast, &fd_infile, &fd_outfile);
+	ast->data->exit_status = execute_node(ast, &fd_infile, &fd_outfile);
 	restore_stdio(original_stdin, original_stdout);
 	if (fd_infile != STDIN_FILENO)
 		close(fd_infile);
 	if (fd_outfile != STDOUT_FILENO)
 		close(fd_outfile);
+	return (ast->data->exit_status);
 }

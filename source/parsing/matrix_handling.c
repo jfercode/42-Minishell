@@ -6,13 +6,13 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/21 16:22:21 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:20:13 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**create_matrix(char *line, char **envp)
+char	**create_matrix(char *line, t_data *data)
 {
 	unsigned int	count;
 	char			**matrix;
@@ -36,9 +36,8 @@ char	**create_matrix(char *line, char **envp)
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
 		return (ft_error("Error: failed matrix creation\n"), NULL);
-	split_line(matrix, line);
-	matrix = handle_meta(matrix);
-	matrix = expand_matrix(matrix, envp);
+	matrix = split_line(matrix, line);
+	matrix = expand_matrix(matrix, data);
 	return (matrix);
 }
 
@@ -70,7 +69,7 @@ char	*get_token(char *line, int *i, char quote)
 	return (token);
 }
 
-void	split_line(char **matrix, char *line)
+char	**split_line(char **matrix, char *line)
 {
 	char			quote;
 	unsigned int	count;
@@ -80,8 +79,7 @@ void	split_line(char **matrix, char *line)
 	count = 0;
 	while (line[i])
 	{
-		while (line[i] == ' ')
-			i++;
+		omit_spaces(line, &i);
 		if (line[i] == '"' || line[i] == '\'')
 			quote = line[i];
 		else
@@ -91,11 +89,11 @@ void	split_line(char **matrix, char *line)
 		{
 			free_matrix(matrix);
 			free(line);
-			return ;
+			return (NULL);
 		}
 		count++;
-		while (line[i] == ' ')
-			i++;
+		omit_spaces(line, &i);
 	}
 	matrix[count] = NULL;
+	return (separate_tokens(matrix));
 }

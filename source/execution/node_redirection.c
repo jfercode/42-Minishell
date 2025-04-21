@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:43:42 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/11 11:22:45 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:18:32 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	execute_heredoc_node(t_ast *node, int *fd_heredoc, int *n)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		printf("n_heredoc: %d\n", *n);
 		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
@@ -63,7 +62,6 @@ int	execute_redir_in_node(t_ast *node, int *fd_infile, int *n)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		printf("n_in: %d\n", *n);
 		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
@@ -96,7 +94,6 @@ int	execute_redir_out_node(t_ast *node, int *fd_outfile, int *n)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		printf("n_out: %d\n", *n);
 		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");
@@ -129,7 +126,6 @@ int	execute_redir_append_node(t_ast *node, int *fd_outfile, int *n)
 		ft_error("Error opening file");
 	if (fd == 5 || fd == 6)
 	{
-		printf("n_append: %d\n", *n);
 		new_fd = dup2(fd, *n);
 		if (new_fd == -1)
 			ft_error("Error duplicating file descriptor");

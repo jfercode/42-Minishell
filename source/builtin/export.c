@@ -12,26 +12,24 @@
 
 #include "../../include/minishell.h"
 
-extern char	**environ;
-
-void	print_env(void)
+void	print_env(t_ast *node)
 {
 	int	i;
 
 	i = 0;
-	while (environ[i])
+	while (node->data->envp[i])
 	{
-		printf("%s\n", environ[i]);
+		printf("declare -x %s\n", node->data->envp[i]);
 		i++;
 	}
 }
 
-int	set_env_var(const char *var)
+int	set_env_var(t_ast *node, const char *var)
 {
 	char	*equal_sign;
 	int		env_count;
 	char	*existing_var;
-	char	**new_environ;
+	char	**new_envp;
 	int		i;
 
 	equal_sign = strchr(var, '=');
@@ -42,48 +40,49 @@ int	set_env_var(const char *var)
 		return (1);
 	}
 	env_count = 0;
-	while (environ[env_count] != NULL)
+	while (node->data->envp[env_count] != NULL)
 	{
-		existing_var = environ[env_count];
+		existing_var = node->data->envp[env_count];
 		if (strncmp(existing_var, var, equal_sign - var) == 0
 			&& existing_var[equal_sign - var] == '=')
 		{
-			environ[env_count] = strdup(var);
+			node->data->envp[env_count] = strdup(var);
 			return (0);
 		}
 		env_count++;
 	}
-	new_environ = malloc((env_count + 2) * sizeof(char *));
-	if (!new_environ)
+	new_envp = malloc((env_count + 2) * sizeof(char *));
+	if (!new_envp)
 	{
-		perror("malloc");
+		ft_error("Malloc");
 		return (1);
 	}
 	i = 0;
-	while (environ[i] != NULL)
+	while (node->data->envp[i] != NULL)
 	{
-		new_environ[i] = environ[i];
+		new_envp[i] = node->data->envp[i];
 		i++;
 	}
-	new_environ[i] = strdup(var);
-	new_environ[i + 1] = NULL;
-	environ = new_environ;
+	new_envp[i] = strdup(var);
+	new_envp[i + 1] = NULL;
+	node->data->envp = new_envp;
 	return (0);
 }
 
-void	ft_export(char **args)
+int	ft_export(t_ast *node)
 {
 	int	i;
 
 	i = 1;
-	if (!args[1])
+	if (!node->args[1])
 	{
-		print_env();
-		return ;
+		print_env(node);
+		return (0);
 	}
-	while (args[i] != NULL)
+	while (node->args[i] != NULL)
 	{
-		set_env_var(args[i]);
+		set_env_var(node, node->args[i]);
 		i++;
 	}
+	return (0);
 }

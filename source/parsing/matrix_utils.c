@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:15:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/11 11:25:42 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:20:25 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	omit_spaces(char *line, int *i)
+{
+	while (line[*i] == ' ')
+		(*i)++;
+}
 
 void	free_matrix(char **matrix)
 {

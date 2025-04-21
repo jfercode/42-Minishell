@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 17:13:20 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:12:46 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,22 @@ typedef enum e_type
 	// NODE_LOGICAL_OP
 }					t_node_type;
 
-typedef enum e_mode
+typedef struct s_data
 {
-	NORMAL,
-	HEREDOC,
-	CMD,
-}					t_shell_mode;
+	int				exit_status;
+	int				exit;
+	char			**envp;
+}					t_data;
 
-/*	ABSTRACT SYNTAX TREE STRUCT	*/
 /*	ABSTRACT SYNTAX TREE STRUCT	*/
 typedef struct s_ast
 {
 	t_node_type		type;
 	char			**args;
-	char			**envp;
 	pid_t			pid;
 	int				fd_infile;
 	int				fd_outfile;
+	struct s_data	*data;
 	int				exit_status;
 	struct s_ast	*left;
 	struct s_ast	*right;
@@ -84,8 +83,21 @@ void				ft_error_exit(const char *error_msg);
 
 /*	HEREDOC HANDLING	*/
 int					ft_handle_here_doc(char *delimiter);
-/*	HEREDOC HANDLING	*/
-int					ft_handle_here_doc(char *delimiter);
+
+/*	PARSE INPUT	*/
+int					syntax_error(char *line);
+int					open_quotes(char *line);
+int					invalid_op(char *line);
+int					invalid_env(char *line);
+int					invalid_redir(char *line);
+
+void				free_matrix(char **matrix);
+void				omit_spaces(char *line, int *i);
+
+char				**split_line(char **matrix, char *line);
+char				**create_matrix(char *line, t_data *data);
+char				**separate_tokens(char **matrix);
+char				**expand_matrix(char **matrix, t_data *data);
 
 /* TOKENIZATION */
 void				free_ast(t_ast *root);
@@ -93,21 +105,21 @@ void				free_node(t_ast *node);
 void				free_ast(t_ast *root);
 void				free_node(t_ast *node);
 
-t_ast				*create_ast(char **line, char **envp);
-t_ast				*create_node(char **args, char **envp, int *indx);
-t_ast				*create_ast(char **line, char **envp);
-t_ast				*create_node(char **args, char **envp, int *indx);
+t_ast				*create_ast(char **line, t_data *data);
+t_ast				*create_node(char **args, t_data *data, int *indx);
 
 t_node_type			get_token_type(char *token);
 t_node_type			get_token_type(char *token);
 
 /*	EXECUTION	*/
-void				execute_ast(t_ast *ast);
+int					execute_ast(t_ast *ast);
 
 /*	NODE_EXECUTION	*/
 void				run_command(t_ast *node);
 void				execute_cmd_node(t_ast *node);
 void				execute_pipe_node(t_ast *node);
+void				setup_redirections(t_ast *node, int *fd_in, int *fd_out);
+void				order_cmds(t_ast *node, t_ast **cmds);
 
 /*	NODE_REDIRECTION	*/
 int					execute_redirection_node(t_ast *node, int *fd_infile,
@@ -119,24 +131,16 @@ int					execute_redir_out_node(t_ast *node, int *fd_outfile,
 int					execute_redir_append_node(t_ast *node, int *fd_outfile,
 						int *n);
 
-/*	PARSE INPUT	*/
-int					parsing_line(char *line);
-int					syntax_error(char *line);
-int					open_quotes(char *line);
-int					invalid_op(char *line);
-int					invalid_env(char *line);
-int					invalid_redir(char *line);
-char				**expand_matrix(char **matrix, char **envp);
-
 /*BUILTINS*/
-void				ft_env(void);
+int	    			is_builtin(t_ast *node);
+int	    			exec_builtin(t_ast *node);
+int					ft_cd(char *path);
 void				ft_exit(t_ast *ast);
-void				ft_export(char **args);
-void				ft_unset(const char *var);
-
-int					pwd(void);
-int					cd(char *path);
 int					ft_echo(int ar, char **args);
+int					ft_env(t_ast *node);
+int					ft_export(t_ast *node);
+int					ft_pwd(void);
+int					ft_unset(char **envp, const char *var);
 
 /*	UTILS	*/
 void				print_node(t_ast *node);
@@ -144,19 +148,8 @@ void				print_matrix(char **matrix);
 void				print_ast(t_ast *root, int level);
 void				ft_read_fd(int fd);
 void				ft_read_fd_name(char *filename);
+void				free_data(t_data *data);
 
-/*	MATRIX HANDLING	*/
-void				free_matrix(char **matrix);
-/*	MATRIX HANDLING	*/
-void				free_matrix(char **matrix);
 
-int					read_until(char *line, int i, char quote);
-int					omit_spaces(char *line, int i);
-int					read_until(char *line, int i, char quote);
-int					omit_spaces(char *line, int i);
-
-void				split_line(char **matrix, char *line);
-char				**create_matrix(char *line, char **envp);
-char				**handle_meta(char **matrix);
 
 #endif /*	MINISHELL_H	*/

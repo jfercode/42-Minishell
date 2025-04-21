@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:25:15 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/21 16:47:34 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:22:20 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	handle_cmd_node(t_ast **root, t_ast *new_node)
  * @param tokens A null-terminated array of strings representing tokens.
  * @return A pointer to the root of the constructed AST.
  */
-t_ast	*create_ast(char **tokens, char **envp)
+t_ast	*create_ast(char **tokens, t_data *data)
 {
 	t_ast	*root;
 	t_ast	*new_node;
@@ -98,7 +98,7 @@ t_ast	*create_ast(char **tokens, char **envp)
 	i = 0;
 	while (tokens[i])
 	{
-		new_node = create_node(tokens, envp, &i);
+		new_node = create_node(tokens, data, &i);
 		if (!new_node)
 			return (free_ast(root), NULL);
 		if (new_node->type == NODE_PIPE)

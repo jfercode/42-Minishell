@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 10:30:09 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/11 10:41:55 by pablo            ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/21 18:17:20 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 /**
- * @brief Finds the full path of a command using the system's PATH 
+ * @brief Finds the full path of a command using the system's PATH
  * environment variable.
  *
  * Searches through each directory listed in the PATH environment variable,
- * appending the command name to each path, and checks if the command exists 
- * using `access()`. 
- * 
+ * appending the command name to each path, and checks if the command exists
+ * using `access()`.
+ *
  * Returns the first valid path found.
  *
  * Memory allocated for temporary paths is freed to prevent leaks.
@@ -68,13 +69,13 @@ void	run_command(t_ast *node)
 	if (ft_strchr(node->args[0], '/'))
 		path = ft_strdup(node->args[0]);
 	else
-		path = find_path(*node->args, node->envp);
+		path = find_path(*node->args, node->data->envp);
 	if (!path)
 	{
 		ft_error(node->args[0]);
 		exit(127);
 	}
-	if (execve(path, node->args, node->envp) == -1)
+	if (execve(path, node->args, node->data->envp) == -1)
 	{
 		ft_error("Error: Execve failed");
 		free(path);
@@ -85,19 +86,29 @@ void	run_command(t_ast *node)
 void	execute_cmd_node(t_ast *node)
 {
 	pid_t	pid;
+	int		status;
 
 	g_shell_mode = CMD;
 	if (node->type != NODE_CMD)
 		return ;
-	pid = fork();
-	if (pid == 0)
-		run_command(node);
-	else if (pid > 0)
-	{
-		node->pid = pid;
-		waitpid(pid, NULL, 0);
-	}
+	signal(SIGINT, ft_handle_sigint_child);
+	if (is_builtin(node))
+		node->data->exit_status = exec_builtin(node);
 	else
-		ft_error("Error: Failed fork");
+	{
+		pid = fork();
+		if (pid == 0)
+			run_command(node);
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				node->data->exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				node->data->exit_status = 128 + WTERMSIG(status);
+			else
+				node->data->exit_status = 1;
+		}
+	}
 	signal(SIGINT, ft_handle_sigint);
 }

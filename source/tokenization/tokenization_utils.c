@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 17:34:50 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 16:42:42 by jaferna2         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/21 18:22:00 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
@@ -76,4 +77,20 @@ void	free_ast(t_ast *root)
 	free_ast(root->left);
 	free_ast(root->right);
 	free_node(root);
+}
+
+void	free_data(t_data *data)
+{
+	int	i;
+
+	if (!data || !data->envp)
+		return;
+	i = 0;
+	while (data->envp[i])
+	{
+		free(data->envp[i]);
+		i++;
+	}
+	free(data->envp);
+	data->envp = NULL;
 }
