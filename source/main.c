@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/09 18:44:33 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/21 13:55:19 by pablo             #+#    #+#             */
+/*   Updated: 2025/04/21 13:59:44 by pablo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	g_shell_mode = 0;
 
 static void	ft_start_gigachell(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	g_shell_mode = NORMAL;
 	signal(SIGINT, ft_handle_sigint);
