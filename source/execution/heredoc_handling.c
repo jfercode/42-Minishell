@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/11 11:22:50 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:45:05 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	ft_handle_here_doc(char *delimiter)
 	while (g_shell_mode == HEREDOC)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
-		line = ft_get_next_line(STDIN_FILENO);
 		line = ft_get_next_line(STDIN_FILENO);
 		if (!line || g_shell_mode != HEREDOC)
 			break ;

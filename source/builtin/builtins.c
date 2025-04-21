@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 17:31:37 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 19:10:19 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:53:52 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ int	exec_builtin(t_ast *node)
 	else if (ft_strncmp(node->args[0], "unset", 5) == 0)
 		return (node->data->exit_status = ft_unset(node->data->envp,
 				node->args[1]));
-    return (0);
+	return (0);
 }

@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/21 18:22:00 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/21 18:47:13 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/21 18:47:48 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/minishell.h"
 
@@ -84,7 +83,7 @@ void	free_data(t_data *data)
 	int	i;
 
 	if (!data || !data->envp)
-		return;
+		return ;
 	i = 0;
 	while (data->envp[i])
 	{

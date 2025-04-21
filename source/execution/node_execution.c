@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/21 18:17:20 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/21 18:49:07 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/21 18:49:10 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	execute_cmd_node(t_ast *node)
 	g_shell_mode = CMD;
 	if (node->type != NODE_CMD)
 		return ;
-	signal(SIGINT, ft_handle_sigint_child);
 	if (is_builtin(node))
 		node->data->exit_status = exec_builtin(node);
 	else

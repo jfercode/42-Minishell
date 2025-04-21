@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/21 18:13:57 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/21 18:55:24 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static int	ft_exec_line(char *line, t_data *data)
 	return (data->exit_status);
 }
 
-static char	*prompt_readline(void)
 static char	*prompt_readline(void)
 {
 	char	*temp;

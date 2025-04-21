@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:42:38 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/21 18:24:11 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:53:26 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	ft_exit_more_args(t_ast *ast)
 {
 	if (!is_numeric(ast->args[1]))
 	{
-		// kill_all_ast_processes(ast);
 		close_ast_fds(ast);
 		ast->data->exit = 1;
 		return (2);
@@ -97,7 +96,6 @@ int	ft_exit(t_ast *ast)
 				ast->data->exit_status += 256;
 		}
 	}
-	// kill_all_ast_processes(ast);
 	close_ast_fds(ast);
 	ast->data->exit = 1;
 	return (ast->data->exit_status);

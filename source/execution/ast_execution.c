@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:16:39 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:18:13 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile,
 	return (0);
 }
 
-static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 /**
  * @brief Executes a node in the abstract syntax tree (AST).
  *
@@ -109,7 +108,7 @@ static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
  * @param fd_infile   Pointer to an integer representing the input fd.
  * @param fd_outfile  Pointer to an integer representing the output fd.
  */
-static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
+static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 {
 	int	fd;
 

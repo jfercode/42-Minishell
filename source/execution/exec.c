@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:06:20 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/21 17:19:18 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:26:55 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static	int	check_token_exec(int tocken, t_ast *node)
 		else if (tocken == 1)
 			ft_echo(check_node_args(node), node->args);
 		else if (tocken == 2)
-			ft_env();
+			ft_env(node);
 		else if (tocken == 3)
 			ft_exit(node);
 		else if (tocken == 4)
@@ -64,7 +64,7 @@ static	int	check_token_exec(int tocken, t_ast *node)
 		else if (tocken == 5)
 			ft_pwd();
 		else if (tocken == 6)
-			ft_unset(node->args[1]);
+			ft_unset(node->data->envp, node->args[1]);
 	}
 	else if (tocken == -1)
 		return (1);

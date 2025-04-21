@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:12:46 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:56:58 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef enum e_type
 	NODE_REDIR_APPEND,
 	// NODE_LOGICAL_OP
 }					t_node_type;
+
+/* CMD TYPE ENUM	*/
+typedef enum e_mode
+{
+	NORMAL,
+	HEREDOC,
+	CMD,
+}					t_shell_mode;
 
 typedef struct s_data
 {
@@ -132,10 +140,10 @@ int					execute_redir_append_node(t_ast *node, int *fd_outfile,
 						int *n);
 
 /*BUILTINS*/
-int	    			is_builtin(t_ast *node);
-int	    			exec_builtin(t_ast *node);
+int					is_builtin(t_ast *node);
+int					exec_builtin(t_ast *node);
 int					ft_cd(char *path);
-void				ft_exit(t_ast *ast);
+int					ft_exit(t_ast *ast);
 int					ft_echo(int ar, char **args);
 int					ft_env(t_ast *node);
 int					ft_export(t_ast *node);
@@ -149,7 +157,5 @@ void				print_ast(t_ast *root, int level);
 void				ft_read_fd(int fd);
 void				ft_read_fd_name(char *filename);
 void				free_data(t_data *data);
-
-
 
 #endif /*	MINISHELL_H	*/

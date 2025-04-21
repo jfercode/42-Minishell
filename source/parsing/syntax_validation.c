@@ -5,22 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/21 18:20:59 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/04/21 18:47:54 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/21 18:48:12 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../include/minishell.h"
-
-// lo que dice bash en caso de error de direcciones es
-// "syntax error near unexpected token"
-// lo que dice bash en caso de error de direcciones es
-// "syntax error near unexpected token"
-// pero en los otros dos casos literalmente se vuelve un heardoc,
-// esperando a que completes el comando
-// asi que no dan un error,
-// habría que salir directament o llamar a heredoc/crear nueva línea
 
 int	syntax_error(char *line)
 {

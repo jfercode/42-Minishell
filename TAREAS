@@ -22,3 +22,21 @@
 4.	Pruebas 
 
 5.	Gestión de errores
+
+6. env -i ./minishell debe tener solo 3 variables de entorno SHLVL, PWD,   =usr/bin
+
+7. cd no funciona con ., a solas o con ~
+
+8. unset no funciona con variables exportadas
+
+
+NORMINETTE:
+
+source/builtin/export.c: Error!
+Error: TOO_MANY_LINES       (line:  57, col:   1):      Function has more than 25 lines
+source/execution/ast_execution.c: Error!
+Error: TOO_MANY_LINES       (line: 150, col:   1):      Function has more than 25 lines
+source/parsing/meta_handling.c: Error!
+Error: TOO_MANY_ARGS        (line:  37, col:  78):      Function has more than 4 arguments
+Error: TOO_MANY_FUNCS       (line:  79, col:   1):      Too many functions in file
+Error: TOO_MANY_FUNCS       (line:  93, col:   1):      Too many functions in file
