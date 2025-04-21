@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/11 19:08:51 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:40:22 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef enum e_type
 typedef struct s_data
 {
 	int				exit_status;
+	int				exit;
 	char			**envp;
 }					t_data;
 
@@ -112,8 +113,7 @@ void				run_command(t_ast *node);
 void				execute_cmd_node(t_ast *node);
 void				execute_pipe_node(t_ast *node);
 void				setup_redirections(t_ast *node, int *fd_in, int *fd_out);
-
-t_ast				**order_cmds(t_ast *node, t_ast **cmds);
+void				order_cmds(t_ast *node, t_ast **cmds);
 
 /*	NODE_REDIRECTION	*/
 int					execute_redirection_node(t_ast *node, int *fd_infile,

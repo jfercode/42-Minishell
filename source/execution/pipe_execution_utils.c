@@ -6,13 +6,13 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 16:45:26 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 17:12:08 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:06:41 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_ast	**order_cmds(t_ast *node, t_ast **cmds)
+void	order_cmds(t_ast *node, t_ast **cmds)
 {
 	t_ast	*temp;
 	t_ast	*current;
@@ -23,10 +23,13 @@ t_ast	**order_cmds(t_ast *node, t_ast **cmds)
 	current = node;
 	while (current && current->type == NODE_PIPE)
 	{
+		if (!current->right)
+			break ;
 		cmds[i++] = current->right;
 		current = current->left;
 	}
-	cmds[i++] = current;
+	if (current)
+		cmds[i++] = current;
 	cmds[i] = NULL;
 	j = 0;
 	while (j < i / 2)
@@ -36,7 +39,6 @@ t_ast	**order_cmds(t_ast *node, t_ast **cmds)
 		cmds[i - 1 - j] = temp;
 		j++;
 	}
-	return (cmds);
 }
 
 void	setup_redirections(t_ast *node, int *fd_in, int *fd_out)

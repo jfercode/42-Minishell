@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:43:06 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 17:39:46 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:40:46 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 int	syntax_error(char *line)
 {
+	if (!line)
+		return (ERROR);
 	if (open_quotes(line))
 		return (ft_error("Gigachell: syntax error: unclosed quote\n"), ERROR);
 	if (invalid_redir(line))

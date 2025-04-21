@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 17:07:15 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 17:47:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:09:23 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ static int	ft_exec_line(char *line, t_data *data)
 	{
 		mtx = create_matrix(line, data);
 		if (!mtx && mtx == NULL)
-		{
-			ft_error("Error creating matrix\n");
-			data->exit_status = 2;
-		}
+			return (0);
 		ast = create_ast(mtx, data);
 		if (!ast)
 		{

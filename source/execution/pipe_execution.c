@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 19:04:34 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:06:34 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@ static pid_t	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, ft_handle_sigint);
+		signal(SIGINT, SIG_DFL);
 		setup_redirections(cmd, &fd_in, &fd_out);
 		run_command(cmd);
 	}
-	signal(SIGINT, ft_handle_sigint);
 	return (pid);
 }
 
 static pid_t	execute_command(t_ast *cmd, int fd_in, int fd_out)
 {
-	int		fd;
+	int	fd;
 
 	fd = 7;
 	if (cmd->type == NODE_HEREDOC || cmd->type == NODE_REDIR_IN
@@ -47,30 +48,47 @@ static pid_t	execute_command(t_ast *cmd, int fd_in, int fd_out)
 				close(fd_in);
 			if (fd_out != STDOUT_FILENO)
 				close(fd_out);
-			return (NULL);
+			return (0);
 		}
 		while (cmd->left && (cmd->type != NODE_CMD))
 			cmd = cmd->left;
 	}
-	signal(SIGINT, ft_handle_sigint_child);
 	return (fork_cmd(cmd, fd_in, fd_out));
+}
+
+static void	wait_for_children(pid_t *pids, t_ast **cmds, int count)
+{
+	int	status;
+
+	while (count >= 0)
+	{
+		waitpid(pids[count], &status, 0);
+		if (!cmds[count] || !cmds[count]->data)
+			return ;
+		if (WIFEXITED(status))
+			cmds[count]->data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			cmds[count]->data->exit_status = 128 + WTERMSIG(status);
+		else
+			cmds[count]->data->exit_status = 1;
+		count--;
+	}
 }
 
 static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 {
 	pid_t	*pids;
-	int	status;
-	int	i;
+	int		status;
+	int		i;
 
 	i = 0;
 	pids = malloc((pipe_count + 1) * sizeof(pid_t));
+	if (!pids)
+		return (ft_error("Pid: Malloc failed"));
 	while (i < pipe_count)
 	{
 		if (pipe(fd) == -1)
-		{
-			ft_error("Pipe");
-			exit(EXIT_FAILURE);
-		}
+			ft_error_exit("Pipe: ");
 		pids[i] = execute_command(cmds[i], prev_fd, fd[1]);
 		close(fd[1]);
 		if (prev_fd != STDIN_FILENO)
@@ -81,16 +99,9 @@ static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 	pids[i] = execute_command(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	while (i >= 0)
-	{
-		waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status))
-			cmds[i]->data->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			cmds[i]->data->exit_status = 128 + WTERMSIG(status);
-		else
-			cmds[i]->data->exit_status = 1;
-	}
+	wait_for_children(pids, cmds, pipe_count);
+	signal(SIGINT, ft_handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	execute_pipe_node(t_ast *node)
@@ -112,7 +123,7 @@ void	execute_pipe_node(t_ast *node)
 	cmds = malloc((pipe_count + 2) * sizeof(t_ast *));
 	if (!cmds)
 		return ;
-	cmds = order_cmds(node, cmds);
+	order_cmds(node, cmds);
 	execute_pipeline(cmds, pipe_count, fd, prev_fd);
 	free(cmds);
 }
