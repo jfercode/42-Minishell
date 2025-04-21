@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/11 11:25:02 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 17:01:05 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-/*
-	$a = 1 -- if $a -- if 1
-
-	echo hola"mundo" - holamundo
-	echo $PWD'$PWD'  - ruta$PWD
-	echo $PWD"$PWD"  - rutaruta
-
-*/
 
 char	*get_envp(char **envp, char *var)
 {
@@ -46,7 +37,8 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	int		start;
 
 	start = ++(*j);
-	while (matrix[*i][(*j)] && (ft_isalnum(matrix[*i][(*j)]) || matrix[*i][(*j)] == '_'))
+	while (matrix[*i][(*j)] && (ft_isalnum(matrix[*i][(*j)])
+		|| matrix[*i][(*j)] == '_'))
 		(*j)++;
 	tmp = ft_substr(matrix[*i], start, *j - start);
 	var = get_envp(envp, tmp);
@@ -65,32 +57,38 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	return (matrix);
 }
 
-char	**cleanup_matrix(char **matrix)
+static void	process_line(char *line, int *s_quote, int *d_quote)
 {
 	int	i;
 	int	j;
-	int	k;
-	int	ch_single;
-	int	ch_double;
 
 	i = 0;
-	ch_single = 0;
-	ch_double = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' && !(*d_quote))
+			*s_quote = !(*s_quote);
+		else if (line[i] == '"' && !(*s_quote))
+			*d_quote = !(*d_quote);
+		else
+			line[j++] = line[i];
+		i++;
+	}
+	line[j] = '\0';
+}
+
+char	**cleanup_matrix(char **matrix)
+{
+	int	i;
+	int	s_quote;
+	int	d_quote;
+
+	i = 0;
+	s_quote = 0;
+	d_quote = 0;
 	while (matrix[i])
 	{
-		j = 0;
-		k = 0;
-		while (matrix[i][j])
-		{
-			if (matrix[i][j] == '\'')
-				ch_single = !ch_single;
-			else if (matrix[i][j] == '"')
-				ch_double = !ch_double;
-			else
-				matrix[i][k++] = matrix[i][j];
-			j++;
-		}
-		matrix[i][k] = '\0';
+		process_line(matrix[i], &s_quote, &d_quote);
 		i++;
 	}
 	return (matrix);

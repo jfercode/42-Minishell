@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/08 13:43:28 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:22:21 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**create_matrix(char *line, char **envp)
 		return (NULL);
 	matrix = malloc((count + 1) * sizeof(char *));
 	if (!matrix)
-		return(ft_error("Error: failed matrix creation\n"), NULL);
+		return (ft_error("Error: failed matrix creation\n"), NULL);
 	split_line(matrix, line);
 	matrix = handle_meta(matrix);
 	matrix = expand_matrix(matrix, envp);

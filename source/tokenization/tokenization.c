@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:25:15 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/11 11:25:20 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 16:47:34 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_ast	*create_ast(char **tokens, char **envp)
 	while (tokens[i])
 	{
 		new_node = create_node(tokens, envp, &i);
-		new_node = create_node(tokens, envp, &i);
 		if (!new_node)
 			return (free_ast(root), NULL);
 		if (new_node->type == NODE_PIPE)
@@ -114,15 +113,3 @@ t_ast	*create_ast(char **tokens, char **envp)
 	}
 	return (root);
 }
-
-/*
-grep << in a -> grep a << in
-
-node: 
-	here
-	in
-node: 
-	cmd
-	grep 
-gre in a
-*/

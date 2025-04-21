@@ -3,37 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:48:14 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/11 10:49:45 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 17:19:34 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 /**
- * TO DO: PREPARAR LA MALDITA EJECUCION DE NUESTRO MARAVILLOSO AST
- * VA A SER SIMILAR A EL PRINT_AST EN CUANTO A COMO VA A IR RECORRIENDO
- * LA ESTRUCTURA Y BUSCO HACER QUE:
- *	-> SI ESTA EN UN NODO PIPE, PREPARE LOS PIPES
-	-> SI ESTA EN UN NODO DE REDIRECCION TENGO QUE EJECUTAR LA REDIRECCION
-	-> NODO COMANDO SE EJECUTA EL COMANDO
-	POR LO TANTO TENGO QUE COGER LAS FUNCIONES Y PREPARARLAS PARA QUE PASEN
-	CORRECTAMENTE SEGÚN EL TIPO DE NODO QUE SEA.
-	REVISAR EL PUTO CODIGO QUE YA ETA
+ * @brief Saves the current standard input and output file descriptors.
+ *
+ * This function duplicates the current STDIN and STDOUT file descriptors
+ * and stores them in the provided pointers,
+ * allowing them to be restored later.
+ *
+ * @param original_stdin  Pointer to an integer where the current STDIN file 
+ * 							descriptor will be stored.
+ * @param original_stdout Pointer to an integer where the current STDOUT file 
+ * 							descriptor will be stored.
  */
-
-static void	restore_stdio(int original_stdin, int original_stdout)
-{
-	if (dup2(original_stdin, STDIN_FILENO) == -1)
-		ft_error_exit("Error restoring STDIN");
-	if (dup2(original_stdout, STDOUT_FILENO) == -1)
-		ft_error_exit("Error restoring STDOUT");
-	close(original_stdin);
-	close(original_stdout);
-}
-
 static void	save_stdio(int *original_stdin, int *original_stdout)
 {
 	*original_stdin = dup(STDIN_FILENO);
@@ -44,6 +34,43 @@ static void	save_stdio(int *original_stdin, int *original_stdout)
 		ft_error("Error saving original STDOUT");
 }
 
+/**
+ * @brief Restores the original standard input and output file descriptors.
+ *
+ * This function replaces the current STDIN and STDOUT file descriptors
+ * with the ones provided, effectively restoring them to their original state.
+ * It also closes the provided file descriptors after restoring them.
+ *
+ * @param original_stdin  The file descriptor representing the original STDIN.
+ * @param original_stdout The file descriptor representing the original STDOUT.
+ */
+static void	restore_stdio(int original_stdin, int original_stdout)
+{
+	if (dup2(original_stdin, STDIN_FILENO) == -1)
+		ft_error_exit("Error restoring STDIN");
+	if (dup2(original_stdout, STDOUT_FILENO) == -1)
+		ft_error_exit("Error restoring STDOUT");
+	close(original_stdin);
+	close(original_stdout);
+}
+
+/**
+ * @brief Executes redirection nodes in an abstract syntax tree (AST).
+ *
+ * This function recursively traverses and executes redirection-related nodes
+ * in the given AST. It handles various types of redirection, including heredocs,
+ * input redirection, output redirection, and output append redirection.
+ *
+ * @param node       Pointer to the current AST node to process.
+ * @param fd_infile  Pointer to an integer where the input file descriptor 
+ * 						will be stored if applicable.
+ * @param fd_outfile Pointer to an integer where the output file descriptor
+ * 						 will be stored if applicable.
+ * @param fd         Pointer to an integer used to manage temporary
+ * 						 file descriptors (e.g., heredocs).
+ *
+ * @return 0 on success, or ERROR on failure.
+ */
 int	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile,
 		int *fd)
 {
@@ -67,6 +94,20 @@ int	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile,
 	return (0);
 }
 
+/**
+ * @brief Executes a node in the abstract syntax tree (AST).
+ *
+ * This function determines the type of the AST node and dispatches execution 
+ * accordingly. It supports command execution, piping, and various types of
+ * redirection, including heredoc, input, output, and append redirections.
+ * 
+ * Redirection nodes are resolved recursively, and the corresponding file 
+ * descriptors are applied to STDIN and STDOUT as needed.
+ *
+ * @param node        Pointer to the AST node to execute.
+ * @param fd_infile   Pointer to an integer representing the input fd.
+ * @param fd_outfile  Pointer to an integer representing the output fd.
+ */
 static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 {
 	int	fd;
@@ -88,7 +129,7 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 			return ;
 		}
 		while (node->left)
-		{ //Added braces for correct loop structure
+		{
 			if (node->left->type != NODE_CMD)
 				node = node->left;
 			else
@@ -110,6 +151,17 @@ static void	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 	}
 }
 
+/**
+ * @brief Executes the given abstract syntax tree (AST).
+ *
+ * This function serves as the entry point for executing an AST.
+ * It saves the current standard input and output, sets up the necessary
+ * file descriptors, executes the AST recursively, and restores the original
+ * standard I/O afterward. Any modified input/output file descriptors are closed
+ * after execution.
+ *
+ * @param ast Pointer to the root node of the AST to execute.
+ */
 void	execute_ast(t_ast *ast)
 {
 	int	fd_infile;

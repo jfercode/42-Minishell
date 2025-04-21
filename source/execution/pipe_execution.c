@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pablo <pabalons@student.42madrid.com>      +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:16:30 by pablo             #+#    #+#             */
-/*   Updated: 2025/04/11 11:17:38 by pablo            ###   ########.fr       */
+/*   Updated: 2025/04/21 16:17:53 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 	execute_command(cmds[i], prev_fd, STDOUT_FILENO);
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	while (wait(&status) > 0);
+	while (wait(&status) > 0)
+		;
 }
 
 t_ast	**order_cmds(t_ast *node, t_ast **cmds)
