@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:49:07 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:49:10 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:47:19 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	execute_cmd_node(t_ast *node)
 	pid_t	pid;
 	int		status;
 
-	g_shell_mode = CMD;
+	signal(SIGINT, ft_handle_sigint_bloq);
 	if (node->type != NODE_CMD)
 		return ;
 	if (is_builtin(node))
@@ -109,5 +109,5 @@ void	execute_cmd_node(t_ast *node)
 				node->data->exit_status = 1;
 		}
 	}
-	signal(SIGINT, ft_handle_sigint);
+	signal(SIGINT, ft_handle_sigint_normal);
 }

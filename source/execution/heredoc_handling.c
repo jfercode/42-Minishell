@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:44:19 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:45:05 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:18:32 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,94 +39,90 @@ static char	*remove_newline(char *line)
 }
 
 /**
- * @brief Processes here-document input.
+ * @brief Child process: reads from stdin and writes lines to 
+ * the heredoc file.
  *
- * Opens a temporary file and repeatedly prompts the user with "heredoc> "
- *  to read input.
- * Each line (after removing its newline) is compared with the delimiter;
- *  if it matches, the file is closed and IS_HEREDOC is returned.
- *  if it matches, the file is closed and IS_HEREDOC is returned.
- * Otherwise, the line is written to the file.
+ * Reads lines from standard input, compares each line to 
+ * the delimiter, and writes them to a temporary file if they
+ * don’t match. Stops when the delimiter is matched.
+ * Also sets a custom SIGINT handler for the child process.
  *
- * @param delimiter The string that terminates the here-document input.
- * 
+ * @param tmp_fd File descriptor for the temporary heredoc file.
+ * @param delimiter The end delimiter for the heredoc input.
  */
-int	ft_handle_here_doc(char *delimiter)
+static void	ft_handle_here_doc_child(int tmp_fd, char *delimiter)
 {
-	int		tmp_fd;
 	char	*line;
 
-	ft_printf(STDOUT_FILENO, "DELIMITER: %s\n", delimiter);
-	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (tmp_fd == -1)
-		return (ft_error("Error: can't opening temp heredoc file"), 1);
-	while (g_shell_mode == HEREDOC)
+	signal(SIGINT, ft_handle_sigint_here);
+	while (1)
 	{
-		write(STDOUT_FILENO, "heredoc> ", 10);
+		write(STDOUT_FILENO, "> ", 2);
 		line = ft_get_next_line(STDIN_FILENO);
-		if (!line || g_shell_mode != HEREDOC)
+		if (!line)
 			break ;
 		line = remove_newline(line);
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-			return (free(line), close(tmp_fd));
+		{
+			free(line);
+			break ;
+		}
 		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1);
 		free(line);
 	}
 	close(tmp_fd);
-	if (g_shell_mode != HEREDOC)
-		return (130);
+	exit (EXIT_SUCCESS);
+}
+
+/**
+ * @brief Parent process: waits for the child and handles SIGINT behavior.
+ *
+ * Temporarily ignores SIGINT, waits for the child to finish processing
+ * the heredoc input, then restores the original SIGINT handler.
+ *
+ * @param pid Process ID of the child.
+ * @param tmp_fd File descriptor for the temporary heredoc file.
+ * @return int Always returns EXIT_FAILURE, signaling heredoc end handling.
+ */
+static int	ft_handle_here_doc_parent(pid_t pid, int tmp_fd)
+{
+	int	status;
+
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, ft_handle_sigint_normal);
+	close(tmp_fd);
+	if (WIFSIGNALED(status))
+		write (1, "\n", 1);
 	return (EXIT_FAILURE);
 }
 
-void	ft_read_fd_name(char *filename)
+/**
+ * @brief Handles heredoc input by creating a temporary file and forking 
+ * a process.
+ *
+ * Opens a temporary file and forks the process. The child process reads
+ * from standard input until the given delimiter is found, writing each 
+ * line into the file.
+ * The parent waits for the child to finish and manages SIGINT handling.
+ *
+ * @param delimiter The string that marks the end of the heredoc input.
+ * @return int Returns EXIT_FAILURE if an error occurs or the child is
+ * interrupted.
+ */
+int	ft_handle_here_doc(char *delimiter)
 {
-	int		i;
 	int		tmp_fd;
-	char	*line;
+	pid_t	pid;
 
-	tmp_fd = open(filename, O_RDONLY, 0644);
-	if (!tmp_fd)
-		return (ft_error("Error: can't read a fd"));
-	line = ft_get_next_line(tmp_fd);
-	if (!line)
-		ft_error("Error: nothing to read");
+	tmp_fd = open("/tmp/heredoc_tmp.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (tmp_fd == -1)
+		return (ft_error("Error: can't opening temp heredoc file"), 1);
+	pid = fork();
+	if (pid == 0)
+		ft_handle_here_doc_child(tmp_fd, delimiter);
 	else
-	{
-		i = 0;
-		while (line != NULL)
-		{
-			ft_printf(STDOUT_FILENO,
-				GREEN"FD[%d]_ln[%d]: "RST"%s\n", tmp_fd, i, line);
-			i++;
-			free(line);
-			line = ft_get_next_line(tmp_fd);
-		}
-	}
-	close(tmp_fd);
-}
-
-void	ft_read_fd(int fd)
-{
-	int		i;
-	char	*line;
-
-	if (!fd)
-		return (ft_error("Error: can't read a fd"));
-	line = ft_get_next_line(fd);
-	if (!line)
-		ft_error("Error: nothing to read");
-	else
-	{
-		i = 0;
-		while (line != NULL)
-		{
-			ft_printf(STDOUT_FILENO,
-				GREEN"FD[%d]_ln[%d]: "RST"%s\n", fd, i, line);
-			i++;
-			free(line);
-			line = ft_get_next_line(fd);
-		}
-	}
-	close(fd);
+		ft_handle_here_doc_parent(pid, tmp_fd);
+	return (EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:56:58 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:12:44 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 
 # define ERROR -1
 
-extern int	g_shell_mode;
-
 /* NODE TYPE ENUM	*/
 typedef enum e_type
 {
@@ -50,14 +48,6 @@ typedef enum e_type
 	NODE_REDIR_APPEND,
 	// NODE_LOGICAL_OP
 }					t_node_type;
-
-/* CMD TYPE ENUM	*/
-typedef enum e_mode
-{
-	NORMAL,
-	HEREDOC,
-	CMD,
-}					t_shell_mode;
 
 typedef struct s_data
 {
@@ -81,7 +71,9 @@ typedef struct s_ast
 }					t_ast;
 
 /*	SIGNALS BEHAVIOUR	*/
-void				ft_handle_sigint(int sig);
+void				ft_handle_sigint_bloq(int sig);
+void				ft_handle_sigint_here(int sig);
+void				ft_handle_sigint_normal(int sig);
 void				ft_handle_sigint_child(int sig);
 void				ft_signal(int signo, void *handler, bool use_siginfo);
 
@@ -154,8 +146,6 @@ int					ft_unset(char **envp, const char *var);
 void				print_node(t_ast *node);
 void				print_matrix(char **matrix);
 void				print_ast(t_ast *root, int level);
-void				ft_read_fd(int fd);
-void				ft_read_fd_name(char *filename);
 void				free_data(t_data *data);
 
 #endif /*	MINISHELL_H	*/
