@@ -14,6 +14,23 @@
 
 int	ft_cd(char *path)
 {
+	char	*home;
+
+	if (!path)
+	{
+		home = getenv("HOME");
+		if (!home)
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			return (1);
+		}
+		if (chdir(home) == -1)
+		{
+			ft_putstr_fd("minishell: cd: HOME: No such file or directory\n", 2);
+			return (1);
+		}
+		return (0);
+	}
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
