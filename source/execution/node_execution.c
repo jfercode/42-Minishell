@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:49:07 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/22 16:47:19 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:47:08 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
+	if (!envp[i])
+		return (ft_putstr_fd("Minishell: ", 2), NULL);
 	paths = ft_split(envp[i], ':');
 	i = 0;
 	while (paths[i])
@@ -50,10 +52,7 @@ char	*find_path(char *cmd, char **envp)
 		free(path);
 		i++;
 	}
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
+	free_matrix(paths);
 	return (NULL);
 }
 
@@ -72,6 +71,7 @@ void	run_command(t_ast *node)
 		path = find_path(*node->args, node->data->envp);
 	if (!path)
 	{
+		errno = ENOENT;
 		ft_error(node->args[0]);
 		exit(127);
 	}

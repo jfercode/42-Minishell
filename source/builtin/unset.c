@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:42:45 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/21 18:24:47 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:36:13 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_unset(char **envp, const char *var)
 	int	i;
 	int	j;
 
-	if (!var || !getenv(var))
+	if (!var)
 		return (1);
 	i = 0;
 	j = 0;
@@ -34,13 +34,3 @@ int	ft_unset(char **envp, const char *var)
 	envp[j] = NULL;
 	return (0);
 }
-
-// int main() {
-//     printf("Antes de unset: %s\n", getenv("TEST_ENV"));
-
-//     my_unset("TEST_ENV");
-
-//     printf("Después de unset: %s\n", getenv("TEST_ENV"));
-
-//     return (0);
-// }

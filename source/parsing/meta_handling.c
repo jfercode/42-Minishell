@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/21 18:20:39 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:40:31 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,6 @@ int	is_special(char *str, int index)
 	return (0);
 }
 
-static void	append_substr(char **dest, char *src, int start, int len, int *k)
-{
-	dest[(*k)++] = ft_substr(src, start, len);
-}
-
-static int	handle_special_token(char **dest, char *line, int j, int *k)
-{
-	int	n;
-
-	n = is_special(line, j);
-	if (n == 2)
-		append_substr(dest, line, j, 2, k);
-	else
-		append_substr(dest, line, j, 1, k);
-	return (j + n);
-}
-
 static void	split_special_tokens(char **matrix, char **new_mx, int *k, int i)
 {
 	int	start;
@@ -65,15 +48,19 @@ static void	split_special_tokens(char **matrix, char **new_mx, int *k, int i)
 		if (n)
 		{
 			if (j > start)
-				append_substr(new_mx, matrix[i], start, j - start, k);
-			j = handle_special_token(new_mx, matrix[i], j, k);
+				new_mx[(*k)++] = ft_substr(matrix[i], start, j - start);
+			if (n == 2)
+				new_mx[(*k)++] = ft_substr(matrix[i], j, 2);
+			else
+				new_mx[(*k)++] = ft_substr(matrix[i], j, 1);
+			j = j + n;
 			start = j;
 		}
 		else
 			j++;
 	}
 	if (j > start)
-		append_substr(new_mx, matrix[i], start, j - start, k);
+		new_mx[(*k)++] = ft_substr(matrix[i], start, j - start);
 }
 
 char	**nm_maker(char **matrix, char **new_mx, int i, int k)

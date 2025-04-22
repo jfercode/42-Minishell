@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:52:22 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/21 18:53:00 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:57:41 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,42 @@ void	print_env(t_ast *node)
 	}
 }
 
+char	*check_and_replace(t_ast *node, const char *var, int env_count)
+{
+	char	*existing_var;
+
+	existing_var = node->data->envp[env_count];
+	if (ft_strncmp(existing_var, var, ft_strchr(var, '=') - var) == 0
+		&& existing_var[ft_strchr(var, '=') - var] == '=')
+		return (node->data->envp[env_count] = ft_strdup(var));
+	else
+		return (NULL);
+}
+
 int	set_env_var(t_ast *node, const char *var)
 {
-	char	*equal_sign;
-	int		env_count;
-	char	*existing_var;
 	char	**new_envp;
+	int		env_count;
 	int		i;
 
-	equal_sign = strchr(var, '=');
-	if (!equal_sign)
-		return (ft_error("export"), 1);
+	if (ft_strchr(var, '=') == NULL)
+		return (0);
 	env_count = 0;
 	while (node->data->envp[env_count] != NULL)
 	{
-		existing_var = node->data->envp[env_count];
-		if (strncmp(existing_var, var, equal_sign - var) == 0
-			&& existing_var[equal_sign - var] == '=')
-			return (node->data->envp[env_count] = strdup(var), 0);
+		if (check_and_replace(node, var, env_count) != NULL)
+			return (check_and_replace(node, var, env_count), 0);
 		env_count++;
 	}
 	new_envp = malloc((env_count + 2) * sizeof(char *));
 	if (!new_envp)
 		return (ft_error("Malloc"), 1);
-	i = 0;
-	while (node->data->envp[i++] != NULL)
+	i = -1;
+	while (node->data->envp[++i] != NULL)
 		new_envp[i] = node->data->envp[i];
-	new_envp[i] = strdup(var);
+	new_envp[i] = ft_strdup(var);
 	new_envp[i + 1] = NULL;
-	node->data->envp = new_envp;
+	node->data->envp = copy_envp(new_envp);
 	return (0);
 }
 
