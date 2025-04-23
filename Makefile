@@ -3,7 +3,7 @@ NAME	=	build/minishell.a
 
 # Compiller and compiler flags
 CC		=	clang
-C_FLAGS	=	-Wall -Werror -Wextra -fsanitize=address
+C_FLAGS	=	-Wall -Werror -Wextra -fsanitize=address -g3
 LIBS 	=	-lreadline -lncurses -ltermcap
 
 # Directories
@@ -89,4 +89,4 @@ norm:
 	norminette $(SRC_FILES) $(HEADER_DIR)/*.h
 
 # Phony rules
-.PHONY:	all clean fclean re norm
+.PHONY:	all clean fclean re normexit (1);

@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 11:03:01 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/22 17:41:27 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:24:54 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,10 @@ void	ft_handle_sigint_here(int sig)
 		write (STDOUT_FILENO, "\n", 1);
 		exit (1);
 	}
+}
+
+void	ft_handle_sigint_pipes(int sig)
+{
+	if (sig == SIGINT)
+		write (STDOUT_FILENO, "\n", 1);
 }

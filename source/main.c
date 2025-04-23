@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/22 17:04:22 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:38:33 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_start_gigachell(void)
 		ft_error("Failed sigaction");
 }
 
-static char	**copy_envp(char **envp)
+char	**copy_envp(char **envp)
 {
 	char	**copy;
 	int		i;

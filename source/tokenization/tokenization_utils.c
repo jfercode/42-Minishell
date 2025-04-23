@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:47:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:47:48 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:33:45 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ void	free_data(t_data *data)
 	}
 	free(data->envp);
 	data->envp = NULL;
+	free (data);
 }

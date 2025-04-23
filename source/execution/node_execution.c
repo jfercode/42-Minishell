@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:49:07 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/22 17:47:08 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:09:09 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,4 @@ void	execute_cmd_node(t_ast *node)
 				node->data->exit_status = 1;
 		}
 	}
-	signal(SIGINT, ft_handle_sigint_normal);
 }

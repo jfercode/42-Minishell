@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/22 17:47:40 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:22:41 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ typedef struct s_ast
 /*	SIGNALS BEHAVIOUR	*/
 void				ft_handle_sigint_bloq(int sig);
 void				ft_handle_sigint_here(int sig);
+void				ft_handle_sigint_pipes(int sig);
 void				ft_handle_sigint_normal(int sig);
-void				ft_handle_sigint_child(int sig);
 void				ft_signal(int signo, void *handler, bool use_siginfo);
 
 /*	ERROR HANDLING	*/
