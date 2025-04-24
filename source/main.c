@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/23 17:38:33 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:13:27 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,64 @@ static int	ft_exec_line(char *line, t_data *data)
 
 static char	*prompt_readline(void)
 {
+	char	*cwd;
 	char	*temp;
 	char	*path;
 	char	*prompt;
 
-	path = ft_strjoin(GREEN, getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	path = ft_strjoin(GREEN, cwd);
 	temp = ft_strjoin(path, "/");
 	prompt = ft_strjoin(temp, "Gigachell> " RST);
 	free(path);
 	free(temp);
+	free(cwd);
 	return (prompt);
+}
+
+static int	run_non_interactive(t_data *data)
+{
+	char	*line;
+	int		status;
+
+	status = 0;
+	line = ft_get_next_line(STDIN_FILENO);
+	while (line != NULL)
+	{
+		status = ft_exec_line(line, data);
+		free(line);
+		line = ft_get_next_line(STDIN_FILENO);
+	}
+	free_data(data);
+	return (status);
+}
+
+static int	run_interactive(t_data *data)
+{
+	int		status;
+	char	*line;
+	char	*prompt;
+
+	status = 0;
+	while (1)
+	{
+		ft_start_gigachell();
+		prompt = prompt_readline();
+		line = readline(prompt);
+		free (prompt);
+		if (!line)
+		{
+			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");
+			break ;
+		}
+		status = ft_exec_line(line, data);
+		free(line);
+		if (data->exit)
+			break ;
+	}
+	free_data(data);
+	rl_clear_history();
+	return (status);
 }
 
 /**
@@ -96,27 +144,20 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
 	char	*line;
-	char	**mtx;
+	int		status;
 
 	data = ft_calloc(1, sizeof(t_data));
 	data->envp = copy_envp(envp);
-	if (argc == 2)
-		data->exit_status = ft_exec_line(argv[1], data);
-	while (1)
+	if (!isatty(STDIN_FILENO))
+		return (run_non_interactive(data));
+	else
 	{
-		ft_start_gigachell();
-		line = readline(prompt_readline());
-		if (!line)
+		if (ft_strncmp(argv[1], "-c", ft_strlen(argv[1])) == 0)
 		{
-			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");
-			break ;
+			status = ft_exec_line(argv[2], data);
+			free_data(data);
+			return (status);
 		}
-		data->exit_status = ft_exec_line(line, data);
-		free(line);
-		if (data->exit)
-			break ;
+		return (run_interactive(data));
 	}
-	free_data(data);
-	rl_clear_history();
-	return (data->exit_status);
 }
