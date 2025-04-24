@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/23 17:22:41 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:42:03 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int					ft_pwd(void);
 int					ft_unset(char **envp, const char *var);
 
 /*	UTILS	*/
-char				**copy_envp(char **envp);
+void				copy_envp(t_data *data, char **envp);
 
 void				print_node(t_ast *node);
 void				print_matrix(char **matrix);

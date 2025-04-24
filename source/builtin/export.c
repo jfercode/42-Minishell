@@ -6,7 +6,7 @@
 /*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:52:22 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/22 16:57:41 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:16:30 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	set_env_var(t_ast *node, const char *var)
 		new_envp[i] = node->data->envp[i];
 	new_envp[i] = ft_strdup(var);
 	new_envp[i + 1] = NULL;
-	node->data->envp = copy_envp(new_envp);
+	copy_envp(node->data, new_envp);
 	return (0);
 }
 

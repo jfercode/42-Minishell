@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/24 17:13:27 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:27:46 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,6 @@ static void	ft_start_gigachell(void)
 	sa.sa_handler = ft_handle_sigint_normal;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		ft_error("Failed sigaction");
-}
-
-char	**copy_envp(char **envp)
-{
-	char	**copy;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	copy = malloc((i + 1) * sizeof(char *));
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		copy[i] = ft_strdup(envp[i]);
-		if (!copy[i])
-			return (NULL);
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
 }
 
 static int	ft_exec_line(char *line, t_data *data)
@@ -121,7 +98,7 @@ static int	run_interactive(t_data *data)
 		ft_start_gigachell();
 		prompt = prompt_readline();
 		line = readline(prompt);
-		free (prompt);
+		free(prompt);
 		if (!line)
 		{
 			ft_printf(STDOUT_FILENO, "Leaving Gigachell...\n");
@@ -147,17 +124,21 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 
 	data = ft_calloc(1, sizeof(t_data));
-	data->envp = copy_envp(envp);
+	copy_envp(data, envp);
 	if (!isatty(STDIN_FILENO))
 		return (run_non_interactive(data));
 	else
 	{
-		if (ft_strncmp(argv[1], "-c", ft_strlen(argv[1])) == 0)
+		if (argc > 1)
 		{
-			status = ft_exec_line(argv[2], data);
-			free_data(data);
-			return (status);
+			if (ft_strncmp(argv[1], "-c", ft_strlen(argv[1])) == 0)
+			{
+				status = ft_exec_line(argv[2], data);
+				free_data(data);
+				return (status);
+			}
 		}
-		return (run_interactive(data));
+		else
+			return (run_interactive(data));
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/23 17:23:25 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:49:35 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static pid_t	fork_cmd(t_ast *cmd, int fd_in, int fd_out)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, ft_handle_sigint_bloq);	// TO DO Gestion de señales en pipes
+		signal(SIGINT, ft_handle_sigint_bloq);
 		setup_redirections(cmd, &fd_in, &fd_out);
 		run_command(cmd);
 	}
 	else
-		signal (SIGINT,ft_handle_sigint_pipes);
+		signal(SIGINT, ft_handle_sigint_pipes);
 	return (pid);
 }
 
