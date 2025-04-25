@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/25 11:09:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:55:37 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	ft_exec_line(char *line, t_data *data)
 	char	**mtx;
 	t_ast	*ast;
 
-	add_history(line);
+	if (line && line[0] != '\0')
+		add_history(line);
 	if (syntax_error(line) == ERROR)
 		data->exit_status = 2;
 	else
