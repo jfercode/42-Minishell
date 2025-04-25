@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/25 11:40:51 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:32:57 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,34 @@ char	**cleanup_matrix(char **matrix)
 	return (matrix);
 }
 
+static char	*exit_value(int exit, char *line, int start)
+{
+	char	*tmp1;
+	char	*tmp2;
+	int		i;
+	int		j;
+
+	i = start;
+	tmp2 = ft_calloc(1, 1);
+	while (line[i] == '$' && line[i + 1] == '?')
+	{
+		tmp1 = ft_itoa(exit);
+		tmp2 = ft_strjoin(tmp2, tmp1);
+		free(tmp1);
+		i += 2;
+	}
+	if (line[i])
+	{
+		tmp1 = malloc(ft_strlen(line) - ft_strlen(tmp2) + 1);
+		j = 0;
+		while (line[i] != '\0' && line[i] != ' ')
+			tmp1[j++] = line[i++];
+		tmp2 = ft_strjoin(tmp2, tmp1);
+		free(tmp1);
+	}
+	return (tmp2);
+}
+
 char	**expand_matrix(char **matrix, t_data *data)
 {
 	int	i;
@@ -100,7 +128,7 @@ char	**expand_matrix(char **matrix, t_data *data)
 			if (matrix[i][j] == '\'')
 				ch_single = !ch_single;
 			else if (matrix[i][j] == '$' && matrix[i][j + 1] == '?')
-				matrix[i] = ft_itoa(data->exit_status);
+				matrix[i] = exit_value(data->exit_status, matrix[i], j);
 			else if (matrix[i][j] == '$' && !ch_single)
 				matrix = expansion(matrix, data->envp, &i, &j);
 			j++;
