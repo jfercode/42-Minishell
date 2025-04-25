@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/24 18:42:03 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:06:51 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void				ft_error_exit(const char *error_msg);
 int					ft_handle_here_doc(char *delimiter);
 
 /*	PARSE INPUT	*/
+void				free_matrix(char **matrix);
+void				omit_spaces(char *line, int *i);
+
 int					syntax_error(char *line);
 int					open_quotes(char *line);
 int					invalid_op(char *line);
 int					invalid_env(char *line);
 int					invalid_redir(char *line);
-
-void				free_matrix(char **matrix);
-void				omit_spaces(char *line, int *i);
 
 char				**split_line(char **matrix, char *line);
 char				**create_matrix(char *line, t_data *data);
@@ -118,8 +118,15 @@ int					execute_ast(t_ast *ast);
 void				run_command(t_ast *node);
 void				execute_cmd_node(t_ast *node);
 void				execute_pipe_node(t_ast *node);
-void				setup_redirections(t_ast *node, int *fd_in, int *fd_out);
+void				wait_for_children_node(t_data *data);
 void				order_cmds(t_ast *node, t_ast **cmds);
+void				setup_redirections(t_ast *node, int *fd_in, int *fd_out);
+
+int					handle_cmd_node(t_ast *node);
+int					handle_pipe_node(t_ast *node);
+int					apply_and_recurse(t_ast *node, int *fd_in, int *fd_out);
+int					handle_redir_node(t_ast *node, int *fd_in, int *fd_out);
+int					execute_node(t_ast *node, int *fd_infile, int *fd_outfile);
 
 /*	NODE_REDIRECTION	*/
 int					execute_redirection_node(t_ast *node, int *fd_infile,
@@ -144,10 +151,12 @@ int					ft_unset(char **envp, const char *var);
 
 /*	UTILS	*/
 void				copy_envp(t_data *data, char **envp);
-
 void				print_node(t_ast *node);
 void				print_matrix(char **matrix);
 void				print_ast(t_ast *root, int level);
 void				free_data(t_data *data);
+void				ft_start_gigachell(void);
+
+char				*ft_prompt_readline(void);
 
 #endif /*	MINISHELL_H	*/

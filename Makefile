@@ -14,7 +14,7 @@ LIBFT_DIR	=	source/libft
 LIBFT_LIB	=	source/libft/build/libft.a
 
 BUILTINS		=	builtins cd echo env exit export pwd unset
-EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection pipe_execution pipe_execution_utils
+EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection pipe_execution pipe_execution_utils execute_node
 PARSING			=	matrix_handling meta_handling syntax_validation matrix_utils matrix_expansion
 SIGNALS			=	signals_utils
 TOKENIZATION	=	ast_utils tokenization tokenization_utils
@@ -27,7 +27,7 @@ SRC_FILES 	=	$(addsuffix .c, $(addprefix source/builtin/, $(BUILTINS))) \
 	  			$(addsuffix .c, $(addprefix source/signals/, $(SIGNALS))) \
 	  			$(addsuffix .c, $(addprefix source/tokenization/, $(TOKENIZATION))) \
 				$(addsuffix .c, $(addprefix source/envp/, $(ENVP))) \
-				source/main.c
+				source/main.c source/main_utils.c
 
 OBJS 		=	$(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

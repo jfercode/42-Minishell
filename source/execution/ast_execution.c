@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:54:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/24 18:50:44 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:06:07 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,57 +95,34 @@ int	execute_redirection_node(t_ast *node, int *fd_infile, int *fd_outfile,
 }
 
 /**
- * @brief Executes a node in the abstract syntax tree (AST).
+ * @brief Dispatches execution based on the AST node type.
  *
- * This function determines the type of the AST node and dispatches execution 
- * accordingly. It supports command execution, piping, and various types of
- * redirection, including heredoc, input, output, and append redirections.
- * 
- * Redirection nodes are resolved recursively, and the corresponding file 
- * descriptors are applied to STDIN and STDOUT as needed.
+ * Determines whether the node represents a pipeline, 
+ * redirection, or command, and calls the corresponding handler.
+ * If the node pointer is NULL, it waits for any remaining child
+ * processes.
  *
- * @param node        Pointer to the AST node to execute.
- * @param fd_infile   Pointer to an integer representing the input fd.
- * @param fd_outfile  Pointer to an integer representing the output fd.
+ * @param node        Pointer to the current AST node.
+ * @param fd_infile   Pointer to the current input file descriptor.
+ * @param fd_outfile  Pointer to the current output file descriptor.
+ * @return            The exit status resulting from this node's execution.
  */
-static int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
+int	execute_node(t_ast *node, int *fd_infile, int *fd_outfile)
 {
-	int	fd;
-
-	fd = 7;
 	if (!node)
-		node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
-	if (node->type == NODE_PIPE)
-		execute_pipe_node(node);
-	else if (node->type == NODE_HEREDOC || node->type == NODE_REDIR_IN
-		|| node->type == NODE_REDIR_OUT || node->type == NODE_REDIR_APPEND)
 	{
-		if (execute_redirection_node(node, fd_infile, fd_outfile, &fd) == ERROR)
-		{
-			if (*fd_infile != STDIN_FILENO)
-				close(*fd_infile);
-			if (*fd_outfile != STDOUT_FILENO)
-				close(*fd_outfile);
-			node->data->exit_status = waitpid(-1, &node->data->exit_status, 0);
-		}
-		while (node->left)
-		{
-			if (node->left->type != NODE_CMD)
-				node = node->left;
-			else
-				break ;
-		}
-		if (dup2(*fd_infile, STDIN_FILENO) == -1)
-			ft_error_exit("Error duplicating STDIN");
-		if (dup2(*fd_outfile, STDOUT_FILENO) == -1)
-			ft_error_exit("Error duplicating STDOUT");
-		if (node->left)
-			execute_node(node->left, fd_infile, fd_outfile);
-		if (node->right)
-			execute_node(node->right, fd_infile, fd_outfile);
+		wait_for_children_node(node->data);
+		return (node->data->exit_status);
 	}
-	else if (node->type == NODE_CMD)
-		execute_cmd_node(node);
+	if (node->type == NODE_PIPE)
+		return (handle_pipe_node(node));
+	if (node->type == NODE_HEREDOC
+		|| node->type == NODE_REDIR_IN
+		|| node->type == NODE_REDIR_OUT
+		|| node->type == NODE_REDIR_APPEND)
+		return (handle_redir_node(node, fd_infile, fd_outfile));
+	if (node->type == NODE_CMD)
+		return (handle_cmd_node(node));
 	return (node->data->exit_status);
 }
 

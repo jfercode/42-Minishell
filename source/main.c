@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/24 18:27:46 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:09:55 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	ft_start_gigachell(void)
-{
-	struct sigaction	sa;
-
-	signal(SIGINT, ft_handle_sigint_normal);
-	signal(SIGTERM, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sa.sa_handler = ft_handle_sigint_normal;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		ft_error("Failed sigaction");
-}
 
 static int	ft_exec_line(char *line, t_data *data)
 {
@@ -50,23 +36,6 @@ static int	ft_exec_line(char *line, t_data *data)
 		free_matrix(mtx);
 	}
 	return (data->exit_status);
-}
-
-static char	*prompt_readline(void)
-{
-	char	*cwd;
-	char	*temp;
-	char	*path;
-	char	*prompt;
-
-	cwd = getcwd(NULL, 0);
-	path = ft_strjoin(GREEN, cwd);
-	temp = ft_strjoin(path, "/");
-	prompt = ft_strjoin(temp, "Gigachell> " RST);
-	free(path);
-	free(temp);
-	free(cwd);
-	return (prompt);
 }
 
 static int	run_non_interactive(t_data *data)
@@ -96,7 +65,7 @@ static int	run_interactive(t_data *data)
 	while (1)
 	{
 		ft_start_gigachell();
-		prompt = prompt_readline();
+		prompt = ft_prompt_readline();
 		line = readline(prompt);
 		free(prompt);
 		if (!line)
