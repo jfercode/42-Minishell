@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/25 17:32:38 by penpalac         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:37:22 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,32 @@ char	**create_matrix(char *line, t_data *data)
 	return (matrix);
 }
 
+static char	*get_quoted_token(char *line, int *i, char quote, int start)
+{
+	char	*token;
+
+	(*i)++;
+	while (line[*i] != quote && line[*i])
+		(*i)++;
+	if (line[*i + 1] == ' ')
+		token = ft_substr(line, start, (*i + 1) - start);
+	else
+	{
+		while (line[*i] && line[*i] != ' ')
+		{
+			(*i) += 2;
+			while (line[*i] != quote && line[*i])
+				(*i)++;
+		}
+		token = ft_substr(line, start, (*i + 1) - start);
+	}
+	if (!token)
+		return (free(line), NULL);
+	if (line[*i] == quote)
+		(*i)++;
+	return (token);
+}
+
 char	*get_token(char *line, int *i, char quote)
 {
 	char	*token;
@@ -48,31 +74,7 @@ char	*get_token(char *line, int *i, char quote)
 
 	start = *i;
 	if (quote)
-	{
-		(*i)++;
-		while (line[*i] != quote && line[*i])
-			(*i)++;
-		if (line[*i + 1] == ' ')
-		{
-			token = ft_substr(line, start, (*i + 1) - start);
-			if (!token)
-				return (free(line), NULL);
-		}
-		else
-		{
-			while (line[*i] && line[*i] != ' ')
-			{
-				(*i) += 2;
-				while (line[*i] != quote && line[*i])
-					(*i)++;
-				token = ft_substr(line, start, (*i + 1) - start);
-				if (!token)
-					return (free(line), NULL);
-			}
-		}
-		if (line[*i] == quote)
-			(*i)++;
-	}
+		token = get_quoted_token(line, i, quote, start);
 	else
 	{
 		while (line[*i] != ' ' && line[*i])
