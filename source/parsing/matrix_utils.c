@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:15:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:20:25 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:13:01 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,31 @@ void	print_matrix(char **matrix)
 		printf(GREEN"matrix[%d]:"RST" %s\n", i, matrix[i]);
 		i++;
 	}
+}
+
+char	**cleanup_matrix(char **matrix)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	quotes;
+
+	i = 0;
+	quotes = 0;
+	while (matrix[i])
+	{
+		j = 0;
+		k = 0;
+		while (matrix[i][j])
+		{
+			if (matrix[i][j] == '\'' || matrix[i][j] == '"')
+				quotes = !quotes;
+			else
+				matrix[i][k++] = matrix[i][j];
+			j++;
+		}
+		matrix[i][k] = '\0';
+		i++;
+	}
+	return (matrix);
 }

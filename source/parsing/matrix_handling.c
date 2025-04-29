@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 18:38:36 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/25 17:37:22 by pabalons         ###   ########.fr       */
+/*   Created: 2025/02/24 18:38:36 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/29 18:20:37 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	**create_matrix(char *line, t_data *data)
-{
-	unsigned int	count;
-	char			**matrix;
-	int				i;
-
-	i = 0;
-	count = 0;
-	while (line[i])
-	{
-		while (line[i] == ' ')
-			i++;
-		if (line[i])
-			count++;
-		while (line[i] && line[i] != ' ')
-			i++;
-		if (line[i] != '\0')
-			i++;
-	}
-	if (!count)
-		return (NULL);
-	matrix = malloc((count + 1) * sizeof(char *));
-	if (!matrix)
-		return (ft_error("Error: failed matrix creation\n"), NULL);
-	matrix = split_line(matrix, line);
-	matrix = expand_matrix(matrix, data);
-	return (matrix);
-}
 
 static char	*get_quoted_token(char *line, int *i, char quote, int start)
 {

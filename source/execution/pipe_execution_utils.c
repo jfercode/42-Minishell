@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 16:45:26 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/24 18:50:01 by penpalac         ###   ########.fr       */
+/*   Created: 2025/04/11 16:45:26 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/29 17:24:46 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

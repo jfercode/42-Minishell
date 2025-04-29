@@ -1,9 +1,5 @@
-MEMORIA:		create_matrix function to check es la unica funcion que tenemos problemas de memoria
-                33 (24 direct, 9 indirect) bytes in 1 blocks are definitely lost in loss record 5 of 6
-                ==291733==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-                ==291733==    by 0x402A91: create_matrix (in /home/jaferna2/Desktop/42-Minishell/minishell)
-                ==291733==    by 0x4014A6: ft_exec_line (in /home/jaferna2/Desktop/42-Minishell/minishell)
-                ==291733==    by 0x4013AD: main (in /home/jaferna2/Desktop/42-Minishell/minishell)
+MEMORIA:
+            check quotes functions and expansion variable functions
 
 NORMINETTE:		- ast execution check - 
 

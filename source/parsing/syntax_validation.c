@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:47:54 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/21 18:48:12 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:20:49 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	invalid_env(char *line)
 	{
 		if (line[i] == '$')
 		{
+			i++;
 			while (line[i] != ' ' && line[i] != '\0')
 			{
 				if (!ft_isalnum(line[i]) && line[i] != '_' \
@@ -121,7 +122,8 @@ int	invalid_env(char *line)
 				i++;
 			}
 		}
-		i++;
+		else
+			i++;
 	}
 	return (0);
 }

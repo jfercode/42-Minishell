@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 14:46:22 by penpalac          #+#    #+#             */
-/*   Updated: 2025/04/25 12:03:02 by jaferna2         ###   ########.fr       */
+/*   Created: 2025/03/21 14:46:22 by jaferna2          #+#    #+#             */
+/*   Updated: 2025/04/29 17:24:34 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

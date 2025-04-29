@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/25 12:06:51 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:14:55 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ int					invalid_op(char *line);
 int					invalid_env(char *line);
 int					invalid_redir(char *line);
 
+char				**cleanup_matrix(char **matrix);
+char				**separate_tokens(char **matrix);
 char				**split_line(char **matrix, char *line);
 char				**create_matrix(char *line, t_data *data);
-char				**separate_tokens(char **matrix);
 char				**expand_matrix(char **matrix, t_data *data);
 
 /* TOKENIZATION */
