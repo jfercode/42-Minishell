@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 17:24:34 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:54:44 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	execute_pipeline(t_ast **cmds, int pipe_count, int *fd, int prev_fd)
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
 	wait_for_children(pids, cmds, pipe_count);
+	free(pids);
 }
 
 void	execute_pipe_node(t_ast *node)

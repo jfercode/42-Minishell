@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:36:48 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 18:20:45 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:51:39 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,16 @@ static int	is_quoted_token(char *token)
 
 int	is_special(char *str, int index)
 {
-	if (str[index] == '|' || str[index] == '>' || str[index] == '<')
+	if (str[index] && str[index] != '\0')
 	{
-		if (str[index + 1] == str[index])
-			return (2);
-		if (str[index - 1] == str[index])
-			return (2);
-		return (1);
+		if (str[index] == '|' || str[index] == '>' || str[index] == '<')
+		{
+			if (str[index + 1] == str[index])
+				return (2);
+			if (index > 0 && str[index - 1] == str[index])
+				return (2);
+			return (1);
+		}
 	}
 	return (0);
 }

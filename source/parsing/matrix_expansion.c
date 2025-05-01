@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 12:27:20 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:17:24 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	return (matrix);
 }
 
-static char *exit_value(int exit, char *line, int start) {
+static char *exit_value(int exit, char *line, int start)
+{
     char *tmp2 = ft_calloc(1, 1); // Inicializar con cadena vacía
     int i = start;
 
@@ -113,28 +114,34 @@ static char *exit_value(int exit, char *line, int start) {
     return tmp2;
 }
 
-char **expand_matrix(char **matrix, t_data *data) {
-    int i = 0;
-    while (matrix[i]) {
-        int j = 0;
-        int ch_single = 0;
-        int len = ft_strlen(matrix[i]);
-        while (j < len) {
-            if (matrix[i][j] == '\'') {
+char **expand_matrix(char **matrix, t_data *data)
+{
+    int i;
+	int j;
+    int ch_single;
+    int len;
+	char *old_line = matrix[i];
+    
+	i = 0;
+	len = ft_strlen(matrix[i]);
+	while (matrix[i]) 
+	{
+		j = 0;
+		ch_single = 0;
+        while (j < len) 
+		{
+            if (matrix[i][j] == '\'') 
                 ch_single = !ch_single;
-            } else if (matrix[i][j] == '$' && j + 1 < len && matrix[i][j + 1] == '?') {
-                // Guardar el token original y liberarlo después de reemplazarlo
-                char *old_line = matrix[i];
+			else if (matrix[i][j] == '$' && j + 1 < len && matrix[i][j + 1] == '?') 
+			{
                 matrix[i] = exit_value(data->exit_status, old_line, j);
-                free(old_line); // Liberar el token original (ej. "$?")
-                len = ft_strlen(matrix[i]); // Actualizar longitud
-                j = -1; // Reiniciar el análisis desde el inicio del nuevo token
-                break; // Salir para reiniciar el loop con el nuevo valor de j
-            } else if (matrix[i][j] == '$' && !ch_single && j + 1 < len) {
+                free(old_line);
+                len = ft_strlen(matrix[i]);
+            } 
+			else if (matrix[i][j] == '$' && !ch_single && j + 1 < len) 
+			{
                 matrix = expansion(matrix, data->envp, &i, &j);
-                len = ft_strlen(matrix[i]); // Actualizar longitud
-                j = -1; // Reiniciar el análisis
-                break;
+                len = ft_strlen(matrix[i]);
             }
             j++;
         }

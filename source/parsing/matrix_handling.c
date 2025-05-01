@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 18:20:37 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:31:50 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@ static char	*get_quoted_token(char *line, int *i, char quote, int start)
 	char	*token;
 
 	(*i)++;
-	while (line[*i] != quote && line[*i])
+	while (line[*i] != quote && line[*i] != '\0')
 		(*i)++;
-	if (line[*i + 1] == ' ')
+	if (line[*i + 1] == ' ' || line[*i + 1] == '\0')
 		token = ft_substr(line, start, (*i + 1) - start);
 	else
 	{
 		while (line[*i] && line[*i] != ' ')
 		{
 			(*i) += 2;
+			if (line[*i] == '\0')
+				break ;
 			while (line[*i] != quote && line[*i])
 				(*i)++;
 		}
@@ -34,7 +36,7 @@ static char	*get_quoted_token(char *line, int *i, char quote, int start)
 	if (!token)
 		return (free(line), NULL);
 	if (line[*i] == quote)
-		(*i)++;
+		(*i)++;	
 	return (token);
 }
 
