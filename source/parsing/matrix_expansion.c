@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 18:12:57 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:23:42 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,56 +79,64 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 
 static char	*exit_value(int exit, char *line, int start)
 {
-	char	*tmp1;
-	char	*tmp2;
-	int		i;
-	int		j;
+    char *tmp2 = ft_calloc(1, 1);
+    int i = start;
 
-	i = start;
-	tmp2 = ft_calloc(1, 1);
-	while (line[i] == '$' && line[i + 1] == '?')
-	{
-		tmp1 = ft_itoa(exit);
-		tmp2 = ft_strjoin(tmp2, tmp1);
-		free(tmp1);
-		i += 2;
-	}
-	if (line[i])
-	{
-		tmp1 = malloc(ft_strlen(line) - ft_strlen(tmp2) + 1);
-		j = 0;
-		while (line[i] != '\0' && line[i] != ' ')
-			tmp1[j++] = line[i++];
-		tmp2 = ft_strjoin(tmp2, tmp1);
-		free(tmp1);
-	}
-	return (tmp2);
+    while (line[i] == '$' && line[i + 1] == '?') {
+        char *tmp1 = ft_itoa(exit);
+        char *new_tmp = ft_strjoin(tmp2, tmp1);
+        free(tmp2);
+        free(tmp1);
+        tmp2 = new_tmp;
+        i += 2;
+    }
+    if (line[i]) {
+        size_t remaining_len = ft_strlen(line + i);
+        char *tmp1 = malloc(remaining_len + 1);
+        if (!tmp1) {
+            free(tmp2);
+            return NULL;
+        }
+        int j = 0;
+        while (line[i] != '\0' && line[i] != ' ') {
+            tmp1[j++] = line[i++];
+        }
+        tmp1[j] = '\0';
+        char *new_tmp = ft_strjoin(tmp2, tmp1);
+        free(tmp2);
+        free(tmp1);
+        tmp2 = new_tmp;
+    }
+    return tmp2;
 }
 
 char	**expand_matrix(char **matrix, t_data *data)
 {
-	int	i;
-	int	j;
-	int	ch_single;
-
-	i = 0;
-	while (matrix[i])
-	{
-		j = 0;
-		ch_single = 0;
-		while (matrix[i][j])
-		{
-			if (matrix[i][j] == '\'')
-				ch_single = !ch_single;
-			else if (matrix[i][j] == '$' && matrix[i][j + 1]
-				&& matrix[i][j + 1] == '?')
-				matrix[i] = exit_value(data->exit_status, matrix[i], j);
-			else if (matrix[i][j] == '$' && !ch_single && matrix[i][j + 1])
-				matrix = expansion(matrix, data->envp, &i, &j);
-			j++;
-		}
-		i++;
-	}
-	matrix = cleanup_matrix(matrix);
-	return (matrix);
+    int i = 0;
+    while (matrix[i]) {
+        int j = 0;
+        int ch_single = 0;
+        int len = ft_strlen(matrix[i]);
+        while (j < len) {
+            if (matrix[i][j] == '\'') {
+                ch_single = !ch_single;
+            } else if (matrix[i][j] == '$' && j + 1 < len && matrix[i][j + 1] == '?') {
+                // Guardar el token original y liberarlo después de reemplazarlo
+                char *old_line = matrix[i];
+                matrix[i] = exit_value(data->exit_status, old_line, j);
+                free(old_line); // Liberar el token original (ej. "$?")
+                len = ft_strlen(matrix[i]); // Actualizar longitud
+                j = -1; // Reiniciar el análisis desde el inicio del nuevo token
+                break; // Salir para reiniciar el loop con el nuevo valor de j
+            } else if (matrix[i][j] == '$' && !ch_single && j + 1 < len) {
+                matrix = expansion(matrix, data->envp, &i, &j);
+                len = ft_strlen(matrix[i]); // Actualizar longitud
+                j = -1; // Reiniciar el análisis
+                break;
+            }
+            j++;
+        }
+        i++;
+    }
+    return cleanup_matrix(matrix);
 }
