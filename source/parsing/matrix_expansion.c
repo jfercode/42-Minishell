@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 12:23:42 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:27:20 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,21 @@ char	**expansion(char **matrix, char **envp, int *i, int *j)
 	return (matrix);
 }
 
-static char	*exit_value(int exit, char *line, int start)
-{
-    char *tmp2 = ft_calloc(1, 1);
+static char *exit_value(int exit, char *line, int start) {
+    char *tmp2 = ft_calloc(1, 1); // Inicializar con cadena vacía
     int i = start;
 
+    // Procesar "$?"
     while (line[i] == '$' && line[i + 1] == '?') {
         char *tmp1 = ft_itoa(exit);
         char *new_tmp = ft_strjoin(tmp2, tmp1);
-        free(tmp2);
-        free(tmp1);
-        tmp2 = new_tmp;
-        i += 2;
+        free(tmp2); // Liberar el tmp2 anterior
+        free(tmp1); // Liberar el número temporal
+        tmp2 = new_tmp; // Actualizar con la nueva cadena
+        i += 2; // Saltar "$?"
     }
+
+    // Procesar caracteres restantes después de "$?"
     if (line[i]) {
         size_t remaining_len = ft_strlen(line + i);
         char *tmp1 = malloc(remaining_len + 1);
@@ -103,15 +105,15 @@ static char	*exit_value(int exit, char *line, int start)
         }
         tmp1[j] = '\0';
         char *new_tmp = ft_strjoin(tmp2, tmp1);
-        free(tmp2);
-        free(tmp1);
-        tmp2 = new_tmp;
+        free(tmp2); // Liberar el tmp2 anterior
+        free(tmp1); // Liberar el buffer temporal
+        tmp2 = new_tmp; // Actualizar con la nueva cadena
     }
+
     return tmp2;
 }
 
-char	**expand_matrix(char **matrix, t_data *data)
-{
+char **expand_matrix(char **matrix, t_data *data) {
     int i = 0;
     while (matrix[i]) {
         int j = 0;
