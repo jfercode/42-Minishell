@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:27:22 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 17:25:07 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 11:06:59 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,22 @@ void	copy_envp(t_data *data, char **envp)
 {
 	int	i;
 
-	i = 0;
+	if (data->envp != NULL)
+	{
+		i = 0;
+		while (data->envp[i] != NULL)
+		{
+			free(data->envp[i]);
+			i++;
+		}
+		free(data->envp);
+		data->envp = NULL;
+	}
 	if (envp == NULL || envp[0] == NULL || envp[0][0] == '\0')
 		create_envp(data);
 	else
 	{
+		i = 0;
 		while (envp[i])
 			i++;
 		data->envp = malloc((i + 1) * sizeof(char *));

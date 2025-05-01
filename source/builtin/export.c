@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:52:22 by pabalons          #+#    #+#             */
-/*   Updated: 2025/04/29 17:25:37 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 11:07:57 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ char	*check_and_replace(t_ast *node, const char *var, int env_count)
 	existing_var = node->data->envp[env_count];
 	if (ft_strncmp(existing_var, var, ft_strchr(var, '=') - var) == 0
 		&& existing_var[ft_strchr(var, '=') - var] == '=')
-		return (node->data->envp[env_count] = ft_strdup(var));
+	{
+		free(node->data->envp[env_count]);
+		node->data->envp[env_count] = ft_strdup(var);
+		return (node->data->envp[env_count]);
+	}
 	else
 		return (NULL);
 }
@@ -48,7 +52,7 @@ int	set_env_var(t_ast *node, const char *var)
 	while (node->data->envp[env_count] != NULL)
 	{
 		if (check_and_replace(node, var, env_count) != NULL)
-			return (check_and_replace(node, var, env_count), 0);
+			return (0);
 		env_count++;
 	}
 	new_envp = malloc((env_count + 2) * sizeof(char *));
@@ -60,6 +64,9 @@ int	set_env_var(t_ast *node, const char *var)
 	new_envp[i] = ft_strdup(var);
 	new_envp[i + 1] = NULL;
 	copy_envp(node->data, new_envp);
+	// Liberar la nueva entrada y el array new_envp
+	free(new_envp[i]);
+	free(new_envp);
 	return (0);
 }
 

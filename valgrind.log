@@ -1,0 +1,167 @@
+==783458== Memcheck, a memory error detector
+==783458== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==783458== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==783458== Command: ./minishell
+==783458== Parent PID: 768932
+==783458== 
+==783458== Invalid read of size 1
+==783458==    at 0x404029: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Address 0x4b50280 is 0 bytes inside a block of size 14 free'd
+==783458==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x403FE1: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Block was alloc'd at
+==783458==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x408019: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401339: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458== 
+==783458== Invalid read of size 1
+==783458==    at 0x4081C8: ft_strlen (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x408004: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Address 0x4b50280 is 0 bytes inside a block of size 14 free'd
+==783458==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x403FE1: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Block was alloc'd at
+==783458==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x408019: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401339: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458== 
+==783458== Invalid read of size 1
+==783458==    at 0x408045: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Address 0x4b50280 is 0 bytes inside a block of size 14 free'd
+==783458==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x403FE1: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Block was alloc'd at
+==783458==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x408019: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401339: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458== 
+==783458== Invalid read of size 1
+==783458==    at 0x408057: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Address 0x4b50280 is 0 bytes inside a block of size 14 free'd
+==783458==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x403FE1: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x406552: set_env_var (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4065EF: ft_export (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x405BBD: exec_builtin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x404A9C: execute_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x402034: handle_cmd_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40182E: execute_node (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401887: execute_ast (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401525: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Block was alloc'd at
+==783458==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x408019: ft_strdup (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4040C6: copy_envp (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x401339: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458== 
+==783458== Invalid read of size 1
+==783458==    at 0x4035B8: expand_matrix (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40228C: expand_and_clean_matrix (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4020B7: create_matrix (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4014C1: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==  Address 0x4b953e6 is 3 bytes after a block of size 3 alloc'd
+==783458==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==783458==    by 0x4080E4: ft_strjoin (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4033FF: expansion (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4036E5: expand_matrix (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x40228C: expand_and_clean_matrix (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4020B7: create_matrix (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4014C1: ft_exec_line (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4015C9: run_interactive (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458==    by 0x4013D2: main (in /home/pabalons/Documents/42-GH/42-Minishell/minishell)
+==783458== 
+==783458== 
+==783458== HEAP SUMMARY:
+==783458==     in use at exit: 208,291 bytes in 222 blocks
+==783458==   total heap usage: 633 allocs, 411 frees, 252,506 bytes allocated
+==783458== 
+==783458== LEAK SUMMARY:
+==783458==    definitely lost: 0 bytes in 0 blocks
+==783458==    indirectly lost: 0 bytes in 0 blocks
+==783458==      possibly lost: 0 bytes in 0 blocks
+==783458==    still reachable: 208,291 bytes in 222 blocks
+==783458==         suppressed: 0 bytes in 0 blocks
+==783458== Reachable blocks (those to which a pointer was found) are not shown.
+==783458== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==783458== 
+==783458== For lists of detected and suppressed errors, rerun with: -s
+==783458== ERROR SUMMARY: 5944 errors from 5 contexts (suppressed: 0 from 0)
