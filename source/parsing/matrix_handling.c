@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 15:17:48 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:54:48 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@ static char	*get_quoted_token(char *line, int *i, char quote, int start)
 {
 	char	*token;
 
-	(*i)++;
 	while (line[*i] != quote && line[*i] != '\0')
 		(*i)++;
-	if (line[*i + 1] == ' ' || line[*i + 1] == '\0')
+	if (line[*i + 1] == ' ' && line[*i + 1] != '\0')
 		token = ft_substr(line, start, (*i + 1) - start);
 	else
 	{
+		if (line[*i] == quote)
+			(*i)++;
 		while (line[*i] && line[*i] != ' ')
 		{
-			(*i) += 2;
+			(*i)++;
 			if (line[*i] == '\0')
 				break ;
 			while (line[*i] != quote && line[*i])
@@ -35,7 +36,7 @@ static char	*get_quoted_token(char *line, int *i, char quote, int start)
 	}
 	if (!token)
 		return (free(line), NULL);
-	if (line[*i] == quote)
+	if (line[*i] == quote && line[*i])
 		(*i)++;
 	return (token);
 }
@@ -47,7 +48,7 @@ char	*get_token(char *line, int *i, char quote)
 
 	start = *i;
 	if (quote)
-		token = get_quoted_token(line, i, quote, start);
+		token = get_quoted_token(line, i++, quote, start);
 	else
 	{
 		while (line[*i] != ' ' && line[*i])

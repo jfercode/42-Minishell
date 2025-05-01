@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 15:53:24 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:09:45 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,6 @@ char				*process_exit_value(int exit, char *line, int *index);
 char				**process_dollar(char **matrix, t_data *data, int i,
 						int *j);
 char				*ft_prompt_readline(void);
-int					check_ch(char c);
+int					check_ch(char c, int ch);
 
 #endif /*	MINISHELL_H	*/

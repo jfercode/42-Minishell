@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:15:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 18:13:01 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:36:42 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	omit_spaces(char *line, int *i)
 {
-	while (line[*i] == ' ')
+	while (line[*i] == ' ' && line[*i])
 		(*i)++;
 }
 

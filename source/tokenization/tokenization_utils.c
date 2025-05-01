@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:47:13 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/23 17:33:45 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:39:20 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,9 @@ void	free_ast(t_ast *root)
 
 void	free_data(t_data *data)
 {
-	int	i;
-
 	if (!data || !data->envp)
 		return ;
-	i = 0;
-	while (data->envp[i])
-	{
-		free(data->envp[i]);
-		i++;
-	}
-	free(data->envp);
-	data->envp = NULL;
+	if (data->envp)
+		free_matrix(data->envp);
 	free (data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:31:34 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 15:52:49 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:58:44 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,14 @@ char	**expand_matrix(char **matrix, t_data *data)
 	char	*old_line;
 
 	i = 0;
-	old_line = matrix[i];
 	while (matrix[i])
 	{
 		j = 0;
 		ch_single = 0;
 		while (j < ft_strlen(matrix[i]))
 		{
-			ch_single = check_ch(matrix[i][j]);
+			old_line = matrix[i];
+			ch_single = check_ch(matrix[i][j], ch_single);
 			if (matrix[i][j] == '$' && j + 1 < ft_strlen(matrix[i])
 				&& matrix[i][j + 1] == '?')
 				matrix[i] = exit_value(data->exit_status, old_line, j);

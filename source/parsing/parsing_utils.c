@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:52:40 by pabalons          #+#    #+#             */
-/*   Updated: 2025/05/01 15:53:52 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:56:55 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	*process_exit_value(int exit, char *line, int *index)
 	return (tmp2);
 }
 
-int	check_ch(char c)
+int	check_ch(char c, int ch)
 {
 	if (c == '\'')
-		return (-1);
-	return (0);
+		ch = !ch;
+	return (ch);
 }
