@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 <jaferna2@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:56:46 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/04/29 18:14:55 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:53:24 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,10 @@ void				print_matrix(char **matrix);
 void				print_ast(t_ast *root, int level);
 void				free_data(t_data *data);
 void				ft_start_gigachell(void);
-
+char				*process_exit_value(int exit, char *line, int *index);
+char				**process_dollar(char **matrix, t_data *data, int i,
+						int *j);
 char				*ft_prompt_readline(void);
+int					check_ch(char c);
 
 #endif /*	MINISHELL_H	*/

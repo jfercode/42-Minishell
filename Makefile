@@ -15,7 +15,7 @@ LIBFT_LIB	=	source/libft/build/libft.a
 
 BUILTINS		=	builtins cd echo env exit export pwd unset
 EXECUTION		=	ast_execution error_handling heredoc_handling node_execution node_redirection pipe_execution pipe_execution_utils execute_node
-PARSING			=	matrix_creation matrix_handling meta_handling syntax_validation matrix_utils matrix_expansion
+PARSING			=	matrix_creation matrix_handling meta_handling syntax_validation matrix_utils matrix_expansion parsing_utils
 SIGNALS			=	signals_utils
 TOKENIZATION	=	ast_utils tokenization tokenization_utils
 ENVP			=	envp_utils

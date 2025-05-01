@@ -6,7 +6,7 @@
 /*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:52:22 by pabalons          #+#    #+#             */
-/*   Updated: 2025/05/01 11:07:57 by pabalons         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:17:03 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	set_env_var(t_ast *node, const char *var)
 	new_envp[i] = ft_strdup(var);
 	new_envp[i + 1] = NULL;
 	copy_envp(node->data, new_envp);
-	// Liberar la nueva entrada y el array new_envp
 	free(new_envp[i]);
 	free(new_envp);
 	return (0);

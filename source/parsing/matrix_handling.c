@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 12:31:50 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:17:48 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_quoted_token(char *line, int *i, char quote, int start)
 	if (!token)
 		return (free(line), NULL);
 	if (line[*i] == quote)
-		(*i)++;	
+		(*i)++;
 	return (token);
 }
 

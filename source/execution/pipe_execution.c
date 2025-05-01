@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: pabalons <pabalons@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:46:22 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 12:54:44 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:02:49 by pabalons         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static pid_t	execute_command(t_ast *cmd, int fd_in, int fd_out)
 		while (cmd->left && (cmd->type != NODE_CMD))
 			cmd = cmd->left;
 	}
+	if (cmd->type != NODE_CMD)
+		return (0);
 	return (fork_cmd(cmd, fd_in, fd_out));
 }
 
