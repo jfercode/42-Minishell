@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/05 18:49:28 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:53:31 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	support_loop(int *i, char quote, char *line)
 	while (line[*i] != quote && line[*i])
 		(*i)++;
 }
+
 static char	*get_quoted_token(char *line, int *i, char quote, int start)
 {
 	char	*token;
