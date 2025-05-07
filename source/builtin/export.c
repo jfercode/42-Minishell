@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: penpalac <penpalac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:52:22 by pabalons          #+#    #+#             */
-/*   Updated: 2025/05/01 18:36:36 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:44:44 by penpalac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	ft_export(t_ast *node)
 {
 	int		i;
 	char	**tmp_env;
+	char	**old_envp;
 
 	i = 1;
 	if (!node->args[1])
@@ -79,10 +80,13 @@ int	ft_export(t_ast *node)
 	}
 	while (node->args[i] != NULL)
 	{
+		old_envp = node->data->envp;
 		tmp_env = set_env_var(node, node->args[i]);
-		if (node->data->envp)
-			free_matrix(node->data->envp);
-		node->data->envp = tmp_env;
+		if (tmp_env != old_envp)
+		{
+			free_matrix(old_envp);
+			node->data->envp = tmp_env;
+		}
 		i++;
 	}
 	return (0);
