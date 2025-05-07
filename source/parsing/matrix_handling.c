@@ -6,16 +6,26 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:38:36 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 19:54:48 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:53:31 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static void	support_loop(int *i, char quote, char *line)
+{
+	(*i)++;
+	if (line[*i] == '\0')
+		return ;
+	while (line[*i] != quote && line[*i])
+		(*i)++;
+}
+
 static char	*get_quoted_token(char *line, int *i, char quote, int start)
 {
 	char	*token;
 
+	(*i)++;
 	while (line[*i] != quote && line[*i] != '\0')
 		(*i)++;
 	if (line[*i + 1] == ' ' && line[*i + 1] != '\0')
@@ -25,13 +35,7 @@ static char	*get_quoted_token(char *line, int *i, char quote, int start)
 		if (line[*i] == quote)
 			(*i)++;
 		while (line[*i] && line[*i] != ' ')
-		{
-			(*i)++;
-			if (line[*i] == '\0')
-				break ;
-			while (line[*i] != quote && line[*i])
-				(*i)++;
-		}
+			support_loop(i, quote, line);
 		token = ft_substr(line, start, (*i + 1) - start);
 	}
 	if (!token)
@@ -48,7 +52,7 @@ char	*get_token(char *line, int *i, char quote)
 
 	start = *i;
 	if (quote)
-		token = get_quoted_token(line, i++, quote, start);
+		token = get_quoted_token(line, i, quote, start);
 	else
 	{
 		while (line[*i] != ' ' && line[*i])

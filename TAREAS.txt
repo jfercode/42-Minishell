@@ -1,6 +1,0 @@
-MEMORIA:
-            check quotes functions and expansion variable functions
-
-NORMINETTE:		- ast execution check - 
-
-IDEAS:          Makefile con Logo + Progress barr como extra 
