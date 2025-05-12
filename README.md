@@ -10,17 +10,27 @@ Es una excelente herramienta para comprender los fundamentos de sistemas Unix y 
 
 ### Tabla de Contenidos 📑📚🔖
 
-1. [Introducción](#introducción)
-2. [Primeros Pasos](#primeros-pasos)
-3. [Visión General de la Arquitectura](#visión-general-de-la-arquitectura)
-4. [Tokenización y Análisis Sintáctico](#tokenización-y-análisis-sintáctico)
-5. [Árbol de Sintaxis Abstracta (AST)](#árbol-de-sintaxis-abstracta-ast)
-6. [Ejecución](#ejecución)
-7. [Comandos Integrados](#comandos-integrados)
-8. [Características Especiales](#características-especiales)
-9. [Estructura del Proyecto](#estructura-del-proyecto)
+1. [Introducción](#introducción-)
+
+2. [Primeros Pasos](#primeros-pasos-)
+
+3. [Visión General de la Arquitectura](#visión-general-de-la-arquitectura-)
+
+4. [Tokenización y Análisis Sintáctico](#tokenización-y-análisis-sintáctico-)
+
+5. [Árbol de Sintaxis Abstracta (AST)](#árbol-de-sintaxis-abstracta-ast-)
+
+6. [Ejecución](#ejecución-)
+
+7. [Comandos Integrados](#comandos-integrados-)
+
+8. [Características Especiales](#características-especiales-)
+
+9. [Estructura del Proyecto](#estructura-del-proyecto-)
+
 10. [Autores](#autores-)
-11. [Licencia](#licencia)
+
+11. [Licencia](#licencia-)
 
 ---
 

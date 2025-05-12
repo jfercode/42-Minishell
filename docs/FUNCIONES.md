@@ -27,7 +27,7 @@
 
 - [Variables de entorno](#12-variables-de-entorno-)
 
-<!-- - [Configuracion de la terminal](#13-configuración-de-la-terminal-termcapterminfo-️) -->
+- [Configuracion de la terminal](#13-configuración-de-la-terminal-termcapterminfo-️)
 
 
 ## Funciones
