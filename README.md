@@ -184,6 +184,43 @@ Todos ellos funcionan igual que en bash
 
 ## Autores 🤝💡📬
 
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/jfercode">
+       <img src="https://github.com/jfercode.png" width="100px" alt="Javier Fernández Correa" />
+        <br />
+        <sub><b>Javier Fernández Correa</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/pexpalacios">
+        <img src="https://github.com/pexpalacios.png" width="100px" alt="Penélope Palacios Alvira" />
+        <br />
+        <sub><b>Penélope Palacios Alvira</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ZTerto">
+        <img src="https://github.com/ZTerto.png" width="100px" alt="Alberto Jódar Carrasco" />
+        <br />
+        <sub><b>Alberto Jódar Carrasco</b>
+       </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Pabletea">
+       <img src="https://github.com/Pabletea.png" width="100px" alt="Pablo Alonso García" />
+        <br />
+        <sub><b>Pablo Alonso García</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+</div>
 
 
 ## Licencia 📜✅🗝️
