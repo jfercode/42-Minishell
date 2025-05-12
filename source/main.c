@@ -6,7 +6,7 @@
 /*   By: jaferna2 < jaferna2@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:55:18 by jaferna2          #+#    #+#             */
-/*   Updated: 2025/05/01 17:59:57 by jaferna2         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:36:52 by jaferna2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_exec_line(char *line, t_data *data)
 	else
 	{
 		mtx = create_matrix(line, data);
-		if (!mtx && mtx == NULL)
+		if (!mtx || !*mtx || !**mtx)
 			return (0);
 		ast = create_ast(mtx, data);
 		if (!ast)
