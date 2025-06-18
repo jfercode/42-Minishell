@@ -217,6 +217,14 @@ Todos ellos funcionan igual que en bash
         <sub><b>Pablo Alonso García</b></sub>
       </a>
     </td>
+       <td align="center">
+      <a href="https://github.com/PabloBonalio">
+        <img src="https://github.com/PabloBonalio.png" width="100px" alt="Pablo Pérez Aubá Gijón Bonales" />
+        <br />
+        <sub><b>Pablo Pérez Aubá Gijón Bonales</b>
+       </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
